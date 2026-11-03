@@ -210,7 +210,16 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 .zfloat .btn{width:40px;height:40px;padding:0!important;display:flex;align-items:center;justify-content:center;font-size:1.05rem!important;border-radius:10px!important;background:rgba(20,20,19,.74)!important;color:#faf9f5!important;border:1px solid rgba(255,255,255,.16)!important;box-shadow:0 2px 6px rgba(0,0,0,.35)!important;text-shadow:none!important;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 .zfloat .btn.on,.zfloat .btn.flash{color:#e8906f!important;border-color:rgba(217,119,87,.6)!important}
 /* ---- un solo botón principal y estado vacío ---- */
-#wnueva,#nueva{flex:1 1 100%;padding:13px 16px!important;font-size:1rem!important}
+.vhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px}
+.vhead h2{margin:0}
+.vhead .btn{flex:0 0 auto!important;padding:9px 14px!important;font-size:.92rem!important}
+.vcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:12px 0}
+.vcard:has(> .det:empty){display:none}
+.vcard>.det{border:0!important;box-shadow:none!important;background:none!important;padding:0!important;margin:0 0 4px!important;min-height:0!important}
+.vcard>.row{margin:8px 0 0}
+.vcard>.voz{border:0!important;background:none!important;padding:8px 0 0!important;margin:8px 0 0!important;border-top:1px solid var(--line)!important;border-radius:0!important}
+#wborrar,#borrar{color:#e5534b!important;border-color:rgba(229,83,75,.45)!important}
+.estb{width:36px!important;height:36px!important;font-size:1rem!important;border-width:2px!important}
 .voz{border-radius:12px!important}
 .det:empty{display:none}
 .vacbox{border:1px dashed var(--line);border-radius:12px;padding:22px 14px;text-align:center;color:var(--fg);font-weight:600;list-style:none}
@@ -256,7 +265,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
 <div class="step"><span class="ring r-f"></span> Toca otra vez la última = <b>final</b></div>
 <div class="step">Toca una presa marcada para cambiar la mano:</div>
 <div class="step mano"><span class="hword hbR">Derecha</span><span class="hword hbL">Izquierda</span><span class="hword hbB">Las dos</span></div>
-<div class="step">Para quitar la presa, toca la <span class="xmini">✕</span></div>
+<div class="step">Para quitar una presa: tócala y pulsa <b>✕ quitar</b> (arriba, en «Presa elegida»)</div>
 <div class="howto-tip">💡 Si no ves bien las presas, usa el zoom (+ / −) para acercarte.</div>
 </div></div>
   <label class="chk privchk" title="No se comparte con el grupo" style="display:flex;align-items:center;gap:6px;color:var(--mut);font-size:.82rem"><input type="checkbox" id="tpriv" style="width:auto;margin:0"> 🔒 Solo para mí</label>
@@ -302,7 +311,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
 <div class="step"><span class="ring r-f"></span> Toca otra vez la última = <b>final</b></div>
 <div class="step">Toca una presa marcada para cambiar la mano:</div>
 <div class="step mano"><span class="hword hbR">Derecha</span><span class="hword hbL">Izquierda</span><span class="hword hbB">Las dos</span></div>
-<div class="step">Para quitar la presa, toca la <span class="xmini">✕</span></div>
+<div class="step">Para quitar una presa: tócala y pulsa <b>✕ quitar</b> (arriba, en «Presa elegida»)</div>
 <div class="howto-tip">💡 Si no ves bien las presas, usa el zoom (+ / −) para acercarte.</div>
 </div></div>
   <label class="chk privchk" title="No se comparte con el grupo" style="display:flex;align-items:center;gap:6px;color:var(--mut);font-size:.82rem"><input type="checkbox" id="wpriv" style="width:auto;margin:0"> 🔒 Solo para mí</label>
@@ -347,7 +356,7 @@ var SHARE={t:false,w:false};
 document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("#guardarC,#wguardarC");if(!b)return;var w=b.id==="guardarC"?"t":"w";SHARE[w]=!document.getElementById(w+"priv").checked;document.getElementById(w==="t"?"guardar":"wguardar").click();SHARE[w]=false});
 var LBL={s:"Inicio",m:"Intermedias",j:"Juntar manos",f:"Final"};
 var PIN={t:"s",w:"s"};
-var HL={L:"I",R:"D",B:"2"};
+var HL={L:"I",R:"D",B:"DI"};
 function RO(v){v=String(v||"");return v.charAt(0)==="j"?"m":v.charAt(0)}
 function HA(v){v=String(v||"");if(v.charAt(0)==="j")return"B";var c=v.charAt(1);return c&&"LRB".indexOf(c)>=0?c:""}
 function ORD(v){var n=parseInt(String(v||"").slice(2),10);return isNaN(n)?null:n}
@@ -378,7 +387,7 @@ function markHold(o,k,w){
   }
   relabel(o);
 }
-function xBtn(x,y,r,w,k){var d=r*0.42;return'<g class="xdel" data-xdel="'+w+'|'+k+'"><circle cx="'+x+'" cy="'+y+'" r="'+r+'"/><path d="M'+(x-d)+' '+(y-d)+'L'+(x+d)+' '+(y+d)+'M'+(x+d)+' '+(y-d)+'L'+(x-d)+' '+(y+d)+'" style="stroke-width:'+(r*0.32).toFixed(1)+'px"/></g>'}
+function xBtn(x,y,r,w,k){return"";var d=r*0.42;return'<g class="xdel" data-xdel="'+w+'|'+k+'"><circle cx="'+x+'" cy="'+y+'" r="'+r+'"/><path d="M'+(x-d)+' '+(y-d)+'L'+(x+d)+' '+(y+d)+'M'+(x+d)+' '+(y-d)+'L'+(x-d)+' '+(y+d)+'" style="stroke-width:'+(r*0.32).toFixed(1)+'px"/></g>'}
 document.addEventListener("click",function(e){
   var g=e.target.closest&&e.target.closest("[data-xdel]");if(!g)return;
   e.preventDefault();e.stopPropagation();
@@ -709,7 +718,7 @@ function wgoto(hMap){
   if(!xs.length)return;
   var midx=(Math.min.apply(null,xs)+Math.max.apply(null,xs))/2;
   var midy=(Math.min.apply(null,ys)+Math.max.apply(null,ys))/2;
-  var wrap=$("#wallScroll");
+  var wrap=$("#wallScroll"),bw=Math.max.apply(null,xs)-Math.min.apply(null,xs)+160,bh=Math.max.apply(null,ys)-Math.min.apply(null,ys)+160,wl=WALLS[curWall],zf=Math.min((wrap.clientWidth||390)/wl.w,520/wl.h),zt=Math.min(wrap.clientWidth/bw,wrap.clientHeight/bh);zt=Math.max(zf,Math.min(1,zt));if(Math.abs(zt-WZ)>0.01)wzoomTo(zt);
   wrap.scrollLeft=Math.max(0,Math.min(wrap.scrollWidth-wrap.clientWidth,midx*WZ-wrap.clientWidth/2));
   wrap.scrollTop=Math.max(0,Math.min(wrap.scrollHeight-wrap.clientHeight,midy*WZ-wrap.clientHeight/2));
 }
@@ -1832,7 +1841,13 @@ function gChip(r,k){
     var fit=document.getElementById(ids[1]);fit.setAttribute("aria-label","Ver entero");fit.title="Ver entero";fit.textContent="⤢";
     if(old&&!old.children.length)old.remove();
   }
-  function go(){flot("wallScroll",["wzin","wzfit","wzout"]);var mw=document.getElementById("wminiWrap"),sc=document.getElementById("wallScroll");if(mw&&sc){mw.classList.add("mapa");sc.parentNode.parentNode.insertBefore(mw,sc.parentNode);}if(window.drawMini)try{drawMini()}catch(e){}flot("bwrap",["bzin","bzfit","bzout"]);}
+  function card(det,acts,voz,nueva,lst){
+    var d=document.getElementById(det),a=document.getElementById(acts),v=document.getElementById(voz),n=document.getElementById(nueva),l=document.getElementById(lst);if(!d||!a)return;
+    var c=document.createElement("div");c.className="vcard";d.parentNode.insertBefore(c,d);c.appendChild(d);c.appendChild(a);if(v)c.appendChild(v);
+    var h=l;while(h&&h.tagName!=="H2")h=h.previousElementSibling;
+    if(h&&n){var hd=document.createElement("div");hd.className="vhead";h.parentNode.insertBefore(hd,h);hd.appendChild(h);hd.appendChild(n);}
+  }
+  function go(){card("wdet","wacts","vozW","wnueva","wlst");card("det","acts","vozT","nueva","lst");flot("wallScroll",["wzin","wzfit","wzout"]);var mw=document.getElementById("wminiWrap"),sc=document.getElementById("wallScroll");if(mw&&sc){mw.classList.add("mapa");sc.parentNode.parentNode.insertBefore(mw,sc.parentNode);}if(window.drawMini)try{drawMini()}catch(e){}flot("bwrap",["bzin","bzfit","bzout"]);}
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",go);else go();
 })();
 </script>
