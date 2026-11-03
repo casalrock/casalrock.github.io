@@ -901,7 +901,7 @@ function makeSupaDB(client){
       sha256hex(p.trim().toLowerCase()).then(function(h){
         if(h===ADMIN_HASH){
           try{localStorage.setItem("olg-admin","1")}catch(e){}
-          ISOWNER=true;trender();wrender();
+          ISOWNER=true;trender();wrender();if(window.__drawName)window.__drawName();
           showMsg("Hecho: modo administradora activado en este móvil.");
           setTimeout(closeBox,1600);
         }else{
@@ -928,6 +928,7 @@ function makeSupaDB(client){
 function initDb(){
   try{
     try{ISOWNER=localStorage.getItem("olg-admin")==="1"}catch(e){ISOWNER=false}
+    if(window.__drawName)setTimeout(window.__drawName,0);
     if(typeof window.supabase==="undefined"||!window.supabase.createClient){noDbStat();return}
     var client=window.supabase.createClient(SUPA_URL,SUPA_KEY,{auth:{persistSession:false}});
     DBX=makeSupaDB(client);
@@ -1534,7 +1535,7 @@ document.addEventListener("click",function(e){
   if(b.id==="vozTest")say("Mano derecha, arriba a la izquierda, cerca: presa rosa, redonda.");
   if(b.id==="exitAdminBtn"){
     try{localStorage.removeItem("olg-admin")}catch(e){}
-    ISOWNER=false;trender();wrender();switchTab("grp");
+    ISOWNER=false;trender();wrender();if(window.__drawName)window.__drawName();switchTab("grp");
   }
   if(b.id==="pinAdminBtn"){
     var pn=document.getElementById("pinAdminName"),pm=document.getElementById("pinAdminMsg");
@@ -1681,8 +1682,9 @@ document.getElementById("bzfit").addEventListener("click",function(){bz(1);wrap.
   function draw(){
     var has=!!MYNAME;
     lab.hidden=has;if(plab)plab.hidden=has;save.hidden=has;view.hidden=!has;
-    if(has)view.innerHTML='Escalas como <b>'+esc(MYNAME)+'</b> <button class="chip" id="nameCh" style="margin-left:auto;font-size:.8rem">cambiar</button>';
+    if(has)view.innerHTML='<span style="display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;background:var(--acctint);color:var(--acc);font-weight:600"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="background:none;border:0;box-shadow:none;margin:0"><circle cx="12" cy="8" r="4.2"/><path d="M3.5 21.5c0-4.6 3.8-7.6 8.5-7.6s8.5 3 8.5 7.6z"/></svg>'+esc(MYNAME)+'</span>'+(ISOWNER?'<span style="margin-left:8px;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:3px 9px">admin</span>':'')+' <button class="chip" id="nameCh" style="margin-left:auto;font-size:.8rem">cambiar</button>';
   }
+  window.__drawName=draw;
   function claim(n,pin){
     DBX.collection("autores").doc(slug(n)).set({pin:pin,nombre:n}).then(function(){save.disabled=false;setName(n);draw();msgInfo("Hecho: tu nombre y PIN han quedado guardados.")}).catch(function(){msgErr("No se ha podido guardar, inténtalo de nuevo.");save.disabled=false});
   }
