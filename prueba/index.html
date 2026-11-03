@@ -272,7 +272,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
 #lst .others,#wlst .others{display:none}
 .vleyenda{display:flex;gap:14px;align-items:center;font-size:.85rem;color:var(--mut);margin:-4px 0 10px;flex-wrap:wrap}
 .vleyenda span{display:inline-flex;align-items:center;gap:6px}
-.npz{font-size:.85rem;font-weight:400;color:var(--mut);white-space:nowrap}.voz .vtxt{display:none!important}</style>
+.npz{font-size:.85rem;font-weight:400;color:var(--mut);white-space:nowrap}.voz .vtxt{display:none!important}.selbar .xbtn.sv{background:var(--acc);border-color:var(--acc);color:#fff}</style>
 <main id="app">
 <div style="display:flex;align-items:center;justify-content:space-between;margin:0 0 10px">
 <div id="brand" style="display:flex;align-items:center;gap:8px;width:fit-content"><span aria-hidden="true" style="display:inline-block;width:40px;height:17px;flex:0 0 auto;opacity:.85;background-color:var(--fg);-webkit-mask-image:url('icon-mountains.png');mask-image:url('icon-mountains.png');-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center"></span><span style="font-weight:600;font-size:.95rem;letter-spacing:.01em;line-height:1;opacity:.85">Casal Rock</span></div>
@@ -302,7 +302,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
 </div>
 
 <div id="tform" hidden>
-<div class="selbar" data-for="t"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="xbtn" data-undo="1">↶ Deshacer</button><button class="xbtn del" data-del="1">✕ Quitar</button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo marcar una ruta</div><div class="howto-b">
+<div class="selbar" data-for="t"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="xbtn" data-undo="1">↶ Deshacer</button><button class="xbtn del" data-del="1">✕ Quitar</button><button class="xbtn sv" data-save="1">✓ Guardar</button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo marcar una ruta</div><div class="howto-b">
 <div class="hw2">
   <div class="ln"><span class="it2"><span class="rg s"></span>Inicio</span><span class="it2"><span class="rg m"></span>Intermedias</span><span class="it2"><span class="rg f"></span>Top</span></div>
   <div class="ln"><span>Toca otra vez:</span><span class="tq"><span class="k D">Derecha</span><i>→</i><span class="k I">Izquierda</span><i>→</i><span class="k DI">Dos manos</span><i>→</i><span class="k TOP">Top</span></span><span class="nt">(la última)</span></div>
@@ -346,7 +346,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
   <button class="btn o" id="wborrar" hidden>Borrar</button>
 </div>
 <div id="wform" hidden>
-<div class="selbar" data-for="w"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="xbtn" data-undo="1">↶ Deshacer</button><button class="xbtn del" data-del="1">✕ Quitar</button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo marcar una vía</div><div class="howto-b">
+<div class="selbar" data-for="w"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="xbtn" data-undo="1">↶ Deshacer</button><button class="xbtn del" data-del="1">✕ Quitar</button><button class="xbtn sv" data-save="1">✓ Guardar</button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo marcar una vía</div><div class="howto-b">
 <div class="hw2">
   <div class="ln"><span class="it2"><span class="rg s"></span>Inicio</span><span class="it2"><span class="rg m"></span>Intermedias</span><span class="it2"><span class="rg f"></span>Top</span></div>
   <div class="ln"><span>Toca otra vez:</span><span class="tq"><span class="k D">Derecha</span><i>→</i><span class="k I">Izquierda</span><i>→</i><span class="k DI">Dos manos</span><i>→</i><span class="k TOP">Top</span></span><span class="nt">(la última)</span></div>
@@ -1948,6 +1948,12 @@ function gChip(r,k){
   function go(){card("wdet","wacts","vozW","wnueva","wlst");card("det","acts","vozT","nueva","lst");flot("wallScroll",["wzin","wzfit","wzout"]);var mw=document.getElementById("wminiWrap"),sc=document.getElementById("wallScroll");if(mw&&sc){mw.classList.add("mapa");sc.parentNode.parentNode.insertBefore(mw,sc.parentNode);}if(window.drawMini)try{drawMini()}catch(e){}flot("bwrap",["bzin","bzfit","bzout"]);}
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",go);else go();
 })();
+</script>
+<script>
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".selbar [data-save]");if(!b)return;
+var w=b.closest(".selbar").dataset.for,g=document.getElementById(w==="t"?"guardarC":"wguardarC"),m=document.getElementById(w==="t"?"msg":"wmsg");
+if(!g)return;if(m)m.textContent="";g.click();
+setTimeout(function(){var f=document.getElementById(w==="t"?"tform":"wform");if(f&&!f.hidden){var t=(m&&m.textContent.trim())?m:document.getElementById(w==="t"?"n":"wn");t&&t.scrollIntoView({behavior:"smooth",block:"center"})}},400)});
 </script>
 </body>
 </html>
