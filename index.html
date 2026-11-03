@@ -919,11 +919,13 @@ function makeSupaDB(client){
     ov.addEventListener("click",function(e){if(e.target===ov)closeBox()});
   }
   var taps=0,tapTimer=null;
+  /* en el ordenador: Ctrl + Mayús + A abre también la clave de administradora */
+  document.addEventListener("keydown",function(e){if(e.ctrlKey&&e.shiftKey&&(e.key==="A"||e.key==="a")){e.preventDefault();showBox()}});
   document.addEventListener("DOMContentLoaded",function(){
     var el=document.getElementById("brand");
     if(!el)return;
     el.addEventListener("click",function(){
-      taps++;clearTimeout(tapTimer);tapTimer=setTimeout(function(){taps=0},1500);
+      taps++;clearTimeout(tapTimer);tapTimer=setTimeout(function(){taps=0},2500);
       if(taps>=5){taps=0;showBox()}
     });
   });
