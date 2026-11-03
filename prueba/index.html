@@ -1486,7 +1486,7 @@ var VOICE=null; /* voz v2 (aplicar.py) */
 /* orden de preferencia: voces femeninas conocidas (España primero) */
 var VOZ_PREF=[/google.*espa(ñ|n)ol/i,/m[oó]nica/i,/elvira/i,/helena/i,/laura/i,/luc[ií]a/i,/marisol/i,/conchita/i,/pen[eé]lope/i,/paulina/i,/sabina/i,/dalia/i,/elena/i,/isabela/i,/esperanza/i,/ximena/i,/female|mujer|femenin/i];
 var VOZ_MASC=/jorge|juan|diego|pablo|[aá]lvaro|ra[uú]l|carlos|enrique|miguel|alonso|gonzalo|manuel|jos[eé]|antonio|pedro|male\b|hombre|masculin/i;
-function isEsVoice(v){return /^es([-_]|$)/i.test(v.lang||"")}
+function isEsVoice(v){return /^es([-_]ES)?$/i.test(v.lang||"")} /* voz v3: solo español de España */
 function voiceScore(v){
   var s=0,n=v.name||"";
   if(/^es[-_]ES/i.test(v.lang))s+=40;else if(/^es[-_](MX|US|419)/i.test(v.lang))s+=20;else s+=10;
@@ -1498,7 +1498,7 @@ function voiceScore(v){
 }
 function esVoices(){
   if(!("speechSynthesis" in window))return[];
-  return speechSynthesis.getVoices().filter(isEsVoice).sort(function(a,b){return voiceScore(b)-voiceScore(a)});
+  var seen={};return speechSynthesis.getVoices().filter(isEsVoice).sort(function(a,b){return voiceScore(b)-voiceScore(a)}).filter(function(v){var k=(v.name||"").toLowerCase().replace(/\s*\(.*\)\s*/g,"").trim();if(seen[k])return false;seen[k]=1;return true});
 }
 function pickVoice(){
   if(!("speechSynthesis" in window))return;
@@ -1509,9 +1509,9 @@ function pickVoice(){
 function fillVoiceSel(){
   var sel=document.getElementById("vozName");if(!sel)return;
   var vs=esVoices(),want=LS.get("olg-voz-name","");
-  sel.innerHTML='<option value="">Automática (la mejor en español)</option>'+vs.map(function(v){
-    return'<option value="'+esc(v.name)+'">'+esc(v.name)+' ('+esc(v.lang)+')</option>'}).join("");
-  sel.value=vs.some(function(v){return v.name===want})?want:"";
+  sel.innerHTML=vs.map(function(v){
+    return'<option value="'+esc(v.name)+'">'+esc((v.name||"").replace(/\s*\(.*\)\s*/g,""))+'</option>'}).join("");
+  sel.value=vs.some(function(v){return v.name===want})?want:(vs[0]?vs[0].name:"");
   var lab=document.getElementById("vozNameLab");if(lab)lab.hidden=vs.length<2;
 }
 if("speechSynthesis" in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
