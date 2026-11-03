@@ -217,8 +217,9 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 .vacbox small{display:block;color:var(--mut);font-weight:400;margin-top:4px;font-size:.85rem}
 li.vac{list-style:none;border:0!important;padding:0!important;background:none!important}
 /* ---- minimapa en la esquina de la foto ---- */
-.zbox .wallmini{position:absolute;top:8px;left:8px;margin:0;z-index:4;border:1px solid rgba(255,255,255,.35);box-shadow:0 2px 8px rgba(0,0,0,.45);border-radius:6px;overflow:hidden;background:#141413}
-.zbox .wallmini img{opacity:1;border-radius:0}
+.wallmini.mapa{margin:0 0 6px;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#141413}
+.wallmini.mapa img{opacity:1;border-radius:0}
+#vozW,#vozT{display:none}
 </style>
 <main id="app">
 <div style="display:flex;align-items:center;justify-content:space-between;margin:0 0 10px">
@@ -544,6 +545,7 @@ function trender(){
   $("#editar").hidden=!(mode==="ver"&&editId!=null&&canE);
   $("#copiar").hidden=!(mode==="ver"&&editId!=null);
   $("#borrar").hidden=!(mode==="ver"&&editId!=null&&canE);
+  var vzt=document.getElementById("vozT");if(vzt)vzt.style.display=(mode==="ver"&&editId!=null)?"block":"none";
   tlista();
 }
 $("#b").addEventListener("click",function(e){
@@ -678,7 +680,7 @@ function wboard(){
 function drawMini(){
   var w=WALLS[curWall];
   var mini=$("#wmini");
-  var mwr=$("#wminiWrap"),msc=Math.min(118/w.w,96/w.h);if(mwr){mwr.style.width=Math.round(w.w*msc)+"px";mwr.style.height=Math.round(w.h*msc)+"px";}
+  var mwr=$("#wminiWrap"),msc=Math.min(220/w.w,58/w.h);if(mwr){mwr.style.width=Math.round(w.w*msc)+"px";mwr.style.height=Math.round(w.h*msc)+"px";}
   mini.setAttribute("viewBox","0 0 "+w.w+" "+w.h);
   $("#wminiImg").src=w.img;
   var wrap=$("#wallScroll");
@@ -721,6 +723,7 @@ function wrender(){
   $("#weditar").hidden=!(wmode==="ver"&&weditId!=null&&wcanE);
   $("#wcopiar").hidden=!(wmode==="ver"&&weditId!=null);
   $("#wborrar").hidden=!(wmode==="ver"&&weditId!=null&&wcanE);
+  var vzw=document.getElementById("vozW");if(vzw)vzw.style.display=(wmode==="ver"&&weditId!=null)?"block":"none";
   wlista();
 }
 $("#wsvg").addEventListener("click",function(e){
@@ -1717,7 +1720,7 @@ document.getElementById("bzfit").addEventListener("click",function(){bz(1);wrap.
   function draw(){
     var has=!!MYNAME;
     lab.hidden=has;if(plab)plab.hidden=has;save.hidden=has;view.hidden=!has;
-    if(has)view.innerHTML='<span style="display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;background:rgba(250,249,245,.08);color:#faf9f5;border:1px solid rgba(250,249,245,.18);font-weight:600"><span aria-hidden="true" style="font-size:1.05rem;line-height:1">🧗</span>'+esc(MYNAME)+'</span>'+(ISOWNER?'<span style="margin-left:8px;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:3px 9px">admin</span>':'')+' <button class="chip" id="nameCh" style="margin-left:auto;font-size:.8rem">cambiar</button>';;bar.hidden=has;bar.style.display=has?"none":"";var hn=document.getElementById("hdrName");if(hn)hn.innerHTML=has?'<button type="button" id="hdrPill" class="hpill" title="Cambiar nombre"><span aria-hidden="true" style="font-size:.95rem;line-height:1">🧗</span>'+esc(MYNAME)+(ISOWNER?'<span class="hadm">admin</span>':'')+'</button>':'';
+    if(has)view.innerHTML='<span style="display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;background:rgba(250,249,245,.08);color:#faf9f5;border:1px solid rgba(250,249,245,.18);font-weight:600"><span aria-hidden="true" style="font-size:1.05rem;line-height:1">🧗</span>'+esc(MYNAME)+'</span>'+(ISOWNER?'<span style="margin-left:8px;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:3px 9px">admin</span>':'')+' <button class="chip" id="nameCh" style="margin-left:auto;font-size:.8rem">cambiar</button>';;bar.hidden=has;bar.style.display=has?"none":"";var hn=document.getElementById("hdrName");if(hn)hn.innerHTML=has?'<button type="button" id="hdrPill" class="hpill" title="Cambiar nombre"><span aria-hidden="true" style="font-size:.95rem;line-height:1;color:transparent;text-shadow:0 0 0 var(--acc)">🧗</span>'+esc(MYNAME)+(ISOWNER?'<span class="hadm">admin</span>':'')+'</button>':'';
   }
   window.__drawName=draw;
   document.addEventListener("click",function(e){if(!(e.target.closest&&e.target.closest("#hdrPill")))return;bar.hidden=false;bar.style.display="";lab.hidden=false;if(plab)plab.hidden=false;save.hidden=false;save.disabled=false;view.hidden=true;inp.value=MYNAME;if(pinp)pinp.value="";msgInfo("");inp.focus();});
@@ -1829,7 +1832,7 @@ function gChip(r,k){
     var fit=document.getElementById(ids[1]);fit.setAttribute("aria-label","Ver entero");fit.title="Ver entero";fit.textContent="⤢";
     if(old&&!old.children.length)old.remove();
   }
-  function go(){flot("wallScroll",["wzin","wzfit","wzout"]);var mw=document.getElementById("wminiWrap"),sc=document.getElementById("wallScroll");if(mw&&sc)sc.parentNode.appendChild(mw);if(window.drawMini)try{drawMini()}catch(e){}flot("bwrap",["bzin","bzfit","bzout"]);}
+  function go(){flot("wallScroll",["wzin","wzfit","wzout"]);var mw=document.getElementById("wminiWrap"),sc=document.getElementById("wallScroll");if(mw&&sc){mw.classList.add("mapa");sc.parentNode.parentNode.insertBefore(mw,sc.parentNode);}if(window.drawMini)try{drawMini()}catch(e){}flot("bwrap",["bzin","bzfit","bzout"]);}
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",go);else go();
 })();
 </script>
