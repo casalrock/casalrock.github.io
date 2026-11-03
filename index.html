@@ -153,11 +153,11 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 #splash .sp1,#splash .sp2{font-family:Georgia,"Times New Roman",serif;color:#faf9f5;opacity:0;transform:translateY(5px);animation:spText .6s ease forwards}
 #splash .sp1{font-size:calc(var(--I)*.085);letter-spacing:.12em;margin-top:calc(var(--I)*.03);animation-delay:1.05s}
 #splash .sp2{font-size:calc(var(--I)*.048);letter-spacing:.3em;margin-top:0;color:#a39e97;animation-delay:1.35s}
-@keyframes spDraw{to{stroke-dashoffset:0}}@keyframes spText{to{opacity:1;transform:none}}
+#splash .spw{display:flex;flex-direction:column;align-items:center;transform:scale(var(--s0,.45));animation:spGrow 1.5s cubic-bezier(.35,0,.15,1) .1s forwards}@keyframes spGrow{to{transform:scale(1)}}@keyframes spDraw{to{stroke-dashoffset:0}}@keyframes spText{to{opacity:1;transform:none}}
 @keyframes spText{to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){#splash .tr{animation:none;stroke-dashoffset:0}#splash .sp1,#splash .sp2{animation:none;opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){#splash .tr{animation:none;stroke-dashoffset:0}#splash .spw{animation:none;transform:none}#splash .sp1,#splash .sp2{animation:none;opacity:1;transform:none}}
 </style>
-<svg viewBox="0 0 396 166">
+<div class="spw"><svg viewBox="0 0 396 166">
   <defs>
     <mask id="spShape" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="396" height="166" style="mask-type:alpha">
       <image href="icon-mountains.png" x="0" y="0" width="396" height="166"/>
@@ -172,11 +172,13 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 </svg>
 <div class="sp1">CASAL ROCK</div>
 <div class="sp2">EL BRUC</div>
+</div>
 <script>
 (function(){
   var s=document.getElementById("splash"),q=location.search.indexOf("splash")>-1,st=false;
   try{st=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true}catch(e){}
   if(!st&&!q){s.parentNode.removeChild(s);return}
+  try{var I=Math.min(window.innerWidth*1.32,540);s.style.setProperty("--s0",Math.min(1,240/I).toFixed(3))}catch(e){}
   var t0=Date.now(),hecho=false;
   function quitar(){if(hecho)return;hecho=true;var falta=Math.max(0,2900-(Date.now()-t0));
     setTimeout(function(){s.classList.add("fuera");setTimeout(function(){if(s.parentNode)s.parentNode.removeChild(s)},600)},falta)}
