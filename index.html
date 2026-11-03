@@ -218,7 +218,7 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 
 <div id="tform" hidden>
 <div class="selbar" data-for="t"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="hbtn hdel" data-del="1" style="flex:0 0 auto;min-width:96px">✕<small>quitar</small></button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo se marca una ruta</div><div class="howto-b">
-<div class="step"><span class="ring r-s"></span> 1ª presa = <b>inicio</b></div>
+<div class="step"><span class="ring r-s"></span> 1ª y 2ª presa = <b>inicio</b> (una por mano). Si sales con las dos manos en una, toca la 1ª hasta que ponga <b>DI</b></div>
 <div class="step"><span class="ring r-m"></span> Siguientes = <b>intermedias</b></div>
 <div class="step"><span class="ring r-f"></span> Toca la última hasta que salga en rojo = <b>final</b></div>
 <div class="step">Toca una presa marcada para cambiar la mano:</div>
@@ -264,7 +264,7 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 </div>
 <div id="wform" hidden>
 <div class="selbar" data-for="w"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="hbtn hdel" data-del="1" style="flex:0 0 auto;min-width:96px">✕<small>quitar</small></button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo se marca una vía</div><div class="howto-b">
-<div class="step"><span class="ring r-s"></span> 1ª presa = <b>inicio</b></div>
+<div class="step"><span class="ring r-s"></span> 1ª y 2ª presa = <b>inicio</b> (una por mano). Si sales con las dos manos en una, toca la 1ª hasta que ponga <b>DI</b></div>
 <div class="step"><span class="ring r-m"></span> Siguientes = <b>intermedias</b></div>
 <div class="step"><span class="ring r-f"></span> Toca la última hasta que salga en rojo = <b>final</b></div>
 <div class="step">Toca una presa marcada para cambiar la mano:</div>
@@ -314,7 +314,7 @@ var SHARE={t:false,w:false};
 document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("#guardarC,#wguardarC");if(!b)return;var w=b.id==="guardarC"?"t":"w";SHARE[w]=!document.getElementById(w+"priv").checked;document.getElementById(w==="t"?"guardar":"wguardar").click();SHARE[w]=false});
 var LBL={s:"Inicio",m:"Intermedias",j:"Juntar manos",f:"Final"};
 var PIN={t:"s",w:"s"};
-var HL={L:"I",R:"D",B:"2"};
+var HL={L:"I",R:"D",B:"DI"};
 function RO(v){v=String(v||"");return v.charAt(0)==="j"?"m":v.charAt(0)}
 function HA(v){v=String(v||"");if(v.charAt(0)==="j")return"B";var c=v.charAt(1);return c&&"LRB".indexOf(c)>=0?c:""}
 function ORD(v){var n=parseInt(String(v||"").slice(2),10);return isNaN(n)?null:n}
@@ -328,8 +328,10 @@ function relabel(o){
   ks.forEach(function(k,i){var v=o[k],r=i<nS?"s":(RO(v)==="f"?"f":"m");o[k]=r+(HA(v)||"x")+(i+1)});
 }
 var FH={};
+/* vías antiguas (valores "s","m","f" sin número de orden): numerarlas en el mismo orden en que se dibujan antes de tocar nada */
+function fixOrd(o,w){var ks=Object.keys(o);if(!ks.length||ks.every(function(k){return ORD(o[k])!==null}))return;var od={s:0,m:1,f:2};if(w==="t")ks.sort(function(a,b){return(od[RO(o[a])]-od[RO(o[b])])||(parseInt(a.slice(1))-parseInt(b.slice(1)))});ks.forEach(function(k,i){var v=o[k];o[k]=RO(v)+(HA(v)||"x")+(i+1)})}
 function markHold(o,k,w){
-  SEL[w]=k;
+  fixOrd(o,w);SEL[w]=k;
   if(!o[k]){
     Object.keys(o).forEach(function(q){if(RO(o[q])==="f")o[q]="m"+(HA(o[q])||"x")+(ORD(o[q])===null?"":ORD(o[q]))});
     var ks=seqKeys(o),prev=ks.length?HA(o[ks[ks.length-1]]):"",h0=prev==="R"?"L":"R";
@@ -353,9 +355,9 @@ document.addEventListener("click",function(e){
   var p=g.getAttribute("data-xdel").split("|"),w=p[0];SEL[w]=p.slice(1).join("|");selApply(w,"del");selUpd(w);
 },true);
 function selApply(w,act){
-  var o=w==="t"?cur:wcur,k=SEL[w];if(!k||!o[k])return;
+  var o=w==="t"?cur:wcur,k=SEL[w];if(!k||!o[k])return;fixOrd(o,w);
   var v=o[k],n=ORD(v);if(n===null)n=Object.keys(o).indexOf(k)+1;
-  if(act==="del"){delete o[k];SEL[w]=null;relabel(o)}
+  if(act==="del"){delete o[k];SEL[w]=null;relabel(o);var sk=seqKeys(o);if(sk.length>1&&RO(o[sk[1]])==="s"&&HA(o[sk[0]])===HA(o[sk[1]])&&"LR".indexOf(HA(o[sk[1]]))>=0){var h2=HA(o[sk[1]])==="R"?"L":"R";o[sk[1]]="s"+h2+ORD(o[sk[1]]);FH[w+sk[1]]=h2}}
   else o[k]=RO(v)+(HA(v)===act?"x":act)+n;
   if(w==="t")trender();else wrender();
 }
@@ -420,29 +422,34 @@ function needName(msgSel){
 }
 function autorSlug(n){return String(n||"").trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/\s+/g,"_")}
 var ESTALL={t:{},w:{}};
+/* una marca es "mía" si es de este móvil o lleva mi nombre (p.ej. la hice desde otro móvil) */
+function isMe(uid,v){return uid===MYUID||(!!MYNAME&&!!v&&!!v.name&&autorSlug(v.name)===autorSlug(MYNAME))}
+function setMineLocal(kind,id,st,gv){var m=(ESTALL[kind]=ESTALL[kind]||{})[id]=(ESTALL[kind]||{})[id]||{};for(var u in m){if(u!==MYUID&&isMe(u,m[u]))m[u].status=st}m[MYUID]={status:st,name:MYNAME||"An\u00F3nimo",gv:gv||""}}
+function myEst(id,kind){if(EST[id])return EST[id];var map=(ESTALL[kind]||{})[id]||{};for(var u in map){if(isMe(u,map[u])&&map[u].status==="e")return"e"}return""}
 function othersLine(id,kind){
   var map=(ESTALL[kind]||{})[id];
   if(!map)return"";
   var parts=[];
   for(var uid in map){
-    if(uid===MYUID)continue;
     var v=map[uid]||{};
+    if(isMe(uid,v))continue;
     if(v.status!=="e")continue;
     parts.push(esc(v.name||"An\u00F3nimo")+" \u2713");
   }
   if(!parts.length)return"";
   return '<small class="others">Hecha por: '+parts.join(", ")+'</small>';
 }
-function estBadge(id,kind){var s=EST[id]||"";var done=s==="e";var lbl=done?"Hecha":"No hecha";var cls=done?" e":"";var ico=done?"\u2713":"\u25CB";return'<button class="estb'+cls+'" data-est="'+id+'" data-kind="'+kind+'" title="'+lbl+' \u2014 toca para cambiar" aria-label="'+lbl+'">'+ico+'</button>'+othersLine(id,kind)}
+function estBadge(id,kind){var s=myEst(id,kind);var done=s==="e";var lbl=done?"Hecha":"No hecha";var cls=done?" e":"";var ico=done?"\u2713":"\u25CB";return'<button class="estb'+cls+'" data-est="'+id+'" data-kind="'+kind+'" title="'+lbl+' \u2014 toca para cambiar" aria-label="'+lbl+'">'+ico+'</button>'+othersLine(id,kind)}
 document.addEventListener("click",function(e){
   var eb=e.target.closest&&e.target.closest("[data-est]");if(!eb)return;
   var id=eb.dataset.est,kind=eb.dataset.kind||"t";
-  var ns=estNext(EST[id]||"");EST[id]=ns;esave();
+  var ns=estNext(myEst(id,kind)==="e"?"e":"");EST[id]=ns;esave();setMineLocal(kind,id,ns,"");
   if(document.getElementById("lst")&&document.getElementById("lst").contains(eb))tlista();
   else if(document.getElementById("wlst")&&document.getElementById("wlst").contains(eb))wlista();
   if(DBX){
     var coll=kind==="w"?"estado_muro":"estado_tablero";
     DBX.collection(coll).doc(MYUID+"_"+id).set({routeId:+id,uid:MYUID,status:ns,name:MYNAME||"An\u00F3nimo"}).catch(function(){});
+    if(!ns){var mp=(ESTALL[kind]||{})[id]||{};for(var u2 in mp){if(u2!==MYUID&&isMe(u2,mp[u2]))DBX.collection(coll).doc(u2+"_"+id).set({routeId:+id,uid:u2,status:"",name:mp[u2].name}).catch(function(){})}}
   }
 });
 
@@ -472,9 +479,9 @@ function holdSvg(k,s){
   }
   var out='';
   if(s)out+='<circle cx="'+x+'" cy="'+y+'" r="21" class="hring '+RO(s)+'"/>'+badge(x+17,y-17,s,12,16)+(ORD(s)!==null?'<text class="hstep" x="'+(x-17)+'" y="'+(y+18)+'" font-size="15" style="pointer-events:none">'+ORD(s)+'</text>':'');
-  if(mode==="crear"&&s)out+=xBtn(x-16,y-16,7.5,"t",k);
   if(mode==="crear"&&SEL.t===k&&s)out+='<circle cx="'+x+'" cy="'+y+'" r="26" class="hsel" style="pointer-events:none"/>';
   out+='<circle cx="'+x+'" cy="'+y+'" r="18" fill="transparent" data-k="'+k+'"/>';
+  if(mode==="crear"&&s)out+=xBtn(x-20,y-20,9,"t",k);
   return out;
 }
 function board(){
@@ -513,11 +520,12 @@ function trender(){
   $("#editar").hidden=!(mode==="ver"&&editId!=null&&canE);
   $("#copiar").hidden=!(mode==="ver"&&editId!=null);
   $("#borrar").hidden=!(mode==="ver"&&editId!=null&&canE);
+  var bo_=$("#borrar");if(bo_.dataset.ok!==String(editId)||mode!=="ver"){delete bo_.dataset.ok;bo_.textContent="Borrar"}
   tlista();
 }
 $("#b").addEventListener("click",function(e){
   var k=e.target.getAttribute&&e.target.getAttribute("data-k");
-  if(k&&mode==="crear"){markHold(cur,k,"t");trender();selUpd("t")}
+  if(k&&mode==="crear"&&THOLDBY[k]){markHold(cur,k,"t");trender();selUpd("t")}
 });
 document.addEventListener("click",function(e){
   var b=e.target.closest&&e.target.closest("button");if(!b)return;
@@ -531,7 +539,7 @@ document.addEventListener("click",function(e){
     case"nueva":if(needName("#msg"))break;mode="crear";editId=null;cur={};$("#n").value="";$("#g").value="";$("#tpriv").checked=false;$("#msg").textContent="";trender();break;
     case"editar":if(needName("#msg"))break;var r2=find(editId);mode="crear";$("#tpriv").checked=!!r2.priv;$("#n").value=r2.n;$("#g").value=r2.g;trender();break;
     case"copiar":if(needName("#msg"))break;var r2c=find(editId);mode="crear";editId=null;$("#tpriv").checked=!!r2c.priv;$("#n").value="Copia de "+r2c.n;$("#g").value=r2c.g;trender();break;
-    case"borrar":if(b.dataset.ok){var delId=editId;if(delId<0){SHID[delId]=1;shidsave();delete SOV[delId];sovsave();if(DBX)DBX.collection("rutas_tablero").doc(String(delId)).set({hid:true}).catch(function(){})}else{routes=routes.filter(function(x){return x.id!==editId});tsave();if(DBX)DBX.collection("rutas_tablero").doc(String(delId)).delete().catch(function(){})}editId=null;cur={};b.textContent="Borrar";delete b.dataset.ok;trender()}else{b.dataset.ok=1;b.textContent="Toca otra vez para borrar"}break;
+    case"borrar":if(b.dataset.ok===String(editId)){var delId=editId;if(delId<0){SHID[delId]=1;shidsave();delete SOV[delId];sovsave();if(DBX)DBX.collection("rutas_tablero").doc(String(delId)).set({hid:true}).catch(function(){})}else{routes=routes.filter(function(x){return x.id!==editId});tsave();if(DBX)DBX.collection("rutas_tablero").doc(String(delId)).delete().catch(function(){})}editId=null;cur={};b.textContent="Borrar";delete b.dataset.ok;trender()}else{b.dataset.ok=String(editId);b.textContent="Toca otra vez para borrar"}break;
     case"cancelar":mode="ver";var r3=editId&&find(editId);cur=r3?JSON.parse(JSON.stringify(r3.h)):{};if(!r3)editId=null;trender();break;
     case"limpiar":cur={};trender();break;
     case"guardar":
@@ -539,11 +547,11 @@ document.addEventListener("click",function(e){
       var vals=Object.keys(cur).map(function(k){return RO(cur[k])}),nm=$("#n").value.trim();
       if(!nm){$("#msg").textContent="Ponle un nombre a la ruta.";return}
       if(vals.indexOf("s")<0||vals.indexOf("f")<0){$("#msg").textContent="Marca al menos una presa de inicio y una de final.";return}
-      if(editId!=null&&editId<0){SOV[editId]={n:nm,g:"",h:cur};sovsave();if(DBX)DBX.collection("rutas_tablero").doc(String(editId)).set(SOV[editId]).catch(function(){});mode="ver";trender();break}
+      if(editId!=null&&editId<0){SOV[editId]={n:nm,g:"",h:JSON.parse(JSON.stringify(cur))};sovsave();if(DBX)DBX.collection("rutas_tablero").doc(String(editId)).set(SOV[editId]).catch(function(){});mode="ver";trender();break}
       var ex=editId&&editId>0&&find(editId);
-      if(ex){ex.n=nm;ex.g=$("#g").value;ex.h=cur;ex.priv=!SHARE.t}else{var nr={id:Date.now(),n:nm,g:$("#g").value,h:cur,priv:!SHARE.t};routes.push(nr);editId=nr.id}
+      if(ex){ex.n=nm;ex.g=$("#g").value;ex.h=JSON.parse(JSON.stringify(cur));ex.priv=!SHARE.t;if(!ex.autor)ex.autor=MYNAME||""}else{var nr={id:Date.now(),n:nm,g:$("#g").value,h:JSON.parse(JSON.stringify(cur)),priv:!SHARE.t,autor:MYNAME||""};routes.push(nr);editId=nr.id}
       tsave();mode="ver";trender();
-      if(DBX){var rrp=find(editId);if(rrp){if(SHARE.t)DBX.collection("rutas_tablero").doc(String(rrp.id)).set({n:rrp.n,g:rrp.g,h:rrp.h,autor:MYNAME||""}).then(function(){rrp.db=true;tsave()}).catch(function(){rrp.priv=true;tsave();tlista();$("#msg").textContent="No se ha podido compartir: se ha guardado solo en tu móvil."});else DBX.collection("rutas_tablero").doc(String(rrp.id)).delete().catch(function(){})}}SHARE.t=false;
+      if(DBX){var rrp=find(editId);if(rrp){if(SHARE.t)DBX.collection("rutas_tablero").doc(String(rrp.id)).set({n:rrp.n,g:rrp.g,h:rrp.h,autor:rrp.autor||MYNAME||""}).then(function(){rrp.db=true;tsave()}).catch(function(){rrp.priv=true;tsave();tlista();$("#msg").textContent="No se ha podido compartir: se ha guardado solo en tu móvil."});else DBX.collection("rutas_tablero").doc(String(rrp.id)).delete().catch(function(){})}}SHARE.t=false;
       break;
     case"exp":$("#ta").value=JSON.stringify(routes);break;
     case"imp":try{var d=JSON.parse($("#ta").value);if(!Array.isArray(d))throw 0;d.forEach(function(x){if(x&&x.n&&x.h&&!find(x.id))routes.push(x)});tsave();trender()}catch(err){$("#ta").value="Texto no válido."}break;
@@ -630,9 +638,10 @@ function wboard(){
   var pts=seqKeys(wcur).map(function(k){return{id:k,t:wcur[k],h:HOLDBY[k]}}).filter(function(p){return p.h});
   var extra="";
   if(pts.length>1)extra+='<polyline points="'+pts.map(function(p){return p.h.x+","+p.h.y}).join(" ")+'" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="4" stroke-dasharray="8 8"/>';
-  extra+=pts.map(function(p){return'<circle cx="'+p.h.x+'" cy="'+p.h.y+'" r="'+(p.h.r+10)+'" class="hring '+RO(p.t)+'"/>'+badge(p.h.x+(p.h.r+10)*0.72+5/WZ,p.h.y-(p.h.r+10)*0.72-5/WZ,p.t,(13/WZ).toFixed(1),(17/WZ).toFixed(1));}).join("");
+  extra+=pts.map(function(p){return'<circle cx="'+p.h.x+'" cy="'+p.h.y+'" r="'+Math.max(p.h.r+10,14/WZ).toFixed(1)+'" class="hring '+RO(p.t)+'" style="stroke-width:'+Math.max(4,4/WZ).toFixed(1)+'px"/>'+badge(p.h.x+(p.h.r+10)*0.72+5/WZ,p.h.y-(p.h.r+10)*0.72-5/WZ,p.t,(13/WZ).toFixed(1),(17/WZ).toFixed(1));}).join("");
   if(wmode==="crear"&&SEL.w&&HOLDBY[SEL.w]&&wcur[SEL.w]){var hs_=HOLDBY[SEL.w];extra+='<circle cx="'+hs_.x+'" cy="'+hs_.y+'" r="'+(hs_.r+10+8/WZ)+'" class="hsel" style="stroke-width:'+(3/WZ).toFixed(1)+'px;stroke-dasharray:'+(6/WZ).toFixed(1)+' '+(5/WZ).toFixed(1)+'"/>'}
-  if(wmode==="crear")extra+=pts.map(function(p){var o_=(p.h.r+10)*0.72;return xBtn(p.h.x-o_-5/WZ,p.h.y-o_-5/WZ,(15/WZ).toFixed(1)*1,"w",p.id)}).join("");
+  /* la ✕ va FUERA del aro, con 8 px de aire: si no, al tocar la presa para cambiar de mano se toca la ✕ y la presa se quita */
+  if(wmode==="crear")extra+=pts.map(function(p){var xr=12/WZ,dd=((p.h.r+10)+xr+8/WZ)*0.7071;return xBtn(p.h.x-dd,p.h.y-dd,xr,"w",p.id)}).join("");
   /* numero de paso (1,2,3...) = posicion en la secuencia de ESTA via, nunca el
      ID de catalogo de la presa (tipo P-047) */
   extra+=pts.map(function(p,i){
@@ -689,6 +698,7 @@ function wrender(){
   $("#weditar").hidden=!(wmode==="ver"&&weditId!=null&&wcanE);
   $("#wcopiar").hidden=!(wmode==="ver"&&weditId!=null);
   $("#wborrar").hidden=!(wmode==="ver"&&weditId!=null&&wcanE);
+  var wbo_=$("#wborrar");if(wbo_.dataset.ok!==String(weditId)||wmode!=="ver"){delete wbo_.dataset.ok;wbo_.textContent="Borrar"}
   wlista();
 }
 $("#wsvg").addEventListener("click",function(e){
@@ -767,7 +777,7 @@ document.addEventListener("click",function(e){
     case"wnueva":if(needName("#wmsg"))break;wmode="crear";weditId=null;wcur={};$("#wn").value="";$("#wg").value="";$("#wpriv").checked=false;$("#wmsg").textContent="";wrender();break;
     case"weditar":if(needName("#wmsg"))break;var r2=wfind(weditId);wmode="crear";$("#wpriv").checked=!!r2.priv;$("#wn").value=r2.n;$("#wg").value=r2.g;wrender();break;
     case"wcopiar":if(needName("#wmsg"))break;var r2c=wfind(weditId);wmode="crear";weditId=null;$("#wpriv").checked=!!r2c.priv;$("#wn").value="Copia de "+r2c.n;$("#wg").value=r2c.g;wrender();break;
-    case"wborrar":if(b.dataset.ok){var delId2=weditId;if(delId2<0){WHID[delId2]=1;whidsave();delete WOV[delId2];wovsave();if(DBX)DBX.collection("rutas_muro").doc(String(delId2)).set({hid:true}).catch(function(){})}else{wroutes=wroutes.filter(function(x){return x.id!==weditId});wsave();if(DBX)DBX.collection("rutas_muro").doc(String(delId2)).delete().catch(function(){})}weditId=null;wcur={};b.textContent="Borrar";delete b.dataset.ok;wrender()}else{b.dataset.ok=1;b.textContent="Toca otra vez para borrar"}break;
+    case"wborrar":if(b.dataset.ok===String(weditId)){var delId2=weditId;if(delId2<0){WHID[delId2]=1;whidsave();delete WOV[delId2];wovsave();if(DBX)DBX.collection("rutas_muro").doc(String(delId2)).set({hid:true}).catch(function(){})}else{wroutes=wroutes.filter(function(x){return x.id!==weditId});wsave();if(DBX)DBX.collection("rutas_muro").doc(String(delId2)).delete().catch(function(){})}weditId=null;wcur={};b.textContent="Borrar";delete b.dataset.ok;wrender()}else{b.dataset.ok=String(weditId);b.textContent="Toca otra vez para borrar"}break;
     case"wcancelar":wmode="ver";var r3=weditId&&wfind(weditId);wcur=r3?JSON.parse(JSON.stringify(r3.h)):{};if(!r3)weditId=null;wrender();break;
     case"wlimpiar":wcur={};wrender();break;
     case"wguardar":
@@ -775,11 +785,11 @@ document.addEventListener("click",function(e){
       var vals=Object.keys(wcur).map(function(k){return RO(wcur[k])}),nm=$("#wn").value.trim();
       if(!nm){$("#wmsg").textContent="Ponle un nombre a la vía.";return}
       if(vals.indexOf("s")<0||vals.indexOf("f")<0){$("#wmsg").textContent="Marca al menos un punto de inicio y uno de final.";return}
-      if(weditId!=null&&weditId<0){WOV[weditId]={n:nm,g:"",h:wcur};wovsave();if(DBX)DBX.collection("rutas_muro").doc(String(weditId)).set(WOV[weditId]).catch(function(){});wmode="ver";wrender();break}
+      if(weditId!=null&&weditId<0){WOV[weditId]={n:nm,g:"",h:JSON.parse(JSON.stringify(wcur))};wovsave();if(DBX)DBX.collection("rutas_muro").doc(String(weditId)).set(WOV[weditId]).catch(function(){});wmode="ver";wrender();break}
       var ex=weditId&&weditId>0&&wfind(weditId);
-      if(ex){ex.n=nm;ex.g=$("#wg").value;ex.h=wcur;ex.priv=!SHARE.w}else{var nr={id:Date.now(),n:nm,g:$("#wg").value,h:wcur,wall:curWall,priv:!SHARE.w};wroutes.push(nr);weditId=nr.id}
+      if(ex){ex.n=nm;ex.g=$("#wg").value;ex.h=JSON.parse(JSON.stringify(wcur));ex.priv=!SHARE.w;if(!ex.autor)ex.autor=MYNAME||""}else{var nr={id:Date.now(),n:nm,g:$("#wg").value,h:JSON.parse(JSON.stringify(wcur)),wall:curWall,priv:!SHARE.w,autor:MYNAME||""};wroutes.push(nr);weditId=nr.id}
       wsave();wmode="ver";wrender();
-      if(DBX){var rrp2=wfind(weditId);if(rrp2){if(SHARE.w)DBX.collection("rutas_muro").doc(String(rrp2.id)).set({n:rrp2.n,g:rrp2.g,h:rrp2.h,wall:rrp2.wall,autor:MYNAME||""}).then(function(){rrp2.db=true;wsave()}).catch(function(){rrp2.priv=true;wsave();wlista();$("#wmsg").textContent="No se ha podido compartir: se ha guardado solo en tu móvil."});else DBX.collection("rutas_muro").doc(String(rrp2.id)).delete().catch(function(){})}}SHARE.w=false;
+      if(DBX){var rrp2=wfind(weditId);if(rrp2){if(SHARE.w)DBX.collection("rutas_muro").doc(String(rrp2.id)).set({n:rrp2.n,g:rrp2.g,h:rrp2.h,wall:rrp2.wall,autor:rrp2.autor||MYNAME||""}).then(function(){rrp2.db=true;wsave()}).catch(function(){rrp2.priv=true;wsave();wlista();$("#wmsg").textContent="No se ha podido compartir: se ha guardado solo en tu móvil."});else DBX.collection("rutas_muro").doc(String(rrp2.id)).delete().catch(function(){})}}SHARE.w=false;
       break;
   }
 });
@@ -904,7 +914,7 @@ function makeSupaDB(client){
       sha256hex(p.trim().toLowerCase()).then(function(h){
         if(h===ADMIN_HASH){
           try{localStorage.setItem("olg-admin","1")}catch(e){}
-          ISOWNER=true;trender();wrender();if(window.__drawName)window.__drawName();
+          ISOWNER=true;trender();wrender();if(window.__drawName)window.__drawName();if(DBX)subscribeAutores();
           showMsg("Hecho: modo administradora activado en este móvil.");
           setTimeout(closeBox,1600);
         }else{
@@ -1510,7 +1520,7 @@ window.tlista=function(){origTL();tagAuthors("#lst",routes,"id")};
 window.wlista=function(){origWL();tagAuthors("#wlst",wroutes,"wid")};
 /* solo se puede editar/borrar lo propio (o todo si eres la dueña de la app);
    si no es tuya, el botón "Editar" se convierte en "Copiar" (ver trender/wrender) */
-function canEdit(r){return!r||ISOWNER||(r.autor&&r.autor===MYNAME)}
+function canEdit(r){return!r||ISOWNER||(!!r.autor&&!!MYNAME&&autorSlug(r.autor)===autorSlug(MYNAME))}
 window.canEdit=canEdit; /* canEdit se define dentro de un IIFE (voz) que nunca se cerró antes de este punto; trender()/wrender() la llaman desde otro <script> y necesitan que sea global, o lanza "canEdit is not defined" y corta render antes de mostrar Editar/Copiar/Borrar */
 
 /* ======================= PESTAÑA GRUPO ======================= */
@@ -1564,10 +1574,10 @@ $("#bkFile").addEventListener("change",function(){
     try{
       var d=JSON.parse(rd.result),nT=0,nW=0;if(!d||!Array.isArray(d.tablero)||!Array.isArray(d.muro))throw 0;
       function has(list,x){return list.some(function(r){return r.n===x.n&&JSON.stringify(r.h)===JSON.stringify(x.h)})}
-      d.tablero.forEach(function(x){if(x&&x.n&&x.h&&!has(routes,x)){routes.push({id:Date.now()+nT,n:x.n,g:x.g,h:x.h});nT++}});
-      d.muro.forEach(function(x){if(x&&x.n&&x.h&&!has(wroutes,x)){wroutes.push({id:Date.now()+500+nW,n:x.n,g:x.g,h:x.h,wall:x.wall||"P"});nW++}});
+      d.tablero.forEach(function(x){if(x&&x.n&&x.h&&!has(routes,x)){routes.push({id:Date.now()+nT,n:x.n,g:x.g,h:x.h,priv:true,autor:MYNAME||""});nT++}});
+      d.muro.forEach(function(x){if(x&&x.n&&x.h&&!has(wroutes,x)){wroutes.push({id:Date.now()+500+nW,n:x.n,g:x.g,h:x.h,wall:x.wall||"P",priv:true,autor:MYNAME||""});nW++}});
       window.tsave();window.wsave();trender();wrender();
-      $("#bkMsg").textContent="Recuperadas "+nT+" rutas de tablero y "+nW+" vías de muro.";
+      $("#bkMsg").textContent="Recuperadas "+nT+" rutas de tablero y "+nW+" vías de muro (guardadas como 🔒 Solo para mí: ábrelas, Editar y Guardar para compartirlas).";
     }catch(e){$("#bkMsg").textContent="Ese archivo no es una copia de Casal Rock."}
   };
   rd.readAsText(f);
@@ -1627,7 +1637,7 @@ function render(){
 }
 var prevSwitch=window.switchTab;
 window.switchTab=function(tab){prevSwitch(tab);$("#s-inv").hidden=tab!=="inv";var nb=document.getElementById("namebar");if(nb)nb.hidden=(tab==="inv"||tab==="grp");if(tab==="inv")render()};
-(function(){var st=document.getElementById("grpStatus");if(st)st.textContent=(typeof claude!=="undefined"&&claude.use)?"Las vías se comparten con todos los que abren este enlace.":"Las vías se guardan en este móvil.";})();
+(function(){var st=document.getElementById("grpStatus");if(st)st.textContent=(typeof claude!=="undefined"&&claude.use)?"Las vías se comparten con todos los que abren este enlace.":"Las vías se comparten con todo el grupo.";})();
 document.addEventListener("click",function(e){
   var b=e.target.closest&&e.target.closest("[data-inv],[data-invgo]");if(!b)return;
   if(b.dataset.inv){invWall=b.dataset.inv;render();return}
@@ -1687,11 +1697,11 @@ document.getElementById("bzfit").addEventListener("click",function(){bz(1);wrap.
   function draw(){
     var has=!!MYNAME;
     lab.hidden=has;if(plab)plab.hidden=has;save.hidden=has;view.hidden=!has;
-    if(has)view.innerHTML='<span style="display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;background:rgba(250,249,245,.08);color:#faf9f5;border:1px solid rgba(250,249,245,.18);font-weight:600"><span aria-hidden="true" style="font-size:1.05rem;line-height:1">🧗</span>'+esc(MYNAME)+'</span>'+(ISOWNER?'<span style="margin-left:8px;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:3px 9px">admin</span>':'')+' <button class="chip" id="nameCh" style="margin-left:auto;font-size:.8rem">cambiar</button>';
+    if(has)view.innerHTML='<span style="display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;background:color-mix(in srgb,var(--fg) 8%,transparent);color:var(--fg);border:1px solid color-mix(in srgb,var(--fg) 18%,transparent);font-weight:600"><span aria-hidden="true" style="font-size:1.05rem;line-height:1">🧗</span>'+esc(MYNAME)+'</span>'+(ISOWNER?'<span style="margin-left:8px;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:3px 9px">admin</span>':'')+' <button class="chip" id="nameCh" style="margin-left:auto;font-size:.8rem">cambiar</button>';
   }
   window.__drawName=draw;
   function claim(n,pin){
-    DBX.collection("autores").doc(slug(n)).set({pin:pin,nombre:n}).then(function(){save.disabled=false;setName(n);draw();msgInfo("Hecho: tu nombre y PIN han quedado guardados.")}).catch(function(){msgErr("No se ha podido guardar, inténtalo de nuevo.");save.disabled=false});
+    DBX.collection("autores").doc(slug(n)).set({pin:pin,nombre:n}).then(function(){save.disabled=false;setName(n);draw();try{trender();wrender()}catch(e){}msgInfo("Hecho: tu nombre y PIN han quedado guardados.")}).catch(function(){msgErr("No se ha podido guardar, inténtalo de nuevo.");save.disabled=false});
   }
   function tryName(n,pin){
     if(!DBX){msgErr("Conectando… espera un segundo y vuelve a pulsar Guardar.");return}
@@ -1701,11 +1711,11 @@ document.getElementById("bzfit").addEventListener("click",function(){bz(1);wrap.
       if(v&&v.pin&&v.pin!==pin){
         msgErr("Ese nombre de usuario ya existe. Si es el tuyo, pon tu PIN; si no, elige otro nombre. ¿Es tuyo y no recuerdas el PIN? ");
         var fb=document.createElement("button");fb.type="button";fb.className="chip";fb.textContent="He olvidado mi PIN";fb.style.marginLeft="4px";
-        fb.addEventListener("click",function(){msgInfo("Reiniciando…");claim(n,pin)});
+        fb.addEventListener("click",function(){msgInfo("Reiniciando…");claim((v&&v.nombre)||n,pin)});
         namemsg.appendChild(fb);
         save.disabled=false;
       }else{
-        claim(n,pin);
+        claim((v&&v.nombre)||n,pin);
       }
     }).catch(function(){msgErr("No se ha podido comprobar el nombre, inténtalo de nuevo.");save.disabled=false});
   }
@@ -1741,7 +1751,7 @@ function gChip(r,k){
   var out="";
   if(r.g)out+=' <span class="gch" style="background:'+gColor(r.g)+';color:'+gTxt(r.g)+'" title="Grado propuesto">'+esc(r.g)+'</span>';
   var map=(ESTALL[k]||{})[r.id]||{},vs=[];
-  for(var u in map){var v=map[u]||{};if(v.status==="e"&&gIdx(v.gv)>=0)vs.push(gIdx(v.gv))}
+  var seen={};for(var u in map){var v=map[u]||{},who=v.name&&v.name!=="Anónimo"?autorSlug(v.name):u;if(v.status==="e"&&gIdx(v.gv)>=0&&!seen[who]){seen[who]=1;vs.push(gIdx(v.gv))}}
   if(!map[MYUID]&&EST[r.id]==="e"&&gIdx(EG[r.id])>=0)vs.push(gIdx(EG[r.id]));
   if(vs.length){vs.sort(function(a,b){return a-b});var m=G[vs[Math.floor((vs.length-1)/2)]];
     var cnt={};vs.forEach(function(i){cnt[i]=(cnt[i]||0)+1});
@@ -1761,7 +1771,7 @@ function gChip(r,k){
   function open(id,k){cur_={id:id,k:k};sh.innerHTML='<h3>¡Hecha! 🎉</h3><p class="sub" style="margin:0">¿Qué grado le darías? (opcional)</p><div class="gg">'+
     G.map(function(g){return'<button data-gv="'+g+'" style="background:'+gColor(g)+';color:'+gTxt(g)+'">'+g+'</button>'}).join("")+'</div><button class="btn o" data-gv="">Saltar</button>';sh.hidden=false}
   sh.addEventListener("click",function(e){var b=e.target.closest("[data-gv]");if(!b||!cur_)return;var g=b.dataset.gv,id=cur_.id,k=cur_.k;sh.hidden=true;
-    if(g){EG[id]=g;try{localStorage.setItem(EGK,JSON.stringify(EG))}catch(x){}
+    if(g){EG[id]=g;try{localStorage.setItem(EGK,JSON.stringify(EG))}catch(x){}if(typeof setMineLocal==="function")setMineLocal(k,id,"e",g);
       if(typeof DBX!=="undefined"&&DBX)DBX.collection(k==="w"?"estado_muro":"estado_tablero").doc(MYUID+"_"+id).set({routeId:+id,uid:MYUID,status:"e",name:MYNAME||"Anónimo",gv:g}).catch(function(){});}
     try{tlista();wlista()}catch(x){} cur_=null});
   document.addEventListener("click",function(e){var eb=e.target.closest&&e.target.closest("[data-est]");if(!eb)return;var id=eb.getAttribute("data-est"),k=eb.getAttribute("data-kind")||"t";
