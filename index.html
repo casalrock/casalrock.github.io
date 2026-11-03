@@ -150,6 +150,9 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 #splash .tr{fill:none;stroke:#fff;stroke-width:56;stroke-linecap:round;stroke-dasharray:400;stroke-dashoffset:400;animation:spDraw .6s cubic-bezier(.5,0,.3,1) forwards}
 #splash .tr.t2{animation-delay:.45s}
 #splash .tr.t3{animation-delay:.9s}
+#splash .sp1,#splash .sp2{font-family:Georgia,"Times New Roman",serif;color:#faf9f5}
+#splash .sp1{font-size:min(7.4vw,34px);letter-spacing:.14em;margin-top:22px}
+#splash .sp2{font-size:min(4vw,17px);letter-spacing:.32em;margin-top:8px;color:#a39e97}
 @keyframes spDraw{to{stroke-dashoffset:0}}
 @keyframes spText{to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){#splash .tr{animation:none;stroke-dashoffset:0}}
@@ -167,13 +170,15 @@ h1{font-size:1.12rem;margin:4px 0 8px}
   </defs>
   <g mask="url(#spDraw)"><rect width="396" height="166" fill="#faf9f5" mask="url(#spShape)"/></g>
 </svg>
+<div class="sp1">CASAL ROCK</div>
+<div class="sp2">EL BRUC</div>
 <script>
 (function(){
   var s=document.getElementById("splash"),q=location.search.indexOf("splash")>-1,st=false;
   try{st=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true}catch(e){}
   if(!st&&!q){s.parentNode.removeChild(s);return}
   var t0=Date.now(),hecho=false;
-  function quitar(){if(hecho)return;hecho=true;var falta=Math.max(0,2000-(Date.now()-t0));
+  function quitar(){if(hecho)return;hecho=true;var falta=Math.max(0,3600-(Date.now()-t0));
     setTimeout(function(){s.classList.add("fuera");setTimeout(function(){if(s.parentNode)s.parentNode.removeChild(s)},600)},falta)}
   if(document.readyState==="complete")quitar();else window.addEventListener("load",quitar);
   setTimeout(quitar,5000);
