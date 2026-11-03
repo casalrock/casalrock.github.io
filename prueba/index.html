@@ -287,7 +287,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
 <div class="selbar" data-for="t"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="hbtn hdel" data-del="1" style="flex:0 0 auto;min-width:96px">✕<small>quitar</small></button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo se marca una ruta</div><div class="howto-b">
 <div class="step"><span class="ring r-s"></span> 1ª presa = <b>inicio</b></div>
 <div class="step"><span class="ring r-m"></span> Siguientes = <b>intermedias</b></div>
-<div class="step"><span class="ring r-f"></span> Toca otra vez la última = <b>final</b></div>
+<div class="step"><span class="ring r-f"></span> Toca la última hasta que salga en rojo = <b>final</b></div>
 <div class="step">Toca una presa marcada para cambiar la mano:</div>
 <div class="step mano"><span class="hword hbR">Derecha</span><span class="hword hbL">Izquierda</span><span class="hword hbB">Las dos</span></div>
 <div class="step" style="display:block">Para quitar una presa: tócala y pulsa «✕ quitar», arriba.</div>
@@ -333,7 +333,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
 <div class="selbar" data-for="w"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="hbtn hdel" data-del="1" style="flex:0 0 auto;min-width:96px">✕<small>quitar</small></button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo se marca una vía</div><div class="howto-b">
 <div class="step"><span class="ring r-s"></span> 1ª presa = <b>inicio</b></div>
 <div class="step"><span class="ring r-m"></span> Siguientes = <b>intermedias</b></div>
-<div class="step"><span class="ring r-f"></span> Toca otra vez la última = <b>final</b></div>
+<div class="step"><span class="ring r-f"></span> Toca la última hasta que salga en rojo = <b>final</b></div>
 <div class="step">Toca una presa marcada para cambiar la mano:</div>
 <div class="step mano"><span class="hword hbR">Derecha</span><span class="hword hbL">Izquierda</span><span class="hword hbB">Las dos</span></div>
 <div class="step" style="display:block">Para quitar una presa: tócala y pulsa «✕ quitar», arriba.</div>
@@ -404,10 +404,11 @@ function markHold(o,k,w){
   }else{
     var v=o[k],hd=HA(v),r=RO(v),n=ORD(v);if(n===null)n=Object.keys(o).indexOf(k)+1;
     var a1=FH[w+k]||"R",a2=a1==="R"?"L":"R";
-    var ksq=seqKeys(o);if(r==="m"&&ksq.length>1&&ksq[ksq.length-1]===k){o[k]="fB"+n;relabel(o);return}
+    var ksq=seqKeys(o),isLast=ksq.length>1&&ksq[ksq.length-1]===k;
     var nx={};nx[a1]=a2;nx[a2]="B";
     if(r==="s"){nx.B=a1;o[k]="s"+(nx[hd]||a1)+n}
     else if(r==="f")o[k]="m"+a1+n;
+    else if(hd==="B"&&isLast)o[k]="fB"+n;
     else o[k]="m"+(nx[hd]||a1)+n;
   }
   relabel(o);
@@ -1757,7 +1758,7 @@ document.getElementById("bzfit").addEventListener("click",function(){bz(1);wrap.
     if(has)view.innerHTML='<span style="display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;background:rgba(250,249,245,.08);color:#faf9f5;border:1px solid rgba(250,249,245,.18);font-weight:600"><span aria-hidden="true" style="font-size:1.05rem;line-height:1">🧗</span>'+esc(MYNAME)+'</span>'+(ISOWNER?'<span style="margin-left:8px;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:3px 9px">admin</span>':'')+' <button class="chip" id="nameCh" style="margin-left:auto;font-size:.8rem">cambiar</button>';;bar.hidden=has;bar.style.display=has?"none":"";var hn=document.getElementById("hdrName");if(hn)hn.innerHTML=has?'<button type="button" id="hdrPill" class="hpill" title="Cambiar nombre"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="color:var(--av-fg);flex:0 0 auto;width:20px!important;height:20px!important;max-width:none;background:none;border:0;box-shadow:none;margin:0"><circle cx="12" cy="12" r="11.2" fill="var(--av-bg)"/><g transform="translate(12 12.6) scale(0.8) translate(-12 -12)"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10.6 L12 15.2" stroke-width="5"/><path d="M11.2 10.4 L8.2 8 L7 3.6" stroke-width="3"/><path d="M12.8 10.4 L16.8 11.4 L17.8 7.8" stroke-width="3"/><path d="M12 15.2 L7.4 15.4 L7 19.6" stroke-width="3"/><path d="M12 15.2 L16.4 17.4 L15.8 21.6" stroke-width="3"/></g><circle cx="12.3" cy="4.5" r="2.4" fill="currentColor"/><circle cx="6.6" cy="2.2" r="1.5" fill="currentColor" opacity="0.55"/><circle cx="18.3" cy="6.3" r="1.4" fill="currentColor" opacity="0.55"/><circle cx="6" cy="20.6" r="1.3" fill="currentColor" opacity="0.55"/><circle cx="17" cy="22.4" r="1.2" fill="currentColor" opacity="0.55"/></g></svg>'+esc(MYNAME)+(ISOWNER?'<span class="hadm">admin</span>':'')+'</button>':'';
   }
   window.__drawName=draw;
-  document.addEventListener("click",function(e){if(!(e.target.closest&&e.target.closest("#hdrPill")))return;bar.hidden=false;bar.style.display="";lab.hidden=false;if(plab)plab.hidden=false;save.hidden=false;save.disabled=false;view.hidden=true;inp.value=MYNAME;if(pinp)pinp.value="";msgInfo("");inp.focus();});
+  document.addEventListener("click",function(e){if(!(e.target.closest&&e.target.closest("#hdrPill")))return;if(bar.style.display!=="none"&&!bar.hidden){bar.hidden=true;bar.style.display="none";return}bar.hidden=false;bar.style.display="";view.style.display="none";lab.hidden=false;if(plab)plab.hidden=false;save.hidden=false;save.disabled=false;view.hidden=true;inp.value=MYNAME;if(pinp)pinp.value="";msgInfo("");inp.focus();});
   function claim(n,pin){
     DBX.collection("autores").doc(slug(n)).set({pin:pin,nombre:n}).then(function(){save.disabled=false;setName(n);draw();msgInfo("Hecho: tu nombre y PIN han quedado guardados.")}).catch(function(){msgErr("No se ha podido guardar, inténtalo de nuevo.");save.disabled=false});
   }

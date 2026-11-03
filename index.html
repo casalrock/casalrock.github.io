@@ -220,7 +220,7 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 <div class="selbar" data-for="t"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="hbtn hdel" data-del="1" style="flex:0 0 auto;min-width:96px">✕<small>quitar</small></button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo se marca una ruta</div><div class="howto-b">
 <div class="step"><span class="ring r-s"></span> 1ª presa = <b>inicio</b></div>
 <div class="step"><span class="ring r-m"></span> Siguientes = <b>intermedias</b></div>
-<div class="step"><span class="ring r-f"></span> Toca otra vez la última = <b>final</b></div>
+<div class="step"><span class="ring r-f"></span> Toca la última hasta que salga en rojo = <b>final</b></div>
 <div class="step">Toca una presa marcada para cambiar la mano:</div>
 <div class="step mano"><span class="hword hbR">Derecha</span><span class="hword hbL">Izquierda</span><span class="hword hbB">Las dos</span></div>
 <div class="step">Para quitar la presa, toca la <span class="xmini">✕</span></div>
@@ -266,7 +266,7 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 <div class="selbar" data-for="w"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="hbtn hdel" data-del="1" style="flex:0 0 auto;min-width:96px">✕<small>quitar</small></button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo se marca una vía</div><div class="howto-b">
 <div class="step"><span class="ring r-s"></span> 1ª presa = <b>inicio</b></div>
 <div class="step"><span class="ring r-m"></span> Siguientes = <b>intermedias</b></div>
-<div class="step"><span class="ring r-f"></span> Toca otra vez la última = <b>final</b></div>
+<div class="step"><span class="ring r-f"></span> Toca la última hasta que salga en rojo = <b>final</b></div>
 <div class="step">Toca una presa marcada para cambiar la mano:</div>
 <div class="step mano"><span class="hword hbR">Derecha</span><span class="hword hbL">Izquierda</span><span class="hword hbB">Las dos</span></div>
 <div class="step">Para quitar la presa, toca la <span class="xmini">✕</span></div>
@@ -337,10 +337,11 @@ function markHold(o,k,w){
   }else{
     var v=o[k],hd=HA(v),r=RO(v),n=ORD(v);if(n===null)n=Object.keys(o).indexOf(k)+1;
     var a1=FH[w+k]||"R",a2=a1==="R"?"L":"R";
-    var ksq=seqKeys(o);if(r==="m"&&ksq.length>1&&ksq[ksq.length-1]===k){o[k]="fB"+n;relabel(o);return}
+    var ksq=seqKeys(o),isLast=ksq.length>1&&ksq[ksq.length-1]===k;
     var nx={};nx[a1]=a2;nx[a2]="B";
     if(r==="s"){nx.B=a1;o[k]="s"+(nx[hd]||a1)+n}
     else if(r==="f")o[k]="m"+a1+n;
+    else if(hd==="B"&&isLast)o[k]="fB"+n;
     else o[k]="m"+(nx[hd]||a1)+n;
   }
   relabel(o);
