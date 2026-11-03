@@ -45,7 +45,7 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .btn{background:linear-gradient(180deg,color-mix(in srgb,var(--acc) 85%,white),var(--acc) 55%,color-mix(in srgb,var(--acc) 82%,black));color:var(--accfg);border:0;border-radius:10px;padding:13px 16px;font-weight:600;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 2px 5px rgba(0,0,0,.35);text-shadow:0 1px 0 rgba(0,0,0,.12)}
 .btn:active{box-shadow:inset 0 1px 3px rgba(0,0,0,.35);transform:translateY(1px)}
-.btn.o{background:transparent;color:var(--fg);border:1px solid var(--line)}
+.btn.o{background:transparent;color:var(--fg);border:1px solid var(--line)}.btn.o.on{background:var(--acctint);color:var(--acc);border-color:var(--acc)}
 .btn.sel{background:transparent;color:var(--mut);border:1px solid var(--line)}
 .btn.sel.on{background:var(--acctint);color:var(--acc);border-color:var(--line)}
 .row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
@@ -159,7 +159,7 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 
 <section id="s-tab">
 <h1>MoonBoard</h1>
-<div class="row" style="margin:0 0 6px"><button class="btn o" id="bzout" aria-label="Alejar">−</button><button class="btn o" id="bzfit">Ver entero</button><button class="btn o" id="bzin" aria-label="Acercar">+</button></div>
+<div class="row" style="margin:0 0 6px"><button class="btn o" id="bzout" aria-label="Alejar">−</button><button class="btn o on" id="bzfit">Ver entero</button><button class="btn o" id="bzin" aria-label="Acercar">+</button></div>
 <div id="bwrap"><svg id="b" viewBox="0 0 426 684" role="img" aria-label="Tablero MoonBoard, 11 columnas por 18 filas"></svg></div>
 <div class="det" id="det" aria-live="polite"></div>
 
@@ -679,6 +679,8 @@ function wzoomTo(z,fx,fy){
   wrap.scrollLeft=Math.max(0,wx*WZ-fx);wrap.scrollTop=Math.max(0,wy*WZ-fy);
   if(Object.keys(wcur).length){clearTimeout(window.__wzt);window.__wzt=setTimeout(wboard,120)}
   drawMini();
+  var fz1=Math.min((wrap.clientWidth||390)/w.w,520/w.h),fz2=Math.min(1,Math.min(520,Math.round(window.innerHeight*0.62))/w.h),fb=$("#wzfit");
+  if(fb)fb.classList.toggle("on",Math.abs(WZ-fz1)<0.005||Math.abs(WZ-fz2)<0.005);
 }
 function wfitH(){var w=WALLS[curWall],hh=Math.min(520,Math.round(window.innerHeight*0.62));wzoomTo(Math.min(1,hh/w.h),0,0);var s=$("#wallScroll");s.scrollLeft=0;s.scrollTop=0}
 function wfit(){var wrap=$("#wallScroll"),w=WALLS[curWall];wzoomTo(Math.min((wrap.clientWidth||390)/w.w,520/w.h))}
@@ -1593,6 +1595,7 @@ function bz(z,fx,fy){
   var wx=(wrap.scrollLeft+fx)/BZ,wy=(wrap.scrollTop+fy)/BZ;
   BZ=z;svg.style.width=(z*100)+"%";svg.style.maxWidth="none";
   wrap.scrollLeft=Math.max(0,wx*BZ-fx);wrap.scrollTop=Math.max(0,wy*BZ-fy);
+  var fb=document.getElementById("bzfit");if(fb)fb.classList.toggle("on",BZ<=1.001);
 }
 function d(t){return Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY)}
 wrap.addEventListener("touchstart",function(e){if(e.touches.length===2){var r=wrap.getBoundingClientRect();pz={d:d(e.touches),z:BZ,fx:(e.touches[0].clientX+e.touches[1].clientX)/2-r.left,fy:(e.touches[0].clientY+e.touches[1].clientY)/2-r.top};moved=true}},{passive:true});
