@@ -150,12 +150,12 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 #splash .tr{fill:none;stroke:#fff;stroke-width:56;stroke-linecap:round;stroke-dasharray:400;stroke-dashoffset:400;animation:spDraw .5s cubic-bezier(.5,0,.3,1) forwards}
 #splash .tr.t2{animation-delay:.35s}
 #splash .tr.t3{animation-delay:.7s}
-#splash .sp1,#splash .sp2{font-family:Georgia,"Times New Roman",serif;color:#faf9f5}
-#splash .sp1{font-size:calc(var(--I)*.085);letter-spacing:.12em;margin-top:calc(var(--I)*.03)}
-#splash .sp2{font-size:calc(var(--I)*.048);letter-spacing:.3em;margin-top:0;color:#a39e97}
-@keyframes spDraw{to{stroke-dashoffset:0}}
+#splash .sp1,#splash .sp2{font-family:Georgia,"Times New Roman",serif;color:#faf9f5;opacity:0;transform:translateY(5px);animation:spText .6s ease forwards}
+#splash .sp1{font-size:calc(var(--I)*.085);letter-spacing:.12em;margin-top:calc(var(--I)*.03);animation-delay:1.05s}
+#splash .sp2{font-size:calc(var(--I)*.048);letter-spacing:.3em;margin-top:0;color:#a39e97;animation-delay:1.35s}
+@keyframes spDraw{to{stroke-dashoffset:0}}@keyframes spText{to{opacity:1;transform:none}}
 @keyframes spText{to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){#splash .tr{animation:none;stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){#splash .tr{animation:none;stroke-dashoffset:0}#splash .sp1,#splash .sp2{animation:none;opacity:1;transform:none}}
 </style>
 <svg viewBox="0 0 396 166">
   <defs>
@@ -178,7 +178,7 @@ h1{font-size:1.12rem;margin:4px 0 8px}
   try{st=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true}catch(e){}
   if(!st&&!q){s.parentNode.removeChild(s);return}
   var t0=Date.now(),hecho=false;
-  function quitar(){if(hecho)return;hecho=true;var falta=Math.max(0,2400-(Date.now()-t0));
+  function quitar(){if(hecho)return;hecho=true;var falta=Math.max(0,2900-(Date.now()-t0));
     setTimeout(function(){s.classList.add("fuera");setTimeout(function(){if(s.parentNode)s.parentNode.removeChild(s)},600)},falta)}
   if(document.readyState==="complete")quitar();else window.addEventListener("load",quitar);
   setTimeout(quitar,5000);
