@@ -153,7 +153,7 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 </nav>
 
 <div class="row" id="namebar" style="margin:6px 0 2px">
-  <label style="flex:1">Tu nombre (se pone una sola vez)<input id="myname" maxlength="20" placeholder="Ej. Olga"></label>
+  <label style="flex:1">Tu nombre (se pone una sola vez)<input id="myname" maxlength="20" placeholder="Tu nombre"></label>
   <label style="flex:1">PIN de 4 cifras (para recuperarlo si cambias de móvil)<input id="mypin" maxlength="4" inputmode="numeric" pattern="[0-9]*" placeholder="1234"></label>
 </div>
 
@@ -1443,7 +1443,7 @@ document.addEventListener("click",function(e){var b=e.target.closest&&e.target.c
 
 /* Identidad local: solo el nombre, guardado en este móvil. Sin cuentas ni códigos:
    las vías compartidas se guardan y protegen con la base de datos propia del
-   artefacto (cada una solo la puede editar/borrar quien la creó, o Olga como
+   artefacto (cada una solo la puede editar/borrar quien la creó, o la dueña como
    dueña de la app). */
 var ME=LS.get("olg-yo",{nombre:""});
 /* etiquetas de autor en las listas */
@@ -1456,7 +1456,7 @@ function tagAuthors(sel,list,attr){
 }
 window.tlista=function(){origTL();tagAuthors("#lst",routes,"id")};
 window.wlista=function(){origWL();tagAuthors("#wlst",wroutes,"wid")};
-/* solo se puede editar/borrar lo propio (o todo si eres Olga, dueña de la app);
+/* solo se puede editar/borrar lo propio (o todo si eres la dueña de la app);
    si no es tuya, el botón "Editar" se convierte en "Copiar" (ver trender/wrender) */
 function canEdit(r){return!r||ISOWNER||(r.autor&&r.autor===MYNAME)}
 window.canEdit=canEdit; /* canEdit se define dentro de un IIFE (voz) que nunca se cerró antes de este punto; trender()/wrender() la llaman desde otro <script> y necesitan que sea global, o lanza "canEdit is not defined" y corta render antes de mostrar Editar/Copiar/Borrar */
