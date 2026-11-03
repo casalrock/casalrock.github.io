@@ -1694,7 +1694,7 @@ function render(){
 }
 var prevSwitch=window.switchTab;
 window.switchTab=function(tab){prevSwitch(tab);$("#s-inv").hidden=tab!=="inv";var nb=document.getElementById("namebar");if(nb)nb.hidden=(tab==="inv"||tab==="grp");if(tab==="inv")render()};
-(function(){var st=document.getElementById("grpStatus");if(st)st.textContent=(typeof claude!=="undefined"&&claude.use)?"Las vías se comparten con todos los que abren este enlace.":"Las vías se guardan en este móvil.";})();
+(function(){var st=document.getElementById("grpStatus");if(st)st.textContent=(typeof claude!=="undefined"&&claude.use)?"Las vías se comparten con todos los que abren este enlace.":"Las vías se comparten con todo el grupo.";})();
 document.addEventListener("click",function(e){
   var b=e.target.closest&&e.target.closest("[data-inv],[data-invgo]");if(!b)return;
   if(b.dataset.inv){invWall=b.dataset.inv;render();return}
