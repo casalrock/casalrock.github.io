@@ -45,7 +45,7 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .btn{background:linear-gradient(180deg,color-mix(in srgb,var(--acc) 85%,white),var(--acc) 55%,color-mix(in srgb,var(--acc) 82%,black));color:var(--accfg);border:0;border-radius:10px;padding:13px 16px;font-weight:600;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 2px 5px rgba(0,0,0,.35);text-shadow:0 1px 0 rgba(0,0,0,.12)}
 .btn:active{box-shadow:inset 0 1px 3px rgba(0,0,0,.35);transform:translateY(1px)}
-.btn.o{background:transparent;color:var(--fg);border:1px solid var(--line)}.btn.o.on{background:var(--acctint);color:var(--acc);border-color:var(--acc)}
+.btn.o{background:transparent;color:var(--fg);border:1px solid var(--line)}.btn.o.on{background:var(--acctint);color:var(--acc);border-color:var(--acc)}.btn.o.flash{background:var(--acctint);color:var(--acc);border-color:var(--acc)}
 .btn.sel{background:transparent;color:var(--mut);border:1px solid var(--line)}
 .btn.sel.on{background:var(--acctint);color:var(--acc);border-color:var(--line)}
 .row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
@@ -1607,6 +1607,7 @@ if(window.dragPan)window.dragPan(wrap,bz,function(){return BZ});
 document.getElementById("bzin").addEventListener("click",function(){bz(BZ*1.35)});
 document.getElementById("bzout").addEventListener("click",function(){bz(BZ/1.35)});
 document.getElementById("bzfit").addEventListener("click",function(){bz(1);wrap.scrollLeft=0;wrap.scrollTop=0});
+["bzin","bzout","wzin","wzout"].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener("click",function(){el.classList.add("flash");clearTimeout(el.__ft);el.__ft=setTimeout(function(){el.classList.remove("flash")},400)})});
 })();
 </script>
 <script>
