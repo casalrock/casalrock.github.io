@@ -144,7 +144,7 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 <body>
 <div id="splash" aria-hidden="true">
 <style>
-#splash{--I:min(132vw,540px);position:fixed;inset:0;z-index:9999;background:#141413;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s ease}
+#splash{--I:min(108vw,440px);position:fixed;inset:0;z-index:9999;background:#141413;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s ease}
 #splash.fuera{opacity:0;pointer-events:none}
 #splash svg{width:calc(var(--I)*.572);height:auto;overflow:visible;background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;margin:0!important;padding:0!important;max-width:none!important}
 #splash .tr{fill:none;stroke:#fff;stroke-width:56;stroke-linecap:round;stroke-dasharray:400;stroke-dashoffset:400;animation:spDraw .5s cubic-bezier(.5,0,.3,1) forwards}
@@ -178,7 +178,7 @@ h1{font-size:1.12rem;margin:4px 0 8px}
   var s=document.getElementById("splash"),q=location.search.indexOf("splash")>-1,st=false;
   try{st=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true}catch(e){}
   if(!st&&!q){s.parentNode.removeChild(s);return}
-  try{var I=Math.min(window.innerWidth*1.32,540);s.style.setProperty("--s0",Math.min(1,240/I).toFixed(3))}catch(e){}
+  try{var I=Math.min(window.innerWidth*1.08,440);s.style.setProperty("--s0",Math.min(1,240/I).toFixed(3))}catch(e){}
   var t0=Date.now(),hecho=false;
   function quitar(){if(hecho)return;hecho=true;var falta=Math.max(0,2900-(Date.now()-t0));
     setTimeout(function(){s.classList.add("fuera");setTimeout(function(){if(s.parentNode)s.parentNode.removeChild(s)},600)},falta)}
