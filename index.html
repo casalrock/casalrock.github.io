@@ -1697,7 +1697,7 @@ document.getElementById("bzfit").addEventListener("click",function(){bz(1);wrap.
     DBX.collection("autores").doc(slug(n)).get().then(function(d){
       var v=d&&d.exists&&d.data();
       if(v&&v.pin&&v.pin!==pin){
-        msgErr("Ese nombre ya está registrado con otro PIN. Si es tuyo, prueba el PIN correcto; si no te acuerdas, pulsa aquí: ");
+        msgErr("Ese nombre de usuario ya existe. Si es el tuyo, pon tu PIN; si no, elige otro nombre. ¿Es tuyo y no recuerdas el PIN? ");
         var fb=document.createElement("button");fb.type="button";fb.className="chip";fb.textContent="He olvidado mi PIN";fb.style.marginLeft="4px";
         fb.addEventListener("click",function(){msgInfo("Reiniciando…");claim(n,pin)});
         namemsg.appendChild(fb);
