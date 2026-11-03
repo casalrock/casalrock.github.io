@@ -337,10 +337,10 @@ function markHold(o,k,w){
   }else{
     var v=o[k],hd=HA(v),r=RO(v),n=ORD(v);if(n===null)n=Object.keys(o).indexOf(k)+1;
     var a1=FH[w+k]||"R",a2=a1==="R"?"L":"R";
+    var ksq=seqKeys(o);if(r==="m"&&ksq.length>1&&ksq[ksq.length-1]===k){o[k]="fB"+n;relabel(o);return}
     var nx={};nx[a1]=a2;nx[a2]="B";
     if(r==="s"){nx.B=a1;o[k]="s"+(nx[hd]||a1)+n}
     else if(r==="f")o[k]="m"+a1+n;
-    else if(hd==="B")o[k]="fB"+n;
     else o[k]="m"+(nx[hd]||a1)+n;
   }
   relabel(o);
@@ -501,7 +501,7 @@ function ttxt(){
 function tlista(){
   $("#tchips").innerHTML="";fil="Todas";void ["Todas"].concat(G).map(function(g){return'<button class="chip'+(g===fil?" on":"")+'" data-g="'+g+'">'+g+'</button>'}).join("");
   var l=SUG.filter(function(r){return!SHID[r.id]}).map(function(r){return SOV[r.id]?Object.assign({},r,SOV[r.id]):r}).concat(routes).filter(function(r){return fil==="Todas"||r.g===fil});
-  $("#lst").innerHTML=l.length?l.map(function(r){return'<li><button class="it'+(r.id===editId&&mode==="ver"?" on":"")+'" data-id="'+r.id+'"><span>'+esc(r.n)+(r.id<0?(SOV[r.id]?' <span class="bdg bdg-sug">sugerida · editada</span>':' <span class="bdg bdg-sug">sugerida</span>'):'')+(r.priv?' <span class="bdg-priv" title="Solo tú la ves">🔒</span>':'')+gChip(r,"t")+'</span></button>'+estBadge(r.id,"t")+'</li>'}).join(""):'<li class="vac">'+(fil==="Todas"?'Aún no hay rutas. Crea la primera con «Nueva ruta».':'No hay rutas de '+fil+'.')+'</li>';
+  $("#lst").innerHTML=l.length?l.map(function(r){return'<li><button class="it'+(r.id===editId&&mode==="ver"?" on":"")+'" data-id="'+r.id+'"><span>'+esc(r.n)+(r.id<0?(SOV[r.id]?' <span class="bdg bdg-sug">sugerida · editada</span>':' <span class="bdg bdg-sug">sugerida</span>'):'')+(r.priv?' <span class="bdg-priv" title="Solo tú la ves">🔒</span>':'')+(typeof gChip==="function"?gChip(r,"t"):"")+'</span></button>'+estBadge(r.id,"t")+'</li>'}).join(""):'<li class="vac">'+(fil==="Todas"?'Aún no hay rutas. Crea la primera con «Nueva ruta».':'No hay rutas de '+fil+'.')+'</li>';
 }
 function trender(){
   board();
@@ -666,7 +666,7 @@ function wtxt(){
 function wlista(){
   $("#wchips").innerHTML="";wfil="Todas";void ["Todas"].concat(WG).map(function(g){return'<button class="chip'+(g===wfil?" on":"")+'" data-wg="'+g+'">'+g+'</button>'}).join("");
   var l=(WSUG_BY_WALL[curWall]||[]).filter(function(r){return!WHID[r.id]}).map(function(r){return WOV[r.id]?Object.assign({},r,WOV[r.id]):r}).concat(wroutes.filter(function(r){return r.wall===curWall})).filter(function(r){return wfil==="Todas"||r.g===wfil});
-  $("#wlst").innerHTML=l.length?l.map(function(r){return'<li><button class="it'+(r.id===weditId&&wmode==="ver"?" on":"")+'" data-wid="'+r.id+'"><span>'+esc(r.n)+(r.id<0?(WOV[r.id]?' <span class="bdg bdg-sug">sugerida · editada</span>':' <span class="bdg bdg-sug">sugerida</span>'):'')+(r.priv?' <span class="bdg-priv" title="Solo tú la ves">🔒</span>':'')+gChip(r,"w")+'</span></button>'+estBadge(r.id,"w")+'</li>'}).join(""):'<li class="vac">'+(wfil==="Todas"?'Aún no hay vías en este muro. Crea la primera con «Nueva vía».':'No hay vías de '+wfil+' en este muro.')+'</li>';
+  $("#wlst").innerHTML=l.length?l.map(function(r){return'<li><button class="it'+(r.id===weditId&&wmode==="ver"?" on":"")+'" data-wid="'+r.id+'"><span>'+esc(r.n)+(r.id<0?(WOV[r.id]?' <span class="bdg bdg-sug">sugerida · editada</span>':' <span class="bdg bdg-sug">sugerida</span>'):'')+(r.priv?' <span class="bdg-priv" title="Solo tú la ves">🔒</span>':'')+(typeof gChip==="function"?gChip(r,"w"):"")+'</span></button>'+estBadge(r.id,"w")+'</li>'}).join(""):'<li class="vac">'+(wfil==="Todas"?'Aún no hay vías en este muro. Crea la primera con «Nueva vía».':'No hay vías de '+wfil+' en este muro.')+'</li>';
 }
 function wgoto(hMap){
   var xs=Object.keys(hMap).map(function(k){return HOLDBY[k]?HOLDBY[k].x:null}).filter(function(v){return v!==null});
