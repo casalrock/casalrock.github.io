@@ -272,7 +272,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
 #lst .others,#wlst .others{display:none}
 .vleyenda{display:flex;gap:14px;align-items:center;font-size:.85rem;color:var(--mut);margin:-4px 0 10px;flex-wrap:wrap}
 .vleyenda span{display:inline-flex;align-items:center;gap:6px}
-</style>
+.npz{font-size:.85rem;font-weight:400;color:var(--mut);white-space:nowrap}</style>
 <main id="app">
 <div style="display:flex;align-items:center;justify-content:space-between;margin:0 0 10px">
 <div id="brand" style="display:flex;align-items:center;gap:8px;width:fit-content"><span aria-hidden="true" style="display:inline-block;width:40px;height:17px;flex:0 0 auto;opacity:.85;background-color:var(--fg);-webkit-mask-image:url('icon-mountains.png');mask-image:url('icon-mountains.png');-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center"></span><span style="font-weight:600;font-size:.95rem;letter-spacing:.01em;line-height:1;opacity:.85">Casal Rock</span></div>
@@ -594,7 +594,7 @@ function ttxt(){
 function tlista(){
   $("#tchips").innerHTML="";fil="Todas";void ["Todas"].concat(G).map(function(g){return'<button class="chip'+(g===fil?" on":"")+'" data-g="'+g+'">'+g+'</button>'}).join("");
   var l=SUG.filter(function(r){return!SHID[r.id]}).map(function(r){return SOV[r.id]?Object.assign({},r,SOV[r.id]):r}).concat(routes).filter(function(r){return fil==="Todas"||r.g===fil});
-  $("#lst").innerHTML=l.length?l.map(function(r){return'<li><button class="it'+(r.id===editId&&mode==="ver"?" on":"")+'" data-id="'+r.id+'"><span class="nm"><b>'+esc(r.n)+'</b>'+(r.id<0?(SOV[r.id]?' <span class="bdg bdg-sug">sugerida · editada</span>':' <span class="bdg bdg-sug">sugerida</span>'):'')+(r.priv?' <span class="bdg-priv" title="Solo tú la ves">🔒</span>':'')+'</span>'+(typeof gChip==="function"?gChip(r,"t"):"")+'</button>'+estBadge(r.id,"t")+'</li>'}).join(""):'<li class="vac">'+(fil==="Todas"?'<div class="vacbox">Aún no hay rutas<small>Pulsa «+ Nueva ruta» y toca las presas del tablero.</small></div>':'No hay rutas de '+fil+'.')+'</li>';
+  $("#lst").innerHTML=l.length?l.map(function(r){return'<li><button class="it'+(r.id===editId&&mode==="ver"?" on":"")+'" data-id="'+r.id+'"><span class="nm"><b>'+esc(r.n)+'</b>'+(function(n){return n?' <span class="npz">· '+n+(n===1?' presa':' presas')+'</span>':''})(Object.keys(r.h||{}).length)+(r.id<0?(SOV[r.id]?' <span class="bdg bdg-sug">sugerida · editada</span>':' <span class="bdg bdg-sug">sugerida</span>'):'')+(r.priv?' <span class="bdg-priv" title="Solo tú la ves">🔒</span>':'')+'</span>'+(typeof gChip==="function"?gChip(r,"t"):"")+'</button>'+estBadge(r.id,"t")+'</li>'}).join(""):'<li class="vac">'+(fil==="Todas"?'<div class="vacbox">Aún no hay rutas<small>Pulsa «+ Nueva ruta» y toca las presas del tablero.</small></div>':'No hay rutas de '+fil+'.')+'</li>';
 }
 function trender(){
   board();
@@ -763,7 +763,7 @@ function wtxt(){
 function wlista(){
   $("#wchips").innerHTML="";wfil="Todas";void ["Todas"].concat(WG).map(function(g){return'<button class="chip'+(g===wfil?" on":"")+'" data-wg="'+g+'">'+g+'</button>'}).join("");
   var l=(WSUG_BY_WALL[curWall]||[]).filter(function(r){return!WHID[r.id]}).map(function(r){return WOV[r.id]?Object.assign({},r,WOV[r.id]):r}).concat(wroutes.filter(function(r){return r.wall===curWall})).filter(function(r){return wfil==="Todas"||r.g===wfil});
-  $("#wlst").innerHTML=l.length?l.map(function(r){return'<li><button class="it'+(r.id===weditId&&wmode==="ver"?" on":"")+'" data-wid="'+r.id+'"><span class="nm"><b>'+esc(r.n)+'</b>'+(r.id<0?(WOV[r.id]?' <span class="bdg bdg-sug">sugerida · editada</span>':' <span class="bdg bdg-sug">sugerida</span>'):'')+(r.priv?' <span class="bdg-priv" title="Solo tú la ves">🔒</span>':'')+'</span>'+(typeof gChip==="function"?gChip(r,"w"):"")+'</button>'+estBadge(r.id,"w")+'</li>'}).join(""):'<li class="vac">'+(wfil==="Todas"?'<div class="vacbox">Aún no hay vías en este muro<small>Pulsa «+ Nueva vía» y toca las presas en la foto.</small></div>':'No hay vías de '+wfil+' en este muro.')+'</li>';
+  $("#wlst").innerHTML=l.length?l.map(function(r){return'<li><button class="it'+(r.id===weditId&&wmode==="ver"?" on":"")+'" data-wid="'+r.id+'"><span class="nm"><b>'+esc(r.n)+'</b>'+(function(n){return n?' <span class="npz">· '+n+(n===1?' presa':' presas')+'</span>':''})(Object.keys(r.h||{}).length)+(r.id<0?(WOV[r.id]?' <span class="bdg bdg-sug">sugerida · editada</span>':' <span class="bdg bdg-sug">sugerida</span>'):'')+(r.priv?' <span class="bdg-priv" title="Solo tú la ves">🔒</span>':'')+'</span>'+(typeof gChip==="function"?gChip(r,"w"):"")+'</button>'+estBadge(r.id,"w")+'</li>'}).join(""):'<li class="vac">'+(wfil==="Todas"?'<div class="vacbox">Aún no hay vías en este muro<small>Pulsa «+ Nueva vía» y toca las presas en la foto.</small></div>':'No hay vías de '+wfil+' en este muro.')+'</li>';
 }
 function wgoto(hMap){
   var xs=Object.keys(hMap).map(function(k){return HOLDBY[k]?HOLDBY[k].x:null}).filter(function(v){return v!==null});
