@@ -229,6 +229,31 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
 .wallmini.mapa{margin:0 0 6px;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#141413}
 .wallmini.mapa img{opacity:1;border-radius:0}
 #vozW,#vozT{display:none}
+/* ---- colores por función ---- */
+:root{--av-fg:#a3bddc;--av-bg:rgba(163,189,220,.16);--del:#e5534b;--delb:rgba(229,83,75,.45);--ok:#5f8f68}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--av-fg:#3d6590;--av-bg:#dfe7f2;--del:#c8372f;--delb:rgba(200,55,47,.45);--ok:#3f7a4c}}
+:root[data-theme="light"]{--av-fg:#3d6590;--av-bg:#dfe7f2;--del:#c8372f;--delb:rgba(200,55,47,.45);--ok:#3f7a4c}
+/* lo elegido nunca parece una acción: tinte suave, no relleno */
+.chip.on,.btn.sel.on{background:var(--acctint)!important;color:var(--acc)!important;border-color:var(--line)!important}
+/* acción principal plana; todo sin relieve */
+.btn{box-shadow:none!important;text-shadow:none!important}
+.btn:not(.o):not(.sel){background:var(--acc)!important;color:var(--accfg)!important}
+/* exportar es secundaria */
+#bkDown{background:transparent!important;color:var(--fg)!important;border:1px solid var(--line)!important}
+/* lo que borra, en rojo */
+#wborrar,#borrar,#wlimpiar,#limpiar,#pinAdminBtn{color:var(--del)!important;border-color:var(--delb)!important}
+#wlimpiar,#limpiar{margin-left:auto}
+/* leyenda de manos: no parece botón */
+.howto .hword{background:none!important;border:0!important;padding:0 10px 0 0!important;color:var(--fg)!important;font-weight:600}
+.howto .hword::before{content:"";width:10px;height:10px;border-radius:50%;margin-right:6px;display:inline-block}
+.howto .hword.hbR::before{background:#fbbf24}.howto .hword.hbL::before{background:#22d3ee}.howto .hword.hbB::before{background:#c77dff}
+/* hoja de grado: chips neutros con un punto de color */
+[data-gv]{background:transparent!important;color:var(--fg)!important;border:1px solid var(--line)!important;border-radius:999px!important;display:inline-flex;align-items:center}
+[data-gv]::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--gc,#777);margin-right:6px;flex:0 0 auto}
+/* hecha: verde plano */
+.estb.e{background:var(--ok)!important;border-color:var(--ok)!important;color:#fff!important;box-shadow:none!important;background-image:none!important}
+/* cantar: el play destaca sin naranja */
+.voz [data-voz=start]{background:color-mix(in srgb,var(--fg) 10%,transparent)!important}
 </style>
 <main id="app">
 <div style="display:flex;align-items:center;justify-content:space-between;margin:0 0 10px">
@@ -265,7 +290,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
 <div class="step"><span class="ring r-f"></span> Toca otra vez la última = <b>final</b></div>
 <div class="step">Toca una presa marcada para cambiar la mano:</div>
 <div class="step mano"><span class="hword hbR">Derecha</span><span class="hword hbL">Izquierda</span><span class="hword hbB">Las dos</span></div>
-<div class="step">Para quitar una presa: tócala y pulsa <b>✕ quitar</b> (arriba, en «Presa elegida»)</div>
+<div class="step" style="display:block">Para quitar una presa: tócala y pulsa «✕ quitar», arriba.</div>
 <div class="howto-tip">💡 Si no ves bien las presas, usa el zoom (+ / −) para acercarte.</div>
 </div></div>
   <label class="chk privchk" title="No se comparte con el grupo" style="display:flex;align-items:center;gap:6px;color:var(--mut);font-size:.82rem"><input type="checkbox" id="tpriv" style="width:auto;margin:0"> 🔒 Solo para mí</label>
@@ -311,7 +336,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
 <div class="step"><span class="ring r-f"></span> Toca otra vez la última = <b>final</b></div>
 <div class="step">Toca una presa marcada para cambiar la mano:</div>
 <div class="step mano"><span class="hword hbR">Derecha</span><span class="hword hbL">Izquierda</span><span class="hword hbB">Las dos</span></div>
-<div class="step">Para quitar una presa: tócala y pulsa <b>✕ quitar</b> (arriba, en «Presa elegida»)</div>
+<div class="step" style="display:block">Para quitar una presa: tócala y pulsa «✕ quitar», arriba.</div>
 <div class="howto-tip">💡 Si no ves bien las presas, usa el zoom (+ / −) para acercarte.</div>
 </div></div>
   <label class="chk privchk" title="No se comparte con el grupo" style="display:flex;align-items:center;gap:6px;color:var(--mut);font-size:.82rem"><input type="checkbox" id="wpriv" style="width:auto;margin:0"> 🔒 Solo para mí</label>
@@ -1729,7 +1754,7 @@ document.getElementById("bzfit").addEventListener("click",function(){bz(1);wrap.
   function draw(){
     var has=!!MYNAME;
     lab.hidden=has;if(plab)plab.hidden=has;save.hidden=has;view.hidden=!has;
-    if(has)view.innerHTML='<span style="display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;background:rgba(250,249,245,.08);color:#faf9f5;border:1px solid rgba(250,249,245,.18);font-weight:600"><span aria-hidden="true" style="font-size:1.05rem;line-height:1">🧗</span>'+esc(MYNAME)+'</span>'+(ISOWNER?'<span style="margin-left:8px;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:3px 9px">admin</span>':'')+' <button class="chip" id="nameCh" style="margin-left:auto;font-size:.8rem">cambiar</button>';;bar.hidden=has;bar.style.display=has?"none":"";var hn=document.getElementById("hdrName");if(hn)hn.innerHTML=has?'<button type="button" id="hdrPill" class="hpill" title="Cambiar nombre"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="flex:0 0 auto;width:20px!important;height:20px!important;max-width:none;background:none;border:0;box-shadow:none;margin:0"><circle cx="12" cy="12" r="11.2" fill="currentColor" opacity=".16"/><g transform="translate(12 12.6) scale(0.8) translate(-12 -12)"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10.6 L12 15.2" stroke-width="5"/><path d="M11.2 10.4 L8.2 8 L7 3.6" stroke-width="3"/><path d="M12.8 10.4 L16.8 11.4 L17.8 7.8" stroke-width="3"/><path d="M12 15.2 L7.4 15.4 L7 19.6" stroke-width="3"/><path d="M12 15.2 L16.4 17.4 L15.8 21.6" stroke-width="3"/></g><circle cx="12.3" cy="4.5" r="2.4" fill="currentColor"/><circle cx="6.6" cy="2.2" r="1.5" fill="currentColor" opacity="0.55"/><circle cx="18.3" cy="6.3" r="1.4" fill="currentColor" opacity="0.55"/><circle cx="6" cy="20.6" r="1.3" fill="currentColor" opacity="0.55"/><circle cx="17" cy="22.4" r="1.2" fill="currentColor" opacity="0.55"/></g></svg>'+esc(MYNAME)+(ISOWNER?'<span class="hadm">admin</span>':'')+'</button>':'';
+    if(has)view.innerHTML='<span style="display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;background:rgba(250,249,245,.08);color:#faf9f5;border:1px solid rgba(250,249,245,.18);font-weight:600"><span aria-hidden="true" style="font-size:1.05rem;line-height:1">🧗</span>'+esc(MYNAME)+'</span>'+(ISOWNER?'<span style="margin-left:8px;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:3px 9px">admin</span>':'')+' <button class="chip" id="nameCh" style="margin-left:auto;font-size:.8rem">cambiar</button>';;bar.hidden=has;bar.style.display=has?"none":"";var hn=document.getElementById("hdrName");if(hn)hn.innerHTML=has?'<button type="button" id="hdrPill" class="hpill" title="Cambiar nombre"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="color:var(--av-fg);flex:0 0 auto;width:20px!important;height:20px!important;max-width:none;background:none;border:0;box-shadow:none;margin:0"><circle cx="12" cy="12" r="11.2" fill="var(--av-bg)"/><g transform="translate(12 12.6) scale(0.8) translate(-12 -12)"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10.6 L12 15.2" stroke-width="5"/><path d="M11.2 10.4 L8.2 8 L7 3.6" stroke-width="3"/><path d="M12.8 10.4 L16.8 11.4 L17.8 7.8" stroke-width="3"/><path d="M12 15.2 L7.4 15.4 L7 19.6" stroke-width="3"/><path d="M12 15.2 L16.4 17.4 L15.8 21.6" stroke-width="3"/></g><circle cx="12.3" cy="4.5" r="2.4" fill="currentColor"/><circle cx="6.6" cy="2.2" r="1.5" fill="currentColor" opacity="0.55"/><circle cx="18.3" cy="6.3" r="1.4" fill="currentColor" opacity="0.55"/><circle cx="6" cy="20.6" r="1.3" fill="currentColor" opacity="0.55"/><circle cx="17" cy="22.4" r="1.2" fill="currentColor" opacity="0.55"/></g></svg>'+esc(MYNAME)+(ISOWNER?'<span class="hadm">admin</span>':'')+'</button>':'';
   }
   window.__drawName=draw;
   document.addEventListener("click",function(e){if(!(e.target.closest&&e.target.closest("#hdrPill")))return;bar.hidden=false;bar.style.display="";lab.hidden=false;if(plab)plab.hidden=false;save.hidden=false;save.disabled=false;view.hidden=true;inp.value=MYNAME;if(pinp)pinp.value="";msgInfo("");inp.focus();});
@@ -1776,8 +1801,8 @@ document.getElementById("bzfit").addEventListener("click",function(){bz(1);wrap.
 /* ===== GRADO PROPUESTO + VOTO AL MARCAR HECHA ===== */
 var EGK="olg-gvoto",EG={};try{EG=JSON.parse(localStorage.getItem(EGK)||"{}")}catch(e){EG={}}
 function gIdx(g){return G.indexOf(g)}
-var GCOLORS=["#55a728","#78c124","#8ec623","#9cca21","#c5d519","#eedb1c","#ebca2b","#e6bc31","#e3a73b","#de9744","#d98244","#d66937"];
-var GTEXT=["#fff","#142000","#142000","#142000","#1a1a00","#1a1400","#1a1400","#1a1200","#1a1000","#1a0c00","#1a0a00","#fff"];
+var GCOLORS=["#55a728","#78c124","#8ec623","#9cca21","#c5d519","#eedb1c","#ebca2b","#e6bc31","#e3a73b","#d9823c","#c4533a","#9c3048"];
+var GTEXT=["#fff","#142000","#142000","#142000","#1a1a00","#1a1400","#1a1400","#1a1200","#1a1000","#1a0c00","#fff","#fff"];
 function gColor(g){var i=gIdx(g);if(i<0)return"#777";return GCOLORS[i]||GCOLORS[GCOLORS.length-1]}
 function gTxt(g){var i=gIdx(g);if(i<0)return"#fff";return GTEXT[i]||"#fff"}
 function gChip(r,k){
@@ -1802,7 +1827,7 @@ function gChip(r,k){
   var sh=document.createElement("div");sh.id="gsheet";sh.hidden=true;document.body.appendChild(sh);
   var cur_=null;
   function open(id,k){cur_={id:id,k:k};sh.innerHTML='<h3>¡Hecha! 🎉</h3><p class="sub" style="margin:0">¿Qué grado le darías? (opcional)</p><div class="gg">'+
-    G.map(function(g){return'<button data-gv="'+g+'" style="background:'+gColor(g)+';color:'+gTxt(g)+'">'+g+'</button>'}).join("")+'</div><button class="btn o" data-gv="">Saltar</button>';sh.hidden=false}
+    G.map(function(g){return'<button data-gv="'+g+'" style="--gc:'+gColor(g)+'">'+g+'</button>'}).join("")+'</div><button class="btn o" data-gv="">Saltar</button>';sh.hidden=false}
   sh.addEventListener("click",function(e){var b=e.target.closest("[data-gv]");if(!b||!cur_)return;var g=b.dataset.gv,id=cur_.id,k=cur_.k;sh.hidden=true;
     if(g){EG[id]=g;try{localStorage.setItem(EGK,JSON.stringify(EG))}catch(x){}
       if(typeof DBX!=="undefined"&&DBX)DBX.collection(k==="w"?"estado_muro":"estado_tablero").doc(MYUID+"_"+id).set({routeId:+id,uid:MYUID,status:"e",name:MYNAME||"Anónimo",gv:g}).catch(function(){});}
