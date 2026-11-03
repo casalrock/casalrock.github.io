@@ -142,6 +142,50 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 <style id="legend-grid">.legend3{border:1px solid var(--line);border-radius:12px;padding:12px 10px;margin:0 0 12px;color:var(--mut);font-size:1rem}.legend3 .lg-t{font-weight:700;color:var(--fg);font-size:1rem;margin:0 0 8px;width:auto}.legend3 .lg-t2{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}.legend3 .lg-g5{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;align-items:start}.legend3 .lg-g3{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;align-items:start}.legend3 .lg-c{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;min-width:0;flex:none}.legend3 .lg-c b{color:var(--fg);font-size:1.05rem;height:22px;line-height:22px}.legend3 .lg-i{height:30px;display:flex;align-items:center;justify-content:center;gap:2px}.legend3 .hbx{width:26px;height:26px;font-size:.95rem}.legend3 .ring{width:24px;height:24px;border-width:4px}.legend3 em{font-style:normal;font-size:.88rem;line-height:1.2}.legend3 em small{font-size:.78rem;font-weight:400;color:var(--mut)}</style>
 </head>
 <body>
+<div id="splash" aria-hidden="true">
+<style>
+#splash{--I:min(62vw,240px);position:fixed;inset:0;z-index:9999;background:#141413;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s ease}
+#splash.fuera{opacity:0;pointer-events:none}
+#splash svg{width:calc(var(--I)*.572);height:auto;overflow:visible;background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;margin:0!important;padding:0!important;max-width:none!important}
+#splash .tr{fill:none;stroke:#fff;stroke-width:56;stroke-linecap:round;stroke-dasharray:400;stroke-dashoffset:400;animation:spDraw .5s cubic-bezier(.5,0,.3,1) forwards}
+#splash .tr.t2{animation-delay:.35s}
+#splash .tr.t3{animation-delay:.7s}
+#splash .sp1,#splash .sp2{font-family:Georgia,"Times New Roman",serif;color:#faf9f5}
+#splash .sp1{font-size:calc(var(--I)*.085);letter-spacing:.12em;margin-top:calc(var(--I)*.03)}
+#splash .sp2{font-size:calc(var(--I)*.048);letter-spacing:.3em;margin-top:0;color:#a39e97}
+@keyframes spDraw{to{stroke-dashoffset:0}}
+@keyframes spText{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){#splash .tr{animation:none;stroke-dashoffset:0}}
+</style>
+<svg viewBox="0 0 396 166">
+  <defs>
+    <mask id="spShape" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="396" height="166" style="mask-type:alpha">
+      <image href="icon-mountains.png" x="0" y="0" width="396" height="166"/>
+    </mask>
+    <mask id="spDraw" maskUnits="userSpaceOnUse" x="-40" y="-80" width="480" height="300">
+      <path class="tr t1" pathLength="400" d="M58 150 Q109 -22 162 124"/>
+      <path class="tr t2" pathLength="400" d="M148 166 Q198 -68 250 132"/>
+      <path class="tr t3" pathLength="400" d="M238 136 Q288 -82 340 104"/>
+    </mask>
+  </defs>
+  <g mask="url(#spDraw)"><rect width="396" height="166" fill="#faf9f5" mask="url(#spShape)"/></g>
+</svg>
+<div class="sp1">CASAL ROCK</div>
+<div class="sp2">EL BRUC</div>
+<script>
+(function(){
+  var s=document.getElementById("splash"),q=location.search.indexOf("splash")>-1,st=false;
+  try{st=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true}catch(e){}
+  if(!st&&!q){s.parentNode.removeChild(s);return}
+  var t0=Date.now(),hecho=false;
+  function quitar(){if(hecho)return;hecho=true;var falta=Math.max(0,2400-(Date.now()-t0));
+    setTimeout(function(){s.classList.add("fuera");setTimeout(function(){if(s.parentNode)s.parentNode.removeChild(s)},600)},falta)}
+  if(document.readyState==="complete")quitar();else window.addEventListener("load",quitar);
+  setTimeout(quitar,5000);
+  s.addEventListener("click",function(){t0=0;hecho=false;quitar()});
+})();
+</script>
+</div>
 <main id="app">
 <div style="display:flex;align-items:center;justify-content:space-between;margin:0 0 10px">
 <div id="brand" style="display:flex;align-items:center;gap:8px;width:fit-content"><span aria-hidden="true" style="display:inline-block;width:40px;height:17px;flex:0 0 auto;opacity:.85;background-color:var(--fg);-webkit-mask-image:url('icon-mountains.png');mask-image:url('icon-mountains.png');-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center"></span><span style="font-weight:600;font-size:.95rem;letter-spacing:.01em;line-height:1;opacity:.85">Casal Rock</span></div>
