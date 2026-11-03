@@ -1682,7 +1682,7 @@ document.getElementById("bzfit").addEventListener("click",function(){bz(1);wrap.
   function draw(){
     var has=!!MYNAME;
     lab.hidden=has;if(plab)plab.hidden=has;save.hidden=has;view.hidden=!has;
-    if(has)view.innerHTML='<span style="display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;background:rgba(143,191,159,.14);color:#8fbf9f;border:1px solid rgba(143,191,159,.28);font-weight:600"><span aria-hidden="true" style="font-size:1.05rem;line-height:1">🧗</span>'+esc(MYNAME)+'</span>'+(ISOWNER?'<span style="margin-left:8px;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:3px 9px">admin</span>':'')+' <button class="chip" id="nameCh" style="margin-left:auto;font-size:.8rem">cambiar</button>';
+    if(has)view.innerHTML='<span style="display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;background:rgba(250,249,245,.08);color:#faf9f5;border:1px solid rgba(250,249,245,.18);font-weight:600"><span aria-hidden="true" style="font-size:1.05rem;line-height:1">🧗</span>'+esc(MYNAME)+'</span>'+(ISOWNER?'<span style="margin-left:8px;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:3px 9px">admin</span>':'')+' <button class="chip" id="nameCh" style="margin-left:auto;font-size:.8rem">cambiar</button>';
   }
   window.__drawName=draw;
   function claim(n,pin){
