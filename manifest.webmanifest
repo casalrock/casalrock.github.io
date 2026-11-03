@@ -32,24 +32,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    },
-    {
-      "src": "splash-320.png",
-      "sizes": "320x320",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "splash-384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "splash-448.png",
-      "sizes": "448x448",
-      "type": "image/png",
-      "purpose": "any"
     }
   ]
 }
