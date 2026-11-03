@@ -224,6 +224,12 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 .det:empty{display:none}
 .vacbox{border:1px dashed var(--line);border-radius:12px;padding:22px 14px;text-align:center;color:var(--fg);font-weight:600;list-style:none}
 .vacbox small{display:block;color:var(--mut);font-weight:400;margin-top:4px;font-size:.85rem}
+#wlst .it,#lst .it{flex-wrap:wrap;justify-content:flex-start;align-items:center;gap:4px 6px}
+#wlst .it>span:first-child,#lst .it>span:first-child{display:contents}
+#wlst .it::before,#lst .it::before{content:"";flex-basis:100%;order:1;height:0}
+#wlst .it .tag,#lst .it .tag{order:2;margin:0;font-size:.8rem;color:var(--mut)}
+#wlst .it .gvot,#lst .it .gvot{order:3;margin:0}
+#wlst .it .tag+.gvot::before{content:"· ";color:var(--mut)}
 li.vac{list-style:none;border:0!important;padding:0!important;background:none!important}
 /* ---- minimapa en la esquina de la foto ---- */
 .wallmini.mapa{margin:0 0 6px;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#141413}
@@ -290,7 +296,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
 <div class="step"><span class="ring r-f"></span> Toca la última hasta que salga en rojo = <b>final</b></div>
 <div class="step">Toca una presa marcada para cambiar la mano:</div>
 <div class="step mano"><span class="hword hbR">Derecha</span><span class="hword hbL">Izquierda</span><span class="hword hbB">Las dos</span></div>
-<div class="step" style="display:block">Para quitar una presa: tócala y pulsa «✕ quitar», arriba.</div>
+<div class="step">Para quitar la presa, toca la <span class="xmini">✕</span></div>
 <div class="howto-tip">💡 Si no ves bien las presas, usa el zoom (+ / −) para acercarte.</div>
 </div></div>
   <label class="chk privchk" title="No se comparte con el grupo" style="display:flex;align-items:center;gap:6px;color:var(--mut);font-size:.82rem"><input type="checkbox" id="tpriv" style="width:auto;margin:0"> 🔒 Solo para mí</label>
@@ -336,7 +342,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
 <div class="step"><span class="ring r-f"></span> Toca la última hasta que salga en rojo = <b>final</b></div>
 <div class="step">Toca una presa marcada para cambiar la mano:</div>
 <div class="step mano"><span class="hword hbR">Derecha</span><span class="hword hbL">Izquierda</span><span class="hword hbB">Las dos</span></div>
-<div class="step" style="display:block">Para quitar una presa: tócala y pulsa «✕ quitar», arriba.</div>
+<div class="step">Para quitar la presa, toca la <span class="xmini">✕</span></div>
 <div class="howto-tip">💡 Si no ves bien las presas, usa el zoom (+ / −) para acercarte.</div>
 </div></div>
   <label class="chk privchk" title="No se comparte con el grupo" style="display:flex;align-items:center;gap:6px;color:var(--mut);font-size:.82rem"><input type="checkbox" id="wpriv" style="width:auto;margin:0"> 🔒 Solo para mí</label>
@@ -413,7 +419,7 @@ function markHold(o,k,w){
   }
   relabel(o);
 }
-function xBtn(x,y,r,w,k){return"";var d=r*0.42;return'<g class="xdel" data-xdel="'+w+'|'+k+'"><circle cx="'+x+'" cy="'+y+'" r="'+r+'"/><path d="M'+(x-d)+' '+(y-d)+'L'+(x+d)+' '+(y+d)+'M'+(x+d)+' '+(y-d)+'L'+(x-d)+' '+(y+d)+'" style="stroke-width:'+(r*0.32).toFixed(1)+'px"/></g>'}
+function xBtn(x,y,r,w,k){var d=r*0.42;return'<g class="xdel" data-xdel="'+w+'|'+k+'"><circle cx="'+x+'" cy="'+y+'" r="'+r+'"/><path d="M'+(x-d)+' '+(y-d)+'L'+(x+d)+' '+(y+d)+'M'+(x+d)+' '+(y-d)+'L'+(x-d)+' '+(y+d)+'" style="stroke-width:'+(r*0.32).toFixed(1)+'px"/></g>'}
 document.addEventListener("click",function(e){
   var g=e.target.closest&&e.target.closest("[data-xdel]");if(!g)return;
   e.preventDefault();e.stopPropagation();
