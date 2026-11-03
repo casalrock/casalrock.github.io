@@ -270,7 +270,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
 #lst .others,#wlst .others{display:none}
 .vleyenda{display:flex;gap:14px;align-items:center;font-size:.85rem;color:var(--mut);margin:-4px 0 10px;flex-wrap:wrap}
 .vleyenda span{display:inline-flex;align-items:center;gap:6px}
-</style>
+.npz{font-size:.85rem;font-weight:400;color:var(--mut);white-space:nowrap}.voz .vtxt{display:none!important}.selbar .xbtn.sv{background:var(--acc);border-color:var(--acc);color:#fff}</style>
 <main id="app">
 <div style="display:flex;align-items:center;justify-content:space-between;margin:0 0 10px">
 <div id="brand" style="display:flex;align-items:center;gap:8px;width:fit-content"><span aria-hidden="true" style="display:inline-block;width:40px;height:17px;flex:0 0 auto;opacity:.85;background-color:var(--fg);-webkit-mask-image:url('icon-mountains.png');mask-image:url('icon-mountains.png');-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center"></span><span style="font-weight:600;font-size:.95rem;letter-spacing:.01em;line-height:1;opacity:.85">Casal Rock</span></div>
@@ -300,7 +300,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
 </div>
 
 <div id="tform" hidden>
-<div class="selbar" data-for="t"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="xbtn" data-undo="1">↶ Deshacer</button><button class="xbtn del" data-del="1">✕ Quitar</button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo marcar una ruta</div><div class="howto-b">
+<div class="selbar" data-for="t"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="xbtn" data-undo="1">↶ Deshacer</button><button class="xbtn del" data-del="1">✕ Quitar</button><button class="xbtn sv" data-save="1">✓ Guardar</button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo marcar una ruta</div><div class="howto-b">
 <div class="hw2">
   <div class="ln"><span class="it2"><span class="rg s"></span>Inicio</span><span class="it2"><span class="rg m"></span>Intermedias</span><span class="it2"><span class="rg f"></span>Top</span></div>
   <div class="ln"><span>Toca otra vez:</span><span class="tq"><span class="k D">Derecha</span><i>→</i><span class="k I">Izquierda</span><i>→</i><span class="k DI">Dos manos</span><i>→</i><span class="k TOP">Top</span></span><span class="nt">(la última)</span></div>
@@ -344,7 +344,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
   <button class="btn o" id="wborrar" hidden>Borrar</button>
 </div>
 <div id="wform" hidden>
-<div class="selbar" data-for="w"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="xbtn" data-undo="1">↶ Deshacer</button><button class="xbtn del" data-del="1">✕ Quitar</button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo marcar una vía</div><div class="howto-b">
+<div class="selbar" data-for="w"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="xbtn" data-undo="1">↶ Deshacer</button><button class="xbtn del" data-del="1">✕ Quitar</button><button class="xbtn sv" data-save="1">✓ Guardar</button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo marcar una vía</div><div class="howto-b">
 <div class="hw2">
   <div class="ln"><span class="it2"><span class="rg s"></span>Inicio</span><span class="it2"><span class="rg m"></span>Intermedias</span><span class="it2"><span class="rg f"></span>Top</span></div>
   <div class="ln"><span>Toca otra vez:</span><span class="tq"><span class="k D">Derecha</span><i>→</i><span class="k I">Izquierda</span><i>→</i><span class="k DI">Dos manos</span><i>→</i><span class="k TOP">Top</span></span><span class="nt">(la última)</span></div>
@@ -592,7 +592,7 @@ function ttxt(){
 function tlista(){
   $("#tchips").innerHTML="";fil="Todas";void ["Todas"].concat(G).map(function(g){return'<button class="chip'+(g===fil?" on":"")+'" data-g="'+g+'">'+g+'</button>'}).join("");
   var l=SUG.filter(function(r){return!SHID[r.id]}).map(function(r){return SOV[r.id]?Object.assign({},r,SOV[r.id]):r}).concat(routes).filter(function(r){return fil==="Todas"||r.g===fil});
-  $("#lst").innerHTML=l.length?l.map(function(r){return'<li><button class="it'+(r.id===editId&&mode==="ver"?" on":"")+'" data-id="'+r.id+'"><span class="nm"><b>'+esc(r.n)+'</b>'+(r.id<0?(SOV[r.id]?' <span class="bdg bdg-sug">sugerida · editada</span>':' <span class="bdg bdg-sug">sugerida</span>'):'')+(r.priv?' <span class="bdg-priv" title="Solo tú la ves">🔒</span>':'')+'</span>'+(typeof gChip==="function"?gChip(r,"t"):"")+'</button>'+estBadge(r.id,"t")+'</li>'}).join(""):'<li class="vac">'+(fil==="Todas"?'<div class="vacbox">Aún no hay rutas<small>Pulsa «+ Nueva ruta» y toca las presas del tablero.</small></div>':'No hay rutas de '+fil+'.')+'</li>';
+  $("#lst").innerHTML=l.length?l.map(function(r){return'<li><button class="it'+(r.id===editId&&mode==="ver"?" on":"")+'" data-id="'+r.id+'"><span class="nm"><b>'+esc(r.n)+'</b>'+(function(h){var n=0;for(var k in h){if(RO(h[k])!=="s")n+=HA(h[k])==="B"?2:1}return n?' <span class="npz">· '+n+(n===1?' movimiento':' movimientos')+'</span>':''})(r.h||{})+(r.id<0?(SOV[r.id]?' <span class="bdg bdg-sug">sugerida · editada</span>':' <span class="bdg bdg-sug">sugerida</span>'):'')+(r.priv?' <span class="bdg-priv" title="Solo tú la ves">🔒</span>':'')+'</span>'+(typeof gChip==="function"?gChip(r,"t"):"")+'</button>'+estBadge(r.id,"t")+'</li>'}).join(""):'<li class="vac">'+(fil==="Todas"?'<div class="vacbox">Aún no hay rutas<small>Pulsa «+ Nueva ruta» y toca las presas del tablero.</small></div>':'No hay rutas de '+fil+'.')+'</li>';
 }
 function trender(){
   board();
@@ -761,7 +761,7 @@ function wtxt(){
 function wlista(){
   $("#wchips").innerHTML="";wfil="Todas";void ["Todas"].concat(WG).map(function(g){return'<button class="chip'+(g===wfil?" on":"")+'" data-wg="'+g+'">'+g+'</button>'}).join("");
   var l=(WSUG_BY_WALL[curWall]||[]).filter(function(r){return!WHID[r.id]}).map(function(r){return WOV[r.id]?Object.assign({},r,WOV[r.id]):r}).concat(wroutes.filter(function(r){return r.wall===curWall})).filter(function(r){return wfil==="Todas"||r.g===wfil});
-  $("#wlst").innerHTML=l.length?l.map(function(r){return'<li><button class="it'+(r.id===weditId&&wmode==="ver"?" on":"")+'" data-wid="'+r.id+'"><span class="nm"><b>'+esc(r.n)+'</b>'+(r.id<0?(WOV[r.id]?' <span class="bdg bdg-sug">sugerida · editada</span>':' <span class="bdg bdg-sug">sugerida</span>'):'')+(r.priv?' <span class="bdg-priv" title="Solo tú la ves">🔒</span>':'')+'</span>'+(typeof gChip==="function"?gChip(r,"w"):"")+'</button>'+estBadge(r.id,"w")+'</li>'}).join(""):'<li class="vac">'+(wfil==="Todas"?'<div class="vacbox">Aún no hay vías en este muro<small>Pulsa «+ Nueva vía» y toca las presas en la foto.</small></div>':'No hay vías de '+wfil+' en este muro.')+'</li>';
+  $("#wlst").innerHTML=l.length?l.map(function(r){return'<li><button class="it'+(r.id===weditId&&wmode==="ver"?" on":"")+'" data-wid="'+r.id+'"><span class="nm"><b>'+esc(r.n)+'</b>'+(function(h){var n=0;for(var k in h){if(RO(h[k])!=="s")n+=HA(h[k])==="B"?2:1}return n?' <span class="npz">· '+n+(n===1?' movimiento':' movimientos')+'</span>':''})(r.h||{})+(r.id<0?(WOV[r.id]?' <span class="bdg bdg-sug">sugerida · editada</span>':' <span class="bdg bdg-sug">sugerida</span>'):'')+(r.priv?' <span class="bdg-priv" title="Solo tú la ves">🔒</span>':'')+'</span>'+(typeof gChip==="function"?gChip(r,"w"):"")+'</button>'+estBadge(r.id,"w")+'</li>'}).join(""):'<li class="vac">'+(wfil==="Todas"?'<div class="vacbox">Aún no hay vías en este muro<small>Pulsa «+ Nueva vía» y toca las presas en la foto.</small></div>':'No hay vías de '+wfil+' en este muro.')+'</li>';
 }
 function wgoto(hMap){
   var xs=Object.keys(hMap).map(function(k){return HOLDBY[k]?HOLDBY[k].x:null}).filter(function(v){return v!==null});
@@ -1946,6 +1946,12 @@ function gChip(r,k){
   function go(){card("wdet","wacts","vozW","wnueva","wlst");card("det","acts","vozT","nueva","lst");flot("wallScroll",["wzin","wzfit","wzout"]);var mw=document.getElementById("wminiWrap"),sc=document.getElementById("wallScroll");if(mw&&sc){mw.classList.add("mapa");sc.parentNode.parentNode.insertBefore(mw,sc.parentNode);}if(window.drawMini)try{drawMini()}catch(e){}flot("bwrap",["bzin","bzfit","bzout"]);}
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",go);else go();
 })();
+</script>
+<script>
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".selbar [data-save]");if(!b)return;
+var w=b.closest(".selbar").dataset.for,g=document.getElementById(w==="t"?"guardarC":"wguardarC"),m=document.getElementById(w==="t"?"msg":"wmsg");
+if(!g)return;if(m)m.textContent="";g.click();
+setTimeout(function(){var f=document.getElementById(w==="t"?"tform":"wform");if(f&&!f.hidden){var t=(m&&m.textContent.trim())?m:document.getElementById(w==="t"?"n":"wn");t&&t.scrollIntoView({behavior:"smooth",block:"center"})}},400)});
 </script>
 </body>
 </html>
