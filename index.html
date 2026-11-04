@@ -189,6 +189,11 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 </script>
 </div>
 <style id="dz">
+/* nombre, grado y "Solo para mí" se piden en la ventanita de Guardar: fuera del formulario (siguen en el DOM) */
+#tform label:has(#n),#tform label:has(#g),#tform .privchk,#wform label:has(#wn),#wform label:has(#wg),#wform .privchk{display:none!important}
+/* mientras se crea, bajo el muro/tablero solo quedan las instrucciones (fuera el recuento Inicio/Intermedias/Final) */
+#s-tab:has(#tform:not([hidden])) #det,#s-mur:has(#wform:not([hidden])) #wdet,#s-tab:has(#tform:not([hidden])) .vcard:has(#det),#s-mur:has(#wform:not([hidden])) .vcard:has(#wdet){display:none!important}
+
 /* ---- rediseño: cabecera con nombre ---- */
 .hpill{display:inline-flex;align-items:center;gap:6px;padding:4px 11px 4px 6px;border-radius:999px;background:color-mix(in srgb,var(--fg) 8%,transparent);color:var(--fg);border:1px solid color-mix(in srgb,var(--fg) 18%,transparent);font:inherit;font-weight:600;font-size:.86rem;box-shadow:none;text-shadow:none;cursor:pointer;max-width:52vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hadm{font-size:.6rem;letter-spacing:.07em;text-transform:uppercase;color:var(--mut);font-weight:600}
@@ -270,7 +275,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
 #lst .others,#wlst .others{display:none}
 .vleyenda{display:flex;gap:14px;align-items:center;font-size:.85rem;color:var(--mut);margin:-4px 0 10px;flex-wrap:wrap}
 .vleyenda span{display:inline-flex;align-items:center;gap:6px}
-.npz{font-size:.85rem;font-weight:400;color:var(--mut);white-space:nowrap}.voz .vtxt{display:none!important}.selbar .xbtn.sv{background:var(--acc);border-color:var(--acc);color:#fff}</style>
+.npz{font-size:.85rem;font-weight:400;color:var(--mut);white-space:nowrap}.voz .vtxt{display:none!important}.selbar .xbtn.sv{background:var(--acc);border-color:var(--acc);color:#fff}.selbar .brk{flex-basis:100%;height:0}.selbar .xbtn{padding:8px 10px}#tform .row:has(#guardarC),#wform .row:has(#wguardarC){display:none!important}.selmsg{font-size:.88rem;font-weight:600;color:#ef4c46;margin:0 0 6px}#namepop{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;padding:12px}#namepop[hidden]{display:none}#namepop .npbox{width:min(432px,100%);background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:8px}#namepop label{display:block;font-weight:600;color:var(--fg)}#namepop input{width:100%;box-sizing:border-box;margin-top:8px;font-size:1rem}#namepop .npmsg{color:#ef4c46;font-size:.85rem;margin:6px 0 0;min-height:1em}#namepop .nprow{display:flex;gap:8px;margin-top:10px}#namepop .xbtn{flex:1;display:inline-flex;justify-content:center;align-items:center;padding:10px;border-radius:10px;font-weight:600;font-size:.95rem;background:transparent;border:1px solid var(--line);color:var(--fg)}#namepop .xbtn.sv{background:var(--acc);border-color:var(--acc);color:#fff}#namepop select{width:100%;box-sizing:border-box;margin-top:8px;font-size:1rem}#namepop label+label{margin-top:12px}#namepop .npchk{display:flex;align-items:center;gap:8px;font-weight:500;color:var(--mut)}#namepop .npchk input{width:auto;margin:0}#lst li:has(.it.on),#wlst li:has(.it.on){border:2px solid var(--acc)!important;background:color-mix(in srgb,var(--acc) 16%,var(--card))!important}.cdmeta{color:var(--mut);font-size:.92rem}.cdco{color:var(--mut);font-size:.85rem;line-height:1.45;margin-top:4px}.cdco b{font-weight:600}.npz.wr .npd{display:none}#cancelpop{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;padding:12px}#cancelpop[hidden]{display:none}#cancelpop .npbox{width:min(432px,100%);background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:8px}#cancelpop .cpt{font-weight:600;font-size:1.05rem;color:var(--fg);margin:2px 0 4px}#cancelpop .cps{color:var(--mut);font-size:.92rem;margin:0}#cancelpop .nprow{display:flex;gap:8px;margin-top:14px}#cancelpop .xbtn{flex:1;display:inline-flex;justify-content:center;align-items:center;padding:10px;border-radius:10px;font-weight:600;font-size:.95rem;background:transparent;border:1px solid var(--line);color:var(--fg)}#cancelpop .xbtn.dl{background:var(--del);border-color:var(--del);color:#fff}</style>
 <main id="app">
 <div style="display:flex;align-items:center;justify-content:space-between;margin:0 0 10px">
 <div id="brand" style="display:flex;align-items:center;gap:8px;width:fit-content"><span aria-hidden="true" style="display:inline-block;width:40px;height:17px;flex:0 0 auto;opacity:.85;background-color:var(--fg);-webkit-mask-image:url('icon-mountains.png');mask-image:url('icon-mountains.png');-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center"></span><span style="font-weight:600;font-size:.95rem;letter-spacing:.01em;line-height:1;opacity:.85">Casal Rock</span></div>
@@ -300,7 +305,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
 </div>
 
 <div id="tform" hidden>
-<div class="selbar" data-for="t"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="xbtn" data-undo="1">↶ Deshacer</button><button class="xbtn del" data-del="1">✕ Quitar</button><button class="xbtn sv" data-save="1">✓ Guardar</button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo marcar una ruta</div><div class="howto-b">
+<div class="selbar" data-for="t"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="xbtn" data-undo="1">↶ Deshacer</button><button class="xbtn del" data-del="1">✕ Quitar</button><button class="xbtn" data-px="limpiar">🗑 Vaciar</button><span class="brk"></span><button class="xbtn" data-px="cancelar">Cancelar</button><button class="xbtn sv" data-save="1">✓ Guardar</button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo marcar una ruta</div><div class="howto-b">
 <div class="hw2">
   <div class="ln"><span class="it2"><span class="rg s"></span>Inicio</span><span class="it2"><span class="rg m"></span>Intermedias</span><span class="it2"><span class="rg f"></span>Top</span></div>
   <div class="ln"><span>Toca otra vez:</span><span class="tq"><span class="k D">Derecha</span><i>→</i><span class="k I">Izquierda</span><i>→</i><span class="k DI">Dos manos</span><i>→</i><span class="k TOP">Top</span></span><span class="nt">(la última)</span></div>
@@ -344,7 +349,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
   <button class="btn o" id="wborrar" hidden>Borrar</button>
 </div>
 <div id="wform" hidden>
-<div class="selbar" data-for="w"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="xbtn" data-undo="1">↶ Deshacer</button><button class="xbtn del" data-del="1">✕ Quitar</button><button class="xbtn sv" data-save="1">✓ Guardar</button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo marcar una vía</div><div class="howto-b">
+<div class="selbar" data-for="w"><div class="row" style="margin:0;align-items:center"><div class="sellab" style="flex:1">Presa elegida: <b class="selk">ninguna</b></div><button class="xbtn" data-undo="1">↶ Deshacer</button><button class="xbtn del" data-del="1">✕ Quitar</button><button class="xbtn" data-px="wlimpiar">🗑 Vaciar</button><span class="brk"></span><button class="xbtn" data-px="wcancelar">Cancelar</button><button class="xbtn sv" data-save="1">✓ Guardar</button></div></div><div class="howto"><div class="howto-t">ℹ️ Cómo marcar una vía</div><div class="howto-b">
 <div class="hw2">
   <div class="ln"><span class="it2"><span class="rg s"></span>Inicio</span><span class="it2"><span class="rg m"></span>Intermedias</span><span class="it2"><span class="rg f"></span>Top</span></div>
   <div class="ln"><span>Toca otra vez:</span><span class="tq"><span class="k D">Derecha</span><i>→</i><span class="k I">Izquierda</span><i>→</i><span class="k DI">Dos manos</span><i>→</i><span class="k TOP">Top</span></span><span class="nt">(la última)</span></div>
@@ -436,7 +441,7 @@ document.addEventListener("click",function(e){
 function selApply(w,act){
   var o=w==="t"?cur:wcur,k=SEL[w];if(!k||!o[k])return;fixOrd(o,w);
   var v=o[k],n=ORD(v);if(n===null)n=Object.keys(o).indexOf(k)+1;
-  if(act==="del"){delete o[k];SEL[w]=null;relabel(o);var sk=seqKeys(o);if(sk.length>1&&RO(o[sk[1]])==="s"&&HA(o[sk[0]])===HA(o[sk[1]])&&"LR".indexOf(HA(o[sk[1]]))>=0){var h2=HA(o[sk[1]])==="R"?"L":"R";o[sk[1]]="s"+h2+ORD(o[sk[1]]);FH[w+sk[1]]=h2}}
+  if(act==="del"){var ix_=seqKeys(o).indexOf(k);delete o[k];SEL[w]=null;relabel(o);var sk=seqKeys(o);if(sk.length>1&&RO(o[sk[1]])==="s"&&HA(o[sk[0]])===HA(o[sk[1]])&&"LR".indexOf(HA(o[sk[1]]))>=0){var h2=HA(o[sk[1]])==="R"?"L":"R";o[sk[1]]="s"+h2+ORD(o[sk[1]]);FH[w+sk[1]]=h2}var sk3=seqKeys(o);SEL[w]=sk3.length?sk3[Math.min(ix_,sk3.length-1)]:null}
   else o[k]=RO(v)+(HA(v)===act?"x":act)+n;
   if(w==="t")trender();else wrender();
 }
@@ -451,7 +456,7 @@ function selUpd(w){
 }
 document.addEventListener("click",function(e){
   var u=e.target.closest&&e.target.closest(".selbar [data-undo]");
-  if(u){var wu=u.closest(".selbar").dataset.for,ou=wu==="t"?cur:wcur,ku=seqKeys(ou);if(ku.length){SEL[wu]=ku[ku.length-1];selApply(wu,"del");selUpd(wu)}return}
+  if(u){if(window.__undo)window.__undo(u.closest(".selbar").dataset.for);return}
   var b=e.target.closest&&e.target.closest(".selbar [data-hand],.selbar [data-del]");
   if(b){var w=b.closest(".selbar").dataset.for;selApply(w,b.dataset.del?"del":b.dataset.hand);selUpd(w);return}
   var nb=e.target.closest&&e.target.closest("#nueva,#wnueva,#editar,#weditar,#copiar,#wcopiar,#cancelar,#wcancelar,#limpiar,#wlimpiar");
@@ -586,13 +591,15 @@ function ttxt(){
   seqKeys(cur).forEach(function(k){o[RO(cur[k])].push(k+(HA(cur[k])?" ("+HL[HA(cur[k])]+")":""))});
   var srt=function(a){return a.sort(function(x,y){return parseInt(x.slice(1))-parseInt(y.slice(1))||(x<y?-1:1)})};
   var t=["s","m","j","f"].filter(function(x){return o[x].length}).map(function(x){return'<b class="'+x+'">'+(x==="s"?lblS(o.s.length,o.s.length===1?cur[o.s[0].split(" ")[0]]:null):LBL[x])+':</b> '+o[x].join(", ")}).join("<br>");
+  if(t&&mode!=="crear"){var r_=editId!=null&&typeof find==="function"?find(editId):null,n_=0;for(var k_ in cur){if(RO(cur[k_])!=="s")n_+=HA(cur[k_])==="B"?2:1}
+    return'<span class="cdmeta">'+n_+(n_===1?" movimiento":" movimientos")+(r_&&r_.g&&typeof gColor==="function"?' · <span class="gch" style="margin:0;background:'+gColor(r_.g)+';color:'+gTxt(r_.g)+'">'+esc(r_.g)+'</span>':"")+'</span><div class="cdco">'+t+'</div>'}
   if(t)return t;
   return mode==="crear"?"Toca la primera presa de la ruta.":"";
 }
 function tlista(){
   $("#tchips").innerHTML="";fil="Todas";void ["Todas"].concat(G).map(function(g){return'<button class="chip'+(g===fil?" on":"")+'" data-g="'+g+'">'+g+'</button>'}).join("");
   var l=SUG.filter(function(r){return!SHID[r.id]}).map(function(r){return SOV[r.id]?Object.assign({},r,SOV[r.id]):r}).concat(routes).filter(function(r){return fil==="Todas"||r.g===fil});
-  $("#lst").innerHTML=l.length?l.map(function(r){return'<li><button class="it'+(r.id===editId&&mode==="ver"?" on":"")+'" data-id="'+r.id+'"><span class="nm"><b>'+esc(r.n)+'</b>'+(function(h){var n=0;for(var k in h){if(RO(h[k])!=="s")n+=HA(h[k])==="B"?2:1}return n?' <span class="npz">· '+n+(n===1?' movimiento':' movimientos')+'</span>':''})(r.h||{})+(r.id<0?(SOV[r.id]?' <span class="bdg bdg-sug">sugerida · editada</span>':' <span class="bdg bdg-sug">sugerida</span>'):'')+(r.priv?' <span class="bdg-priv" title="Solo tú la ves">🔒</span>':'')+'</span>'+(typeof gChip==="function"?gChip(r,"t"):"")+'</button>'+estBadge(r.id,"t")+'</li>'}).join(""):'<li class="vac">'+(fil==="Todas"?'<div class="vacbox">Aún no hay rutas<small>Pulsa «+ Nueva ruta» y toca las presas del tablero.</small></div>':'No hay rutas de '+fil+'.')+'</li>';
+  $("#lst").innerHTML=l.length?l.map(function(r){return'<li><button class="it'+(r.id===editId&&mode==="ver"?" on":"")+'" data-id="'+r.id+'"><span class="nm"><b>'+esc(r.n)+'</b>'+(function(h){var n=0;for(var k in h){if(RO(h[k])!=="s")n+=HA(h[k])==="B"?2:1}return n?' <span class="npz"><span class="npd">· </span>'+n+(n===1?' movimiento':' movimientos')+'</span>':''})(r.h||{})+(r.id<0?(SOV[r.id]?' <span class="bdg bdg-sug">sugerida · editada</span>':' <span class="bdg bdg-sug">sugerida</span>'):'')+(r.priv?' <span class="bdg-priv" title="Solo tú la ves">🔒</span>':'')+'</span>'+(typeof gChip==="function"?gChip(r,"t"):"")+'</button>'+estBadge(r.id,"t")+'</li>'}).join(""):'<li class="vac">'+(fil==="Todas"?'<div class="vacbox">Aún no hay rutas<small>Pulsa «+ Nueva ruta» y toca las presas del tablero.</small></div>':'No hay rutas de '+fil+'.')+'</li>';
 }
 function trender(){
   board();
@@ -753,6 +760,8 @@ function drawMini(){
   mini.innerHTML=dots+rect;
 }
 function wtxt(){
+  if(wmode!=="crear"){if(!Object.keys(wcur).length)return"";var r_=weditId!=null&&typeof wfind==="function"?wfind(weditId):null,n_=0;for(var k_ in wcur){if(RO(wcur[k_])!=="s")n_+=HA(wcur[k_])==="B"?2:1}
+    return'<span class="cdmeta">'+n_+(n_===1?" movimiento":" movimientos")+(r_&&r_.g&&typeof gColor==="function"?' · <span class="gch" style="margin:0;background:'+gColor(r_.g)+';color:'+gTxt(r_.g)+'">'+esc(r_.g)+'</span>':"")+'</span>'}
   var o={s:0,m:0,j:0,f:0};Object.keys(wcur).forEach(function(k){o[RO(wcur[k])]++});
   var t=["s","m","j","f"].filter(function(x){return o[x]}).map(function(x){return'<b class="'+x+'">'+(x==="s"?lblS(o.s,o.s===1?wcur[Object.keys(wcur).filter(function(k){return RO(wcur[k])==="s"})[0]]:null):LBL[x])+':</b> '+o[x]+" punto(s)"}).join("<br>");
   if(t)return t;
@@ -761,7 +770,7 @@ function wtxt(){
 function wlista(){
   $("#wchips").innerHTML="";wfil="Todas";void ["Todas"].concat(WG).map(function(g){return'<button class="chip'+(g===wfil?" on":"")+'" data-wg="'+g+'">'+g+'</button>'}).join("");
   var l=(WSUG_BY_WALL[curWall]||[]).filter(function(r){return!WHID[r.id]}).map(function(r){return WOV[r.id]?Object.assign({},r,WOV[r.id]):r}).concat(wroutes.filter(function(r){return r.wall===curWall})).filter(function(r){return wfil==="Todas"||r.g===wfil});
-  $("#wlst").innerHTML=l.length?l.map(function(r){return'<li><button class="it'+(r.id===weditId&&wmode==="ver"?" on":"")+'" data-wid="'+r.id+'"><span class="nm"><b>'+esc(r.n)+'</b>'+(function(h){var n=0;for(var k in h){if(RO(h[k])!=="s")n+=HA(h[k])==="B"?2:1}return n?' <span class="npz">· '+n+(n===1?' movimiento':' movimientos')+'</span>':''})(r.h||{})+(r.id<0?(WOV[r.id]?' <span class="bdg bdg-sug">sugerida · editada</span>':' <span class="bdg bdg-sug">sugerida</span>'):'')+(r.priv?' <span class="bdg-priv" title="Solo tú la ves">🔒</span>':'')+'</span>'+(typeof gChip==="function"?gChip(r,"w"):"")+'</button>'+estBadge(r.id,"w")+'</li>'}).join(""):'<li class="vac">'+(wfil==="Todas"?'<div class="vacbox">Aún no hay vías en este muro<small>Pulsa «+ Nueva vía» y toca las presas en la foto.</small></div>':'No hay vías de '+wfil+' en este muro.')+'</li>';
+  $("#wlst").innerHTML=l.length?l.map(function(r){return'<li><button class="it'+(r.id===weditId&&wmode==="ver"?" on":"")+'" data-wid="'+r.id+'"><span class="nm"><b>'+esc(r.n)+'</b>'+(function(h){var n=0;for(var k in h){if(RO(h[k])!=="s")n+=HA(h[k])==="B"?2:1}return n?' <span class="npz"><span class="npd">· </span>'+n+(n===1?' movimiento':' movimientos')+'</span>':''})(r.h||{})+(r.id<0?(WOV[r.id]?' <span class="bdg bdg-sug">sugerida · editada</span>':' <span class="bdg bdg-sug">sugerida</span>'):'')+(r.priv?' <span class="bdg-priv" title="Solo tú la ves">🔒</span>':'')+'</span>'+(typeof gChip==="function"?gChip(r,"w"):"")+'</button>'+estBadge(r.id,"w")+'</li>'}).join(""):'<li class="vac">'+(wfil==="Todas"?'<div class="vacbox">Aún no hay vías en este muro<small>Pulsa «+ Nueva vía» y toca las presas en la foto.</small></div>':'No hay vías de '+wfil+' en este muro.')+'</li>';
 }
 function wgoto(hMap){
   var xs=Object.keys(hMap).map(function(k){return HOLDBY[k]?HOLDBY[k].x:null}).filter(function(v){return v!==null});
@@ -1948,10 +1957,69 @@ function gChip(r,k){
 })();
 </script>
 <script>
+(function(){
+/* Cancelar con presas marcadas: pide confirmación en una ventanita propia */
+var cp=document.createElement("div");cp.id="cancelpop";cp.hidden=true;
+cp.innerHTML='<div class="npbox" role="dialog" aria-modal="true" aria-labelledby="cpt"><p class="cpt" id="cpt">¿Seguro? Se perderán las marcas</p><p class="cps">Si cancelas, las presas que has marcado no se guardan.</p><div class="nprow"><button class="xbtn" id="cpno">Seguir marcando</button><button class="xbtn dl" id="cpyes">Sí, cancelar</button></div></div>';
+document.body.appendChild(cp);var CPX=null;
+function closeCp(){cp.hidden=true;CPX=null}
+document.getElementById("cpno").onclick=closeCp;
+cp.addEventListener("click",function(e){if(e.target===cp)closeCp()});
+document.getElementById("cpyes").onclick=function(){var id=CPX;closeCp();var g=id&&document.getElementById(id);g&&g.click()};
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".selbar [data-px]");if(!b)return;var id=b.dataset.px;
+  if(id==="cancelar"||id==="wcancelar"){var o=id==="cancelar"?cur:wcur;if(o&&Object.keys(o).length){CPX=id;cp.hidden=false;setTimeout(function(){document.getElementById("cpno").focus()},50);return}}
+  var g=document.getElementById(id);g&&g.click()});
+/* listas: si "· N movimientos" baja a la segunda línea, se quita el punto */
+function fixDots(){document.querySelectorAll("#lst .npz,#wlst .npz").forEach(function(z){z.classList.remove("wr");var b=z.parentNode.querySelector("b");if(!b||!z.offsetParent)return;
+  var bl=b.getClientRects(),zr=z.getBoundingClientRect();if(!bl.length)return;if(zr.top>=bl[bl.length-1].bottom-2)z.classList.add("wr")})}
+var fq=0;function sched(){if(fq)return;fq=requestAnimationFrame(function(){fq=0;fixDots()})}
+["lst","wlst"].forEach(function(id){var u=document.getElementById(id);if(u)new MutationObserver(sched).observe(u,{childList:true,subtree:true})});
+addEventListener("resize",sched);document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#tabs"))setTimeout(sched,60)});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(sched);sched();
+})();
+(function(){
+function el(id){return document.getElementById(id)}
+function bmsg(w,t){var bar=document.querySelector('.selbar[data-for="'+w+'"]');if(!bar)return;var m=bar.querySelector(".selmsg");
+  if(!m){m=document.createElement("div");m.className="selmsg";bar.insertBefore(m,bar.firstChild)}m.textContent=t||"";m.hidden=!t}
+var pop=document.createElement("div");pop.id="namepop";pop.hidden=true;
+pop.innerHTML='<div class="npbox"><label><span id="nplab">Nombre de la vía</span><input id="npin" maxlength="40" autocomplete="off"></label><p class="npmsg" id="npmsg"></p><label>Grado propuesto (opcional)<select id="npg"></select></label><label class="npchk"><input type="checkbox" id="nppriv"> 🔒 Solo para mí</label><div class="nprow"><button class="xbtn" id="npno">Cancelar</button><button class="xbtn sv" id="npok">✓ Guardar</button></div></div>';
+document.body.appendChild(pop);var PW="w";
+function realSave(w){var g=el(w==="t"?"guardarC":"wguardarC"),m=el(w==="t"?"msg":"wmsg");if(m)m.textContent="";g&&g.click();
+  setTimeout(function(){var open=w==="t"?mode==="crear":wmode==="crear";if(open&&m&&m.textContent.trim())bmsg(w,m.textContent.trim())},50)}
+function closePop(){pop.hidden=true}
+el("npno").onclick=closePop;
+pop.addEventListener("click",function(e){if(e.target===pop)closePop()});
+function okPop(){var v=el("npin").value.trim();if(!v){el("npmsg").textContent="Escribe un nombre.";return}el(PW==="t"?"n":"wn").value=v;var gs=el(PW==="t"?"g":"wg");if(gs)gs.value=el("npg").value;var pc=el(PW==="t"?"tpriv":"wpriv");if(pc&&pc.checked!==el("nppriv").checked){pc.checked=el("nppriv").checked;pc.dispatchEvent(new Event("change",{bubbles:true}))}closePop();realSave(PW)}
+el("npok").onclick=okPop;
+el("npin").addEventListener("keydown",function(e){if(e.key==="Enter")okPop()});
+el("npin").addEventListener("input",function(){el("npmsg").textContent=""});
 document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".selbar [data-save]");if(!b)return;
-var w=b.closest(".selbar").dataset.for,g=document.getElementById(w==="t"?"guardarC":"wguardarC"),m=document.getElementById(w==="t"?"msg":"wmsg");
-if(!g)return;if(m)m.textContent="";g.click();
-setTimeout(function(){var f=document.getElementById(w==="t"?"tform":"wform");if(f&&!f.hidden){var t=(m&&m.textContent.trim())?m:document.getElementById(w==="t"?"n":"wn");t&&t.scrollIntoView({behavior:"smooth",block:"center"})}},400)});
+  var w=b.closest(".selbar").dataset.for,o=w==="t"?cur:wcur,vals=Object.keys(o).map(function(k){return RO(o[k])});bmsg(w,"");
+  if(vals.indexOf("s")<0||vals.indexOf("f")<0){bmsg(w,"Falta marcar "+(vals.indexOf("s")<0?"el inicio":"el top")+".");return}
+  /* la ventanita sale SIEMPRE, con el nombre, grado y "Solo para mí" actuales (sirve también para cambiarlos al editar) */
+  PW=w;el("nplab").textContent=w==="t"?"Nombre de la ruta":"Nombre de la vía";var gs=el(w==="t"?"g":"wg");el("npg").innerHTML=gs?gs.innerHTML:"";el("npg").value=gs?gs.value:"";el("nppriv").checked=!!(el(w==="t"?"tpriv":"wpriv")||{}).checked;el("npin").value=el(w==="t"?"n":"wn").value.trim();el("npmsg").textContent="";pop.hidden=false;setTimeout(function(){el("npin").focus()},50)});
+document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest(".selbar [data-undo],.selbar [data-del],.selbar [data-px]")){var bb=e.target.closest(".selbar");bmsg(bb.dataset.for,"")}},true);
+})();
+</script>
+<script>
+(function(){
+var H={t:[],w:[]},L={t:null,w:null},OP={t:false,w:false},skip=false;
+function get(w){return w==="t"?cur:wcur}
+function isOpen(w){return w==="t"?mode==="crear":wmode==="crear"}
+function snap(w){var fh={};for(var k in FH)if(k.charAt(0)===w)fh[k]=FH[k];return JSON.stringify({o:get(w),fh:fh})}
+function btns(w){document.querySelectorAll('.selbar[data-for="'+w+'"] [data-undo]').forEach(function(b){b.disabled=!H[w].length})}
+function track(w){var op=isOpen(w),s=snap(w);
+  if(!op||!OP[w]||skip){if(!op||!OP[w])H[w]=[];L[w]=s;OP[w]=op;btns(w);return}
+  if(L[w]!==s){H[w].push(L[w]);if(H[w].length>300)H[w].shift();L[w]=s}btns(w)}
+var _t=trender,_w=wrender;
+trender=function(){var r=_t.apply(this,arguments);track("t");return r};
+wrender=function(){var r=_w.apply(this,arguments);track("w");return r};
+var _su=selUpd;selUpd=function(w){var r=_su.apply(this,arguments);btns(w);return r};
+window.__undo=function(w){if(!H[w].length)return;var st=JSON.parse(H[w].pop()),o=get(w),k;
+  for(k in o)delete o[k];for(k in st.o)o[k]=st.o[k];
+  for(k in FH)if(k.charAt(0)===w)delete FH[k];for(k in st.fh)FH[k]=st.fh[k];
+  SEL[w]=null;skip=true;try{w==="t"?trender():wrender()}finally{skip=false}L[w]=snap(w);selUpd(w)};
+})();
 </script>
 </body>
 </html>
