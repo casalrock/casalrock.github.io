@@ -1,0 +1,13 @@
+name: Prueba de horario (temporal)
+on:
+  schedule:
+    - cron: "4,19,34,49 * * * *"
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - run: echo "El horario de GitHub funciona en este repositorio"
