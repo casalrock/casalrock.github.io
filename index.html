@@ -193,6 +193,12 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 #tform label:has(#n),#tform label:has(#g),#tform .privchk,#wform label:has(#wn),#wform label:has(#wg),#wform .privchk{display:none!important}
 /* mientras se crea, bajo el muro/tablero solo quedan las instrucciones (fuera el recuento Inicio/Intermedias/Final) */
 #s-tab:has(#tform:not([hidden])) #det,#s-mur:has(#wform:not([hidden])) #wdet,#s-tab:has(#tform:not([hidden])) .vcard:has(#det),#s-mur:has(#wform:not([hidden])) .vcard:has(#wdet){display:none!important}
+/* acciones de la vía elegida: icono + palabra (Editar / Copiar / Borrar) */
+#editar:not([hidden]),#weditar:not([hidden]),#copiar:not([hidden]),#wcopiar:not([hidden]),#borrar:not([hidden]),#wborrar:not([hidden]){display:inline-flex;align-items:center;justify-content:center;gap:7px}
+#editar::before,#weditar::before,#copiar::before,#wcopiar::before,#borrar::before,#wborrar::before{content:"";flex:none;width:1.2em;height:1.2em;background-color:currentColor;-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat}
+#editar,#weditar{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15.5 4.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z'/%3E%3Cpath d='M13.5 6.5l3 3'/%3E%3C/svg%3E")}
+#copiar,#wcopiar{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='9' y='9' width='11' height='11' rx='2'/%3E%3Cpath d='M15 9V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h4'/%3E%3C/svg%3E")}
+#borrar,#wborrar{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 7h16'/%3E%3Cpath d='M9 7V4.5h6V7'/%3E%3Cpath d='M6.5 7l1 13h9l1-13'/%3E%3Cpath d='M10 11v5.5M14 11v5.5'/%3E%3C/svg%3E")}
 
 /* ---- rediseño: cabecera con nombre ---- */
 .hpill{display:inline-flex;align-items:center;gap:6px;padding:4px 11px 4px 6px;border-radius:999px;background:color-mix(in srgb,var(--fg) 8%,transparent);color:var(--fg);border:1px solid color-mix(in srgb,var(--fg) 18%,transparent);font:inherit;font-weight:600;font-size:.86rem;box-shadow:none;text-shadow:none;cursor:pointer;max-width:52vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
