@@ -36,7 +36,7 @@ xcrun simctl openurl "$UDID" "$REAL"
 sleep 15; foto sim-04-real-inicio
 
 # 3) extra: manejar Safari del simulador con WebDriver (si se deja), solo cosas locales
-if timeout 300 python3 "$DIR/sim_webdriver.py" "$UDID" "$OUT" >> "$OUT/webdriver.log" 2>&1; then
+if python3 "$DIR/sim_webdriver.py" "$UDID" "$OUT" >> "$OUT/webdriver.log" 2>&1; then
   echo "WebDriver: OK" | tee -a "$OUT/simulador.log"
 else
   echo "WebDriver: no disponible (ver webdriver.log)" | tee -a "$OUT/simulador.log"
