@@ -928,7 +928,7 @@ function subscribeAutores(){
     el.textContent=names.length?("Nombres registrados ("+names.length+"): "+names.join(", ")):"Nadie se ha registrado todavía.";
   },function(e){});
 }
-/* ===== Conexión a Supabase (sustituye a la base de datos de Claude) ===== */
+/* ===== Conexión a Supabase ===== */
 var SUPA_URL="https://rmmwjgivopukqviytxqx.supabase.co";
 var SUPA_KEY="sb_publishable_dk5PErKgKGxicF7oy6NmrQ_tvHue-0q";
 function makeSupaDB(client){
@@ -961,7 +961,7 @@ function makeSupaDB(client){
   return{collection:function(name){return makeCollection(name)}};
 }
 /* ===== Modo administradora: 5 toques en el logo piden una clave secreta (solo tú la sabes) =====
-   Nota: prompt()/alert() del navegador no funcionan dentro del sandbox de Claude, así que
+   Nota: prompt()/alert() del navegador no funcionan dentro de algunos visores, así que
    usamos un cuadro propio (HTML) en vez de los diálogos nativos. */
 (function(){
   var ADMIN_HASH="227133df9915e0ad3162d868ff12c26a6a42d4a8351e00e5c25dedc737100a7e";
