@@ -191,6 +191,9 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 </script>
 </div>
 <style id="dz">
+/* nombre, grado y "Solo para mí" se piden en la ventanita de Guardar: fuera del formulario (siguen en el DOM) */
+#tform label:has(#n),#tform label:has(#g),#tform .privchk,#wform label:has(#wn),#wform label:has(#wg),#wform .privchk{display:none!important}
+
 /* ---- rediseño: cabecera con nombre ---- */
 .hpill{display:inline-flex;align-items:center;gap:6px;padding:4px 11px 4px 6px;border-radius:999px;background:color-mix(in srgb,var(--fg) 8%,transparent);color:var(--fg);border:1px solid color-mix(in srgb,var(--fg) 18%,transparent);font:inherit;font-weight:600;font-size:.86rem;box-shadow:none;text-shadow:none;cursor:pointer;max-width:52vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hadm{font-size:.6rem;letter-spacing:.07em;text-transform:uppercase;color:var(--mut);font-weight:600}
@@ -1968,12 +1971,12 @@ pop.addEventListener("click",function(e){if(e.target===pop)closePop()});
 function okPop(){var v=el("npin").value.trim();if(!v){el("npmsg").textContent="Escribe un nombre.";return}el(PW==="t"?"n":"wn").value=v;var gs=el(PW==="t"?"g":"wg");if(gs)gs.value=el("npg").value;var pc=el(PW==="t"?"tpriv":"wpriv");if(pc&&pc.checked!==el("nppriv").checked){pc.checked=el("nppriv").checked;pc.dispatchEvent(new Event("change",{bubbles:true}))}closePop();realSave(PW)}
 el("npok").onclick=okPop;
 el("npin").addEventListener("keydown",function(e){if(e.key==="Enter")okPop()});
+el("npin").addEventListener("input",function(){el("npmsg").textContent=""});
 document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".selbar [data-save]");if(!b)return;
   var w=b.closest(".selbar").dataset.for,o=w==="t"?cur:wcur,vals=Object.keys(o).map(function(k){return RO(o[k])});bmsg(w,"");
   if(vals.indexOf("s")<0||vals.indexOf("f")<0){bmsg(w,"Falta marcar "+(vals.indexOf("s")<0?"el inicio":"el top")+".");return}
-  var nm=el(w==="t"?"n":"wn").value.trim();
-  if(!nm){PW=w;el("nplab").textContent=w==="t"?"Nombre de la ruta":"Nombre de la vía";var gs=el(w==="t"?"g":"wg");el("npg").innerHTML=gs?gs.innerHTML:"";el("npg").value=gs?gs.value:"";el("nppriv").checked=!!(el(w==="t"?"tpriv":"wpriv")||{}).checked;el("npin").value="";el("npmsg").textContent="";pop.hidden=false;setTimeout(function(){el("npin").focus()},50);return}
-  realSave(w)});
+  /* la ventanita sale SIEMPRE, con el nombre, grado y "Solo para mí" actuales (sirve también para cambiarlos al editar) */
+  PW=w;el("nplab").textContent=w==="t"?"Nombre de la ruta":"Nombre de la vía";var gs=el(w==="t"?"g":"wg");el("npg").innerHTML=gs?gs.innerHTML:"";el("npg").value=gs?gs.value:"";el("nppriv").checked=!!(el(w==="t"?"tpriv":"wpriv")||{}).checked;el("npin").value=el(w==="t"?"n":"wn").value.trim();el("npmsg").textContent="";pop.hidden=false;setTimeout(function(){el("npin").focus()},50)});
 document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest(".selbar [data-undo],.selbar [data-del],.selbar [data-px]")){var bb=e.target.closest(".selbar");bmsg(bb.dataset.for,"")}},true);
 })();
 </script>
