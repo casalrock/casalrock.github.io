@@ -272,7 +272,7 @@ li.vac{list-style:none;border:0!important;padding:0!important;background:none!im
 #lst .others,#wlst .others{display:none}
 .vleyenda{display:flex;gap:14px;align-items:center;font-size:.85rem;color:var(--mut);margin:-4px 0 10px;flex-wrap:wrap}
 .vleyenda span{display:inline-flex;align-items:center;gap:6px}
-.npz{font-size:.85rem;font-weight:400;color:var(--mut);white-space:nowrap}.voz .vtxt{display:none!important}.selbar .xbtn.sv{background:var(--acc);border-color:var(--acc);color:#fff}.selbar .brk{flex-basis:100%;height:0}.selbar .xbtn{padding:8px 10px}#tform .row:has(#guardarC),#wform .row:has(#wguardarC){display:none!important}</style>
+.npz{font-size:.85rem;font-weight:400;color:var(--mut);white-space:nowrap}.voz .vtxt{display:none!important}.selbar .xbtn.sv{background:var(--acc);border-color:var(--acc);color:#fff}.selbar .brk{flex-basis:100%;height:0}.selbar .xbtn{padding:8px 10px}#tform .row:has(#guardarC),#wform .row:has(#wguardarC){display:none!important}.selmsg{font-size:.88rem;font-weight:600;color:#ef4c46;margin:0 0 6px}#namepop{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;padding:12px}#namepop[hidden]{display:none}#namepop .npbox{width:min(432px,100%);background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:8px}#namepop label{display:block;font-weight:600;color:var(--fg)}#namepop input{width:100%;box-sizing:border-box;margin-top:8px;font-size:1rem}#namepop .npmsg{color:#ef4c46;font-size:.85rem;margin:6px 0 0;min-height:1em}#namepop .nprow{display:flex;gap:8px;margin-top:10px}#namepop .xbtn{flex:1;display:inline-flex;justify-content:center;align-items:center;padding:10px;border-radius:10px;font-weight:600;font-size:.95rem;background:transparent;border:1px solid var(--line);color:var(--fg)}#namepop .xbtn.sv{background:var(--acc);border-color:var(--acc);color:#fff}</style>
 <main id="app">
 <div style="display:flex;align-items:center;justify-content:space-between;margin:0 0 10px">
 <div id="brand" style="display:flex;align-items:center;gap:8px;width:fit-content"><span aria-hidden="true" style="display:inline-block;width:40px;height:17px;flex:0 0 auto;opacity:.85;background-color:var(--fg);-webkit-mask-image:url('icon-mountains.png');mask-image:url('icon-mountains.png');-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center"></span><span style="font-weight:600;font-size:.95rem;letter-spacing:.01em;line-height:1;opacity:.85">Casal Rock</span></div>
@@ -438,7 +438,7 @@ document.addEventListener("click",function(e){
 function selApply(w,act){
   var o=w==="t"?cur:wcur,k=SEL[w];if(!k||!o[k])return;fixOrd(o,w);
   var v=o[k],n=ORD(v);if(n===null)n=Object.keys(o).indexOf(k)+1;
-  if(act==="del"){delete o[k];SEL[w]=null;relabel(o);var sk=seqKeys(o);if(sk.length>1&&RO(o[sk[1]])==="s"&&HA(o[sk[0]])===HA(o[sk[1]])&&"LR".indexOf(HA(o[sk[1]]))>=0){var h2=HA(o[sk[1]])==="R"?"L":"R";o[sk[1]]="s"+h2+ORD(o[sk[1]]);FH[w+sk[1]]=h2}}
+  if(act==="del"){var ix_=seqKeys(o).indexOf(k);delete o[k];SEL[w]=null;relabel(o);var sk=seqKeys(o);if(sk.length>1&&RO(o[sk[1]])==="s"&&HA(o[sk[0]])===HA(o[sk[1]])&&"LR".indexOf(HA(o[sk[1]]))>=0){var h2=HA(o[sk[1]])==="R"?"L":"R";o[sk[1]]="s"+h2+ORD(o[sk[1]]);FH[w+sk[1]]=h2}var sk3=seqKeys(o);SEL[w]=sk3.length?sk3[Math.min(ix_,sk3.length-1)]:null}
   else o[k]=RO(v)+(HA(v)===act?"x":act)+n;
   if(w==="t")trender();else wrender();
 }
@@ -453,7 +453,7 @@ function selUpd(w){
 }
 document.addEventListener("click",function(e){
   var u=e.target.closest&&e.target.closest(".selbar [data-undo]");
-  if(u){var wu=u.closest(".selbar").dataset.for,ou=wu==="t"?cur:wcur,ku=seqKeys(ou);if(ku.length){SEL[wu]=ku[ku.length-1];selApply(wu,"del");selUpd(wu)}return}
+  if(u){if(window.__undo)window.__undo(u.closest(".selbar").dataset.for);return}
   var b=e.target.closest&&e.target.closest(".selbar [data-hand],.selbar [data-del]");
   if(b){var w=b.closest(".selbar").dataset.for;selApply(w,b.dataset.del?"del":b.dataset.hand);selUpd(w);return}
   var nb=e.target.closest&&e.target.closest("#nueva,#wnueva,#editar,#weditar,#copiar,#wcopiar,#cancelar,#wcancelar,#limpiar,#wlimpiar");
@@ -1951,10 +1951,49 @@ function gChip(r,k){
 </script>
 <script>
 document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".selbar [data-px]");if(!b)return;var g=document.getElementById(b.dataset.px);g&&g.click()});
+(function(){
+function el(id){return document.getElementById(id)}
+function bmsg(w,t){var bar=document.querySelector('.selbar[data-for="'+w+'"]');if(!bar)return;var m=bar.querySelector(".selmsg");
+  if(!m){m=document.createElement("div");m.className="selmsg";bar.insertBefore(m,bar.firstChild)}m.textContent=t||"";m.hidden=!t}
+var pop=document.createElement("div");pop.id="namepop";pop.hidden=true;
+pop.innerHTML='<div class="npbox"><label><span id="nplab">Nombre de la vía</span><input id="npin" maxlength="40" autocomplete="off"></label><p class="npmsg" id="npmsg"></p><div class="nprow"><button class="xbtn" id="npno">Cancelar</button><button class="xbtn sv" id="npok">✓ Guardar</button></div></div>';
+document.body.appendChild(pop);var PW="w";
+function realSave(w){var g=el(w==="t"?"guardarC":"wguardarC"),m=el(w==="t"?"msg":"wmsg");if(m)m.textContent="";g&&g.click();
+  setTimeout(function(){var open=w==="t"?mode==="crear":wmode==="crear";if(open&&m&&m.textContent.trim())bmsg(w,m.textContent.trim())},50)}
+function closePop(){pop.hidden=true}
+el("npno").onclick=closePop;
+pop.addEventListener("click",function(e){if(e.target===pop)closePop()});
+function okPop(){var v=el("npin").value.trim();if(!v){el("npmsg").textContent="Escribe un nombre.";return}el(PW==="t"?"n":"wn").value=v;closePop();realSave(PW)}
+el("npok").onclick=okPop;
+el("npin").addEventListener("keydown",function(e){if(e.key==="Enter")okPop()});
 document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".selbar [data-save]");if(!b)return;
-var w=b.closest(".selbar").dataset.for,g=document.getElementById(w==="t"?"guardarC":"wguardarC"),m=document.getElementById(w==="t"?"msg":"wmsg");
-if(!g)return;if(m)m.textContent="";g.click();
-setTimeout(function(){var f=document.getElementById(w==="t"?"tform":"wform");if(f&&!f.hidden){var t=(m&&m.textContent.trim())?m:document.getElementById(w==="t"?"n":"wn");t&&t.scrollIntoView({behavior:"smooth",block:"center"})}},400)});
+  var w=b.closest(".selbar").dataset.for,o=w==="t"?cur:wcur,vals=Object.keys(o).map(function(k){return RO(o[k])});bmsg(w,"");
+  if(vals.indexOf("s")<0||vals.indexOf("f")<0){bmsg(w,"Falta marcar "+(vals.indexOf("s")<0?"el inicio":"el top")+".");return}
+  var nm=el(w==="t"?"n":"wn").value.trim();
+  if(!nm){PW=w;el("nplab").textContent=w==="t"?"Nombre de la ruta":"Nombre de la vía";el("npin").value="";el("npmsg").textContent="";pop.hidden=false;setTimeout(function(){el("npin").focus()},50);return}
+  realSave(w)});
+document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest(".selbar [data-undo],.selbar [data-del],.selbar [data-px]")){var bb=e.target.closest(".selbar");bmsg(bb.dataset.for,"")}},true);
+})();
+</script>
+<script>
+(function(){
+var H={t:[],w:[]},L={t:null,w:null},OP={t:false,w:false},skip=false;
+function get(w){return w==="t"?cur:wcur}
+function isOpen(w){return w==="t"?mode==="crear":wmode==="crear"}
+function snap(w){var fh={};for(var k in FH)if(k.charAt(0)===w)fh[k]=FH[k];return JSON.stringify({o:get(w),fh:fh})}
+function btns(w){document.querySelectorAll('.selbar[data-for="'+w+'"] [data-undo]').forEach(function(b){b.disabled=!H[w].length})}
+function track(w){var op=isOpen(w),s=snap(w);
+  if(!op||!OP[w]||skip){if(!op||!OP[w])H[w]=[];L[w]=s;OP[w]=op;btns(w);return}
+  if(L[w]!==s){H[w].push(L[w]);if(H[w].length>300)H[w].shift();L[w]=s}btns(w)}
+var _t=trender,_w=wrender;
+trender=function(){var r=_t.apply(this,arguments);track("t");return r};
+wrender=function(){var r=_w.apply(this,arguments);track("w");return r};
+var _su=selUpd;selUpd=function(w){var r=_su.apply(this,arguments);btns(w);return r};
+window.__undo=function(w){if(!H[w].length)return;var st=JSON.parse(H[w].pop()),o=get(w),k;
+  for(k in o)delete o[k];for(k in st.o)o[k]=st.o[k];
+  for(k in FH)if(k.charAt(0)===w)delete FH[k];for(k in st.fh)FH[k]=st.fh[k];
+  SEL[w]=null;skip=true;try{w==="t"?trender():wrender()}finally{skip=false}L[w]=snap(w);selUpd(w)};
+})();
 </script>
 </body>
 </html>
