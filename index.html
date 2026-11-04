@@ -193,6 +193,13 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 #tform label:has(#n),#tform label:has(#g),#tform .privchk,#wform label:has(#wn),#wform label:has(#wg),#wform .privchk{display:none!important}
 /* mientras se crea, bajo el muro/tablero solo quedan las instrucciones (fuera el recuento Inicio/Intermedias/Final) */
 #s-tab:has(#tform:not([hidden])) #det,#s-mur:has(#wform:not([hidden])) #wdet,#s-tab:has(#tform:not([hidden])) .vcard:has(#det),#s-mur:has(#wform:not([hidden])) .vcard:has(#wdet){display:none!important}
+/* botón flotante para volver al muro/tablero desde la lista */
+#upwall{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:inline-flex;align-items:center;gap:8px;min-height:50px;padding:0 18px 0 14px;border-radius:999px;background:var(--card);color:var(--fg);border:2px solid var(--acc);box-shadow:0 6px 18px rgba(0,0,0,.28);font:inherit;font-weight:600;font-size:1rem;cursor:pointer;opacity:1;transform:none;transition:opacity .18s,transform .18s}
+#upwall[hidden]{display:none}
+/* espacio al final para que el botón no tape el círculo de hecha de la última vía */
+#s-tab:not([hidden]):has(#tform[hidden]),#s-mur:not([hidden]):has(#wform[hidden]){padding-bottom:72px}
+#upwall svg{width:22px;height:22px;flex:none;color:var(--acc);background:none!important;border-radius:0!important;touch-action:auto}
+#upwall:active{transform:scale(.96)}
 /* acciones de la vía elegida: icono + palabra (Editar / Copiar / Borrar) */
 #editar:not([hidden]),#weditar:not([hidden]),#copiar:not([hidden]),#wcopiar:not([hidden]),#borrar:not([hidden]),#wborrar:not([hidden]){display:inline-flex;align-items:center;justify-content:center;gap:7px}
 #editar::before,#weditar::before,#copiar::before,#wcopiar::before,#borrar::before,#wborrar::before{content:"";flex:none;width:1.2em;height:1.2em;background-color:currentColor;-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat}
@@ -2025,6 +2032,30 @@ window.__undo=function(w){if(!H[w].length)return;var st=JSON.parse(H[w].pop()),o
   for(k in o)delete o[k];for(k in st.o)o[k]=st.o[k];
   for(k in FH)if(k.charAt(0)===w)delete FH[k];for(k in st.fh)FH[k]=st.fh[k];
   SEL[w]=null;skip=true;try{w==="t"?trender():wrender()}finally{skip=false}L[w]=snap(w);selUpd(w)};
+})();
+</script>
+<script>
+(function(){
+/* «↑ Ver muro»: aparece al bajar por la lista (pasado el muro/tablero); oculto mientras se crea */
+var b=document.createElement("button");b.id="upwall";b.type="button";b.hidden=true;
+b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg><span class="uwt">Ver muro</span>';
+document.body.appendChild(b);
+function ctx(){var t=document.getElementById("s-tab"),m=document.getElementById("s-mur");
+  if(m&&!m.hidden&&m.offsetParent!==null)return{zone:document.getElementById("wallScroll"),form:document.getElementById("wform"),word:"Ver muro",aria:"Volver arriba al muro"};
+  if(t&&!t.hidden&&t.offsetParent!==null)return{zone:document.getElementById("bwrap"),form:document.getElementById("tform"),word:"Ver tablero",aria:"Volver arriba al tablero"};
+  return null}
+function tabsH(){var n=document.getElementById("tabs");return n?n.getBoundingClientRect().height:0}
+var q=0;function upd(){q=0;var c=ctx(),show=false;
+  if(c&&c.zone&&(!c.form||c.form.hidden)){var r=c.zone.getBoundingClientRect();show=r.height>0&&r.bottom<tabsH()}
+  if(c){b.querySelector(".uwt").textContent=c.word;b.setAttribute("aria-label",c.aria);b.title=c.aria}
+  if(b.hidden===show)b.hidden=!show}
+function sched(){if(!q)q=requestAnimationFrame(upd)}
+addEventListener("scroll",sched,{passive:true});addEventListener("resize",sched);
+document.addEventListener("click",function(){setTimeout(sched,80)},true);
+["tform","wform","s-tab","s-mur"].forEach(function(id){var e=document.getElementById(id);if(e)new MutationObserver(sched).observe(e,{attributes:true,attributeFilter:["hidden"]})});
+b.addEventListener("click",function(){var c=ctx();if(!c||!c.zone)return;var y=c.zone.getBoundingClientRect().top+scrollY-tabsH()-10;
+  var rm=matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;scrollTo({top:Math.max(0,y),behavior:rm?"auto":"smooth"})});
+sched();
 })();
 </script>
 </body>
