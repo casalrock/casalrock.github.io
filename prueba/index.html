@@ -193,6 +193,8 @@ h1{font-size:1.12rem;margin:4px 0 8px}
 <style id="dz">
 /* nombre, grado y "Solo para mí" se piden en la ventanita de Guardar: fuera del formulario (siguen en el DOM) */
 #tform label:has(#n),#tform label:has(#g),#tform .privchk,#wform label:has(#wn),#wform label:has(#wg),#wform .privchk{display:none!important}
+/* mientras se crea, bajo el muro/tablero solo quedan las instrucciones (fuera el recuento Inicio/Intermedias/Final) */
+#s-tab:has(#tform:not([hidden])) #det,#s-mur:has(#wform:not([hidden])) #wdet,#s-tab:has(#tform:not([hidden])) .vcard:has(#det),#s-mur:has(#wform:not([hidden])) .vcard:has(#wdet){display:none!important}
 
 /* ---- rediseño: cabecera con nombre ---- */
 .hpill{display:inline-flex;align-items:center;gap:6px;padding:4px 11px 4px 6px;border-radius:999px;background:color-mix(in srgb,var(--fg) 8%,transparent);color:var(--fg);border:1px solid color-mix(in srgb,var(--fg) 18%,transparent);font:inherit;font-weight:600;font-size:.86rem;box-shadow:none;text-shadow:none;cursor:pointer;max-width:52vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
