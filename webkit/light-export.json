@@ -1,0 +1,37 @@
+{
+ "app": "Casal Rock",
+ "fecha": "2026-11-04T12:12:57.553Z",
+ "tablero": [
+  {
+   "id": 1793794363725,
+   "n": "Renombrada t",
+   "g": "6c",
+   "h": {
+    "C5": "sR1",
+    "D8": "sL2",
+    "F11": "mR3",
+    "H14": "fB4"
+   },
+   "priv": false,
+   "autor": "Olga",
+   "db": true
+  }
+ ],
+ "muro": [
+  {
+   "id": 1793794342446,
+   "n": "Renombrada w",
+   "g": "6c",
+   "h": {
+    "P-417": "sR1",
+    "P-235": "sL2",
+    "P-099": "mR3",
+    "P-038": "fB4"
+   },
+   "wall": "P",
+   "priv": false,
+   "autor": "Olga",
+   "db": true
+  }
+ ]
+}

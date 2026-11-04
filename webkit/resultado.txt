@@ -1,0 +1,201 @@
+Navegador: webkit 26.6 | móvil: iPhone 15 | https://casalrock.github.io/prueba/
+=== Arranque y nombre
+  OK la pantalla de bienvenida desaparece sola
+   pestañas: Muro* | Moon | Grupo | Presas
+  OK inicio: no hay desplazamiento lateral (ancho 393 / pantalla 393)
+  OK inicio: campos de texto con letra >=16px (si no, iPhone hace zoom al tocarlos) []
+  OK inicio: ningún botón se sale de la pantalla []
+   viewport: width=device-width, initial-scale=1, viewport-fit=cover | tamaño ventana: 393x659 dpr 3
+  OK PIN corto: avisa "Pon un PIN de 4 cifras (lo necesitarás si cambias de móvil)."
+  OK nombre y PIN guardados (solo en la base de mentira) — "Hecho: tu nombre y PIN han quedado guardados."
+  OK botón luna/sol cambia de tema: dark -> light
+  OK el tema elegido se recuerda al volver a abrir
+  OK el botón vuelve al tema anterior
+=== Tema dark (dark)
+--- Muro
+  OK instrucciones visibles al crear
+   barra de abajo: {"pos":"fixed","top":508,"bottom":641,"h":133,"vh":659,"pb":"8px","btns":["↶ Deshacer","✕ Quitar","🗑 Vaciar","Cancelar","✓ Guardar"]}
+  OK barra Deshacer/Quitar/Guardar fija abajo y dentro de la pantalla
+  OK la barra de abajo no tapa demasiado (133px de 659)
+   presas tras cada toque: 0,1,2,3,4
+  OK 4 presas puestas con el dedo (Inicio + intermedias)
+  OK tocar otra vez cambia la mano
+  OK Quitar ×2 deja 2 presas
+  OK Deshacer recupera la quitada
+  OK Deshacer otra vez recupera la otra
+  OK Deshacer deshace el cambio de mano
+  OK Guardar sin top avisa: "Falta marcar el top."
+  OK top marcado tocando varias veces la última
+  OK Guardar abre la ventanita
+  OK ventanita entera dentro de la pantalla {"top":378,"bot":639,"vh":659}
+  OK dark-muro ventanita: no hay desplazamiento lateral (ancho 393 / pantalla 393)
+  OK dark-muro ventanita: campos de texto con letra >=16px (si no, iPhone hace zoom al tocarlos) []
+  OK dark-muro ventanita: ningún botón se sale de la pantalla []
+  OK guardada (compartida, 6a)
+  OK casilla "Solo para mí" se marca con el dedo
+  OK guardada privada 6b+
+  OK la privada NO se comparte
+   lista: ["Prueba compartida w 3 movimientos 6a ○","Mi privada w · 2 movimientos 🔒 6b+ ○"]
+  OK la lista muestra "3 movimientos"
+  OK tarjeta de la vía elegida: "Prueba compartida w 3 movimientos · 6a"
+   botones: [{"k":"editar","vis":true,"txt":"Editar","mask":"url(\"data:image/svg+xml,%3Csvg xmlns='ht","w":"17.65625px","h":37,"right":121,"vw":393,"bg":"rgb(250, 249, 245)","col":"rgb(250, 249, 245)"},{"k":"copiar","vis":true,"txt":"Copiar","mask":"url(\"data:image/svg+xml,%3Csvg xmlns='ht","w":"17.65625px","h":37,"right":225,"vw":393,"bg":"rgb(250, 249, 245)","col":"rgb(250, 249, 245)"},{"k":"borrar","vis":true,"txt":"Borrar","mask":"url(\"data:image/svg+xml,%3Csvg xmlns='ht","w":"17.65625px","h":37,"right":326,"vw":393,"bg":"rgb(229, 83, 75)","col":"rgb(229, 83, 75)"}]
+  OK Editar/Copiar/Borrar tienen su icono en Safari
+  OK Editar/Copiar/Borrar caben en la pantalla
+  OK Editar abre el modo crear
+  OK al editar la ventanita trae nombre y grado
+  OK la lista muestra el nombre nuevo
+  OK Copiar trae "Copia de …"
+  OK Cancelar con presas pregunta antes
+  OK cancelar la copia no crea nada
+  OK Borrar pide un segundo toque
+  OK segundo toque borra la vía
+  OK marcar como hecha con el círculo (estb -> estb e)
+  OK la ventanita "¡Hecha!" se cierra al elegir grado
+  OK dark-muro: no hay desplazamiento lateral (ancho 393 / pantalla 393)
+  OK dark-muro: campos de texto con letra >=16px (si no, iPhone hace zoom al tocarlos) []
+  OK dark-muro: ningún botón se sale de la pantalla []
+--- Moon
+  OK instrucciones visibles al crear
+   barra de abajo: {"pos":"fixed","top":508,"bottom":641,"h":133,"vh":659,"pb":"8px","btns":["↶ Deshacer","✕ Quitar","🗑 Vaciar","Cancelar","✓ Guardar"]}
+  OK barra Deshacer/Quitar/Guardar fija abajo y dentro de la pantalla
+  OK la barra de abajo no tapa demasiado (133px de 659)
+   presas tras cada toque: 0,1,2,3,4
+  OK 4 presas puestas con el dedo (Inicio + intermedias)
+  OK tocar otra vez cambia la mano
+  OK Quitar ×2 deja 2 presas
+  OK Deshacer recupera la quitada
+  OK Deshacer otra vez recupera la otra
+  OK Deshacer deshace el cambio de mano
+  OK Guardar sin top avisa: "Falta marcar el top."
+  OK top marcado tocando varias veces la última
+  OK Guardar abre la ventanita
+  OK ventanita entera dentro de la pantalla {"top":378,"bot":639,"vh":659}
+  OK dark-moon ventanita: no hay desplazamiento lateral (ancho 393 / pantalla 393)
+  OK dark-moon ventanita: campos de texto con letra >=16px (si no, iPhone hace zoom al tocarlos) []
+  OK dark-moon ventanita: ningún botón se sale de la pantalla []
+  OK guardada (compartida, 6a)
+  OK casilla "Solo para mí" se marca con el dedo
+  OK guardada privada 6b+
+  OK la privada NO se comparte
+   lista: ["Prueba compartida t 3 movimientos 6a ○","Mi privada t · 2 movimientos 🔒 6b+ ○"]
+  OK la lista muestra "3 movimientos"
+  OK tarjeta de la vía elegida: "Prueba compartida t 3 movimientos · 6a Inicio: C5 (D), D8 (I) Intermedias: F11 (D) Final: "
+   botones: [{"k":"editar","vis":true,"txt":"Editar","mask":"url(\"data:image/svg+xml,%3Csvg xmlns='ht","w":"17.65625px","h":37,"right":121,"vw":393,"bg":"rgb(250, 249, 245)","col":"rgb(250, 249, 245)"},{"k":"copiar","vis":true,"txt":"Copiar","mask":"url(\"data:image/svg+xml,%3Csvg xmlns='ht","w":"17.65625px","h":37,"right":225,"vw":393,"bg":"rgb(250, 249, 245)","col":"rgb(250, 249, 245)"},{"k":"borrar","vis":true,"txt":"Borrar","mask":"url(\"data:image/svg+xml,%3Csvg xmlns='ht","w":"17.65625px","h":37,"right":326,"vw":393,"bg":"rgb(229, 83, 75)","col":"rgb(229, 83, 75)"}]
+  OK Editar/Copiar/Borrar tienen su icono en Safari
+  OK Editar/Copiar/Borrar caben en la pantalla
+  OK Editar abre el modo crear
+  OK al editar la ventanita trae nombre y grado
+  OK la lista muestra el nombre nuevo
+  OK Copiar trae "Copia de …"
+  OK Cancelar con presas pregunta antes
+  OK cancelar la copia no crea nada
+  OK Borrar pide un segundo toque
+  OK segundo toque borra la vía
+  OK marcar como hecha con el círculo (estb -> estb e)
+  OK la ventanita "¡Hecha!" se cierra al elegir grado
+  OK dark-moon: no hay desplazamiento lateral (ancho 393 / pantalla 393)
+  OK dark-moon: campos de texto con letra >=16px (si no, iPhone hace zoom al tocarlos) []
+  OK dark-moon: ningún botón se sale de la pantalla []
+--- Grupo
+  OK dark grupo: no hay desplazamiento lateral (ancho 393 / pantalla 393)
+  OK dark grupo: campos de texto con letra >=16px (si no, iPhone hace zoom al tocarlos) []
+  OK dark grupo: ningún botón se sale de la pantalla []
+  OK Exportar descarga un archivo (casalrock-mis-vias-2026-11-04.json) — "Copia descargada: 1 rutas de tablero y 1 vías de muro."
+  OK errores de JavaScript (dark): []
+=== Tema light (light)
+--- Muro
+  OK instrucciones visibles al crear
+   barra de abajo: {"pos":"fixed","top":508,"bottom":641,"h":133,"vh":659,"pb":"8px","btns":["↶ Deshacer","✕ Quitar","🗑 Vaciar","Cancelar","✓ Guardar"]}
+  OK barra Deshacer/Quitar/Guardar fija abajo y dentro de la pantalla
+  OK la barra de abajo no tapa demasiado (133px de 659)
+   presas tras cada toque: 0,1,2,3,4
+  OK 4 presas puestas con el dedo (Inicio + intermedias)
+  OK tocar otra vez cambia la mano
+  OK Quitar ×2 deja 2 presas
+  OK Deshacer recupera la quitada
+  OK Deshacer otra vez recupera la otra
+  OK Deshacer deshace el cambio de mano
+  OK Guardar sin top avisa: "Falta marcar el top."
+  OK top marcado tocando varias veces la última
+  OK Guardar abre la ventanita
+  OK ventanita entera dentro de la pantalla {"top":378,"bot":639,"vh":659}
+  OK light-muro ventanita: no hay desplazamiento lateral (ancho 393 / pantalla 393)
+  OK light-muro ventanita: campos de texto con letra >=16px (si no, iPhone hace zoom al tocarlos) []
+  OK light-muro ventanita: ningún botón se sale de la pantalla []
+  OK guardada (compartida, 6a)
+  OK casilla "Solo para mí" se marca con el dedo
+  OK guardada privada 6b+
+  OK la privada NO se comparte
+   lista: ["Prueba compartida w 3 movimientos 6a ○","Mi privada w · 2 movimientos 🔒 6b+ ○"]
+  OK la lista muestra "3 movimientos"
+  OK tarjeta de la vía elegida: "Prueba compartida w 3 movimientos · 6a"
+   botones: [{"k":"editar","vis":true,"txt":"Editar","mask":"url(\"data:image/svg+xml,%3Csvg xmlns='ht","w":"17.65625px","h":37,"right":121,"vw":393,"bg":"rgb(58, 58, 58)","col":"rgb(58, 58, 58)"},{"k":"copiar","vis":true,"txt":"Copiar","mask":"url(\"data:image/svg+xml,%3Csvg xmlns='ht","w":"17.65625px","h":37,"right":225,"vw":393,"bg":"rgb(58, 58, 58)","col":"rgb(58, 58, 58)"},{"k":"borrar","vis":true,"txt":"Borrar","mask":"url(\"data:image/svg+xml,%3Csvg xmlns='ht","w":"17.65625px","h":37,"right":326,"vw":393,"bg":"rgb(200, 55, 47)","col":"rgb(200, 55, 47)"}]
+  OK Editar/Copiar/Borrar tienen su icono en Safari
+  OK Editar/Copiar/Borrar caben en la pantalla
+  OK Editar abre el modo crear
+  OK al editar la ventanita trae nombre y grado
+  OK la lista muestra el nombre nuevo
+  OK Copiar trae "Copia de …"
+  OK Cancelar con presas pregunta antes
+  OK cancelar la copia no crea nada
+  OK Borrar pide un segundo toque
+  OK segundo toque borra la vía
+  OK marcar como hecha con el círculo (estb -> estb e)
+  OK la ventanita "¡Hecha!" se cierra al elegir grado
+  OK light-muro: no hay desplazamiento lateral (ancho 393 / pantalla 393)
+  OK light-muro: campos de texto con letra >=16px (si no, iPhone hace zoom al tocarlos) []
+  OK light-muro: ningún botón se sale de la pantalla []
+--- Moon
+  OK instrucciones visibles al crear
+   barra de abajo: {"pos":"fixed","top":508,"bottom":641,"h":133,"vh":659,"pb":"8px","btns":["↶ Deshacer","✕ Quitar","🗑 Vaciar","Cancelar","✓ Guardar"]}
+  OK barra Deshacer/Quitar/Guardar fija abajo y dentro de la pantalla
+  OK la barra de abajo no tapa demasiado (133px de 659)
+   presas tras cada toque: 0,1,2,3,4
+  OK 4 presas puestas con el dedo (Inicio + intermedias)
+  OK tocar otra vez cambia la mano
+  OK Quitar ×2 deja 2 presas
+  OK Deshacer recupera la quitada
+  OK Deshacer otra vez recupera la otra
+  OK Deshacer deshace el cambio de mano
+  OK Guardar sin top avisa: "Falta marcar el top."
+  OK top marcado tocando varias veces la última
+  OK Guardar abre la ventanita
+  OK ventanita entera dentro de la pantalla {"top":378,"bot":639,"vh":659}
+  OK light-moon ventanita: no hay desplazamiento lateral (ancho 393 / pantalla 393)
+  OK light-moon ventanita: campos de texto con letra >=16px (si no, iPhone hace zoom al tocarlos) []
+  OK light-moon ventanita: ningún botón se sale de la pantalla []
+  OK guardada (compartida, 6a)
+  OK casilla "Solo para mí" se marca con el dedo
+  OK guardada privada 6b+
+  OK la privada NO se comparte
+   lista: ["Prueba compartida t 3 movimientos 6a ○","Mi privada t · 2 movimientos 🔒 6b+ ○"]
+  OK la lista muestra "3 movimientos"
+  OK tarjeta de la vía elegida: "Prueba compartida t 3 movimientos · 6a Inicio: C5 (D), D8 (I) Intermedias: F11 (D) Final: "
+   botones: [{"k":"editar","vis":true,"txt":"Editar","mask":"url(\"data:image/svg+xml,%3Csvg xmlns='ht","w":"17.65625px","h":37,"right":121,"vw":393,"bg":"rgb(58, 58, 58)","col":"rgb(58, 58, 58)"},{"k":"copiar","vis":true,"txt":"Copiar","mask":"url(\"data:image/svg+xml,%3Csvg xmlns='ht","w":"17.65625px","h":37,"right":225,"vw":393,"bg":"rgb(58, 58, 58)","col":"rgb(58, 58, 58)"},{"k":"borrar","vis":true,"txt":"Borrar","mask":"url(\"data:image/svg+xml,%3Csvg xmlns='ht","w":"17.65625px","h":37,"right":326,"vw":393,"bg":"rgb(200, 55, 47)","col":"rgb(200, 55, 47)"}]
+  OK Editar/Copiar/Borrar tienen su icono en Safari
+  OK Editar/Copiar/Borrar caben en la pantalla
+  OK Editar abre el modo crear
+  OK al editar la ventanita trae nombre y grado
+  OK la lista muestra el nombre nuevo
+  OK Copiar trae "Copia de …"
+  OK Cancelar con presas pregunta antes
+  OK cancelar la copia no crea nada
+  OK Borrar pide un segundo toque
+  OK segundo toque borra la vía
+  OK marcar como hecha con el círculo (estb -> estb e)
+  OK la ventanita "¡Hecha!" se cierra al elegir grado
+  OK light-moon: no hay desplazamiento lateral (ancho 393 / pantalla 393)
+  OK light-moon: campos de texto con letra >=16px (si no, iPhone hace zoom al tocarlos) []
+  OK light-moon: ningún botón se sale de la pantalla []
+--- Grupo
+  OK light grupo: no hay desplazamiento lateral (ancho 393 / pantalla 393)
+  OK light grupo: campos de texto con letra >=16px (si no, iPhone hace zoom al tocarlos) []
+  OK light grupo: ningún botón se sale de la pantalla []
+  OK Exportar descarga un archivo (casalrock-mis-vias-2026-11-04.json) — "Copia descargada: 1 rutas de tablero y 1 vías de muro."
+  OK errores de JavaScript (light): []
+=== App real (solo mirar) https://casalrock.github.io/
+  OK app real: no hay desplazamiento lateral (ancho 393 / pantalla 393)
+  FALLO app real: campos de texto con letra >=16px (si no, iPhone hace zoom al tocarlos) ["#myname:15px","#mypin:15px"]
+  OK app real: ningún botón se sale de la pantalla []
+  OK app real sin errores de JavaScript: []
+FALLOS: 1

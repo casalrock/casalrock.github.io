@@ -1,0 +1,21 @@
+$ xcrun simctl spawn 062CFAA4-9ACF-40ED-A1E2-3625F5ED4DA9 defaults write com.apple.mobilesafari RemoteAutomationEnabled -bool YES
+$ xcrun simctl spawn 062CFAA4-9ACF-40ED-A1E2-3625F5ED4DA9 defaults write com.apple.mobilesafari WebDriverEnabled -bool YES
+$ xcrun simctl spawn 062CFAA4-9ACF-40ED-A1E2-3625F5ED4DA9 defaults write com.apple.WebInspector RemoteAutomationEnabled -bool YES
+$ xcrun simctl spawn 062CFAA4-9ACF-40ED-A1E2-3625F5ED4DA9 defaults write com.apple.WebInspector Enabled -bool YES
+$ xcrun simctl spawn 062CFAA4-9ACF-40ED-A1E2-3625F5ED4DA9 defaults write com.apple.mobilesafari WebKitDeveloperExtrasEnabledPreferenceKey -bool YES
+$ sudo safaridriver --enable
+sesión 2FF1BE6F-EF19-4ABF-869C-1AEF974B167D {"safari:deviceName": "iPhone 17", "safari:platformVersion": "26.5", "safari:automaticInspection": false, "webkit:WebRTC": {"DisableICECandidateFiltering": false, "DisableInsecureMediaCapture": false}, "webkit:alwaysAllowAutoplay": false, "browserVersion": "26.5", "safari:deviceType": "iPhone", "strictFileInteractability": false, "browserName": "Safari", "safari:deviceUDID": "062CFAA4-9ACF-40ED-A1E2-3625F5ED4DA9", "safari:useSimulator": true, "safari:platformBuildVersion": "23F77", "setWindowRec
+INFO {"viasMuro": 8, "ancho": 402, "tema": "dark", "alto": 714, "dpr": 3, "db": true, "safeBottom": "0px", "supabase": "object", "anchoPagina": 402, "rutasMoon": 2, "safeTop": "0px", "splash": "no", "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1", "pestanas": "Muro|Moon|Grupo|Presas"}
+$ xcrun simctl io 062CFAA4-9ACF-40ED-A1E2-3625F5ED4DA9 screenshot "/Users/runner/work/casalrock.github.io/casalrock.github.io/resultados/simulador/sim-10-wd-muro.png"
+$ xcrun simctl io 062CFAA4-9ACF-40ED-A1E2-3625F5ED4DA9 screenshot "/Users/runner/work/casalrock.github.io/casalrock.github.io/resultados/simulador/sim-11-wd-moon.png"
+$ xcrun simctl io 062CFAA4-9ACF-40ED-A1E2-3625F5ED4DA9 screenshot "/Users/runner/work/casalrock.github.io/casalrock.github.io/resultados/simulador/sim-12-wd-moon-claro.png"
+$ xcrun simctl io 062CFAA4-9ACF-40ED-A1E2-3625F5ED4DA9 screenshot "/Users/runner/work/casalrock.github.io/casalrock.github.io/resultados/simulador/sim-13-wd-muro-claro.png"
+$ xcrun simctl io 062CFAA4-9ACF-40ED-A1E2-3625F5ED4DA9 screenshot "/Users/runner/work/casalrock.github.io/casalrock.github.io/resultados/simulador/sim-14-wd-grupo.png"
+$ xcrun simctl io 062CFAA4-9ACF-40ED-A1E2-3625F5ED4DA9 screenshot "/Users/runner/work/casalrock.github.io/casalrock.github.io/resultados/simulador/sim-15-wd-grupo-abajo.png"
+presas marcadas (solo en pantalla) mur {}
+$ xcrun simctl io 062CFAA4-9ACF-40ED-A1E2-3625F5ED4DA9 screenshot "/Users/runner/work/casalrock.github.io/casalrock.github.io/resultados/simulador/sim-20-wd-crear-mur.png"
+barra de abajo mur {"top": 565, "alto": 714, "pb": "8px", "bottom": 696}
+presas marcadas (solo en pantalla) tab {"C5":"sR1","E8":"sL2","G11":"mR3"}
+$ xcrun simctl io 062CFAA4-9ACF-40ED-A1E2-3625F5ED4DA9 screenshot "/Users/runner/work/casalrock.github.io/casalrock.github.io/resultados/simulador/sim-21-wd-crear-tab.png"
+barra de abajo tab {"top": 565, "alto": 714, "pb": "8px", "bottom": 696}
+ERRORES JS []
