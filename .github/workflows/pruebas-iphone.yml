@@ -1,0 +1,103 @@
+name: Pruebas en iPhone (Safari)
+# Solo se lanza a mano (o al cambiar estos archivos de prueba). Nunca con horario.
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/pruebas-iphone.yml
+      - .github/pruebas-iphone/**
+permissions:
+  contents: read
+concurrency:
+  group: pruebas-iphone
+  cancel-in-progress: true
+
+jobs:
+  safari-webkit:
+    name: Recorrido completo (WebKit de Safari, base de datos de mentira)
+    runs-on: macos-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Instalar Playwright + WebKit
+        working-directory: .github/pruebas-iphone
+        run: |
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.63.0
+          npx playwright install webkit
+      - name: Recorrido en iPhone 15 (Safari)
+        working-directory: .github/pruebas-iphone
+        env:
+          URL: https://casalrock.github.io/prueba/
+          OUT: ${{ github.workspace }}/resultados/webkit
+          MOVIL: iPhone 15
+        run: |
+          mkdir -p "$OUT"
+          node prueba.js 2>&1 | tee "$OUT/resultado.txt"
+      - name: Recorrido en iPhone SE (pantalla pequeña)
+        if: always()
+        working-directory: .github/pruebas-iphone
+        env:
+          URL: https://casalrock.github.io/prueba/
+          OUT: ${{ github.workspace }}/resultados/webkit-se
+          MOVIL: iPhone SE
+        run: |
+          mkdir -p "$OUT"
+          node prueba.js 2>&1 | tee "$OUT/resultado.txt"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: webkit
+          path: resultados
+          retention-days: 7
+
+  simulador-ios:
+    name: Simulador de iPhone (Safari real, solo mirar)
+    runs-on: macos-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github
+      - name: Abrir la app en el simulador y hacer capturas
+        run: bash .github/pruebas-iphone/simulador.sh "${{ github.workspace }}/resultados/simulador"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: simulador
+          path: resultados
+          retention-days: 7
+
+  publicar:
+    name: Guardar capturas en la rama pruebas-iphone
+    needs: [safari-webkit, simulador-ios]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: art
+          merge-multiple: true
+      - name: Subir a la rama pruebas-iphone
+        env:
+          GH_REPO: ${{ github.repository }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir pub && cd pub
+          git init -q -b pruebas-iphone
+          cp -r ../art/* . 2>/dev/null || true
+          echo "Ejecución ${{ github.run_id }} — $(date -u)" > LEEME.txt
+          git config user.name "Olgva"
+          git config user.email "olga.vallesna@gmail.com"
+          git add -A
+          git commit -qm "Capturas de las pruebas en iPhone (ejecución ${{ github.run_id }})"
+          git push -f "https://x-access-token:${TOKEN}@github.com/${GH_REPO}.git" pruebas-iphone
